@@ -34,7 +34,7 @@ install: ## Install all packages and Create symlink to home directory
 	-@yay -Syyu --noconfirm
 	@echo '==> Checking vi and vim confricts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
-	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
+	@yay -S --noconfirm  aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
 		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin kaku-bin less lostfiles \
 		lsd lynis lynx maven meson metasploit mikutter mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap \
