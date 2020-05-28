@@ -38,8 +38,8 @@ install: ## Install all packages and Create symlink to home directory
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
 		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin kaku-bin less lostfiles \
 		lsd lynis lynx maven meson metasploit mikutter mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap \
-		noto-fonts noto-fonts-cjk npm ocs-url openvpn oreo-cursors-git pacman-contrib pamac-aur pass plank python-pip \
-		python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp tor tripwire-git \
+		noto-fonts noto-fonts-cjk npm ocs-url openvpn pacman-contrib pamac-aur pass plank python-pip python-pynvim python2-pynvim \
+		ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp tor tripwire-git \
 		uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
 	@echo ':: Installation success.'
 	@echo ''
