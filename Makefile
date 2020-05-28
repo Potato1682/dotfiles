@@ -23,13 +23,13 @@ install: ## Create symlink to home directory
 	@echo '==> Creating cache...'
 	@mkdir -v ~/.cache
 	@mkdir -v ~/.cache/dotfiles
-	@echo '==> Installing fakeroot...'
+	@echo '==> Installing fakeroot...'		
 	@sudo pacman -S fakeroot --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
 	@git clone "https://aur.archlinux.org/yay.git" ~/.cache/dotfiles/yay
-	@cd ~/.cache/dotfiles/yay
-	@makepkg -si --noconfirm
+	@echo '==> Installing yay...'
+	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	@yay -Syyu --noconfirm
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
