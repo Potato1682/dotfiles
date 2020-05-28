@@ -27,7 +27,7 @@ install: ## Create symlink to home directory
 	@sudo pacman -S fakeroot --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
-	@git clone "https://aur.archlinux.org/yay.git" $HOME/.cache/dotfiles/yay
+	@git clone "https://aur.archlinux.org/yay.git" ~/.cache/dotfiles/yay
 	@cd ~/.cache/dotfiles/yay
 	@makepkg -si --noconfirm
 	@echo '==> Installing packages...'
