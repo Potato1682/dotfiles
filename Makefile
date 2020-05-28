@@ -17,13 +17,14 @@ all:
 list: ## Show dot files in this repo
 	@$(foreach val, $(DOTFILES), /bin/ls -dF $(val);)
 
-install: ## Create symlink to home directory
+install: ## Install all packages and Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
-	@mkdir -v ~/.cache 2> /dev/null
-	@mkdir -v ~/.cache/dotfiles
-	@echo '==> Installing fakeroot...'	
+	@if [ ! -d ~/.cache ]; then mkdir -v ~/.cache; fi
+	@if [ -d ~/.cache/dotfiles ]; then rm -rf ~/.cache/dotfiles; fi
+	@mkdir ~/.cache/dotfiles
+	@echo '==> Installing fakeroot...'
 	@sudo pacman -S fakeroot --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
@@ -31,9 +32,13 @@ install: ## Create symlink to home directory
 	@echo '==> Installing yay...'
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
-	@yay -Syyu --noconfirm 2> /dev/null
+	-@yay -Syyu --noconfirm
 	@set +e
-	@yay -R vim --noconfirm 2> /dev/null
+	@if [ -f /bin/vim ]; then yay -R vim --noconfirm; fi
+	@fakeroot
+	@if [ -L /bin/vi ]; then sudo rm /bin/vi
+	@exit
+	@if [ -f /bin/vi && ! -L /bin/vi ]; then yay -R vi --noconfirm; fi
 	@set -e
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
