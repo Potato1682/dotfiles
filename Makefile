@@ -21,13 +21,13 @@ install: ## Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
-	@mkdir -v $HOME/.cache/dotfiles
+	@mkdir -v ~/.cache/dotfiles
 	@echo '==> Installing fakeroot...'
 	@sudo pacman -S fakeroot --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
 	@git clone "https://aur.archlinux.org/yay.git" $HOME/.cache/dotfiles/yay
-	@cd $HOME/.cache/dotfiles/yay
+	@cd ~/.cache/dotfiles/yay
 	@makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	@yay -Syyu --noconfirm
@@ -42,6 +42,7 @@ install: ## Create symlink to home directory
 	@echo ''
 	@echo '==> Starting fakeroot environment...'
 	@fakeroot
+	@cd ~/.dotfiles
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo '==> Deploying dotfiles to your home directory...'
