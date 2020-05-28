@@ -35,11 +35,11 @@ install: ## Install all packages and Create symlink to home directory
 	@bash ~/.dotfiles/check-vi.sh
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
-		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin jdtls kaku-bin less \
-		lostfiles lsd lynis lynx maven meson metasploit mikutter mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja \
-		nmap noto-fonts noto-fonts-cjk npm ocs-url openvpn oreo-cursors-git pacman-contrib pamac-aur pass plank \
-		powershell-preview-bin python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch \
-		sshguard tmux tnftp tor tripwire-git uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
+		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin kaku-bin less lostfiles \
+		lsd lynis lynx maven meson metasploit mikutter mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap \
+		noto-fonts noto-fonts-cjk npm ocs-url openvpn oreo-cursors-git pacman-contrib pamac-aur pass plank python-pip \
+		python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp tor tripwire-git \
+		uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
 	@echo ':: Installation success.'
 	@echo ''
 	@echo '==> Starting fakeroot environment...'
