@@ -21,8 +21,7 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
-	@if [ ! -d ~/.cache ]; then mkdir -v ~/.cache; fi
-	@if [ -d ~/.cache/dotfiles ]; then rm -rf ~/.cache/dotfiles; fi
+	@bash ~/.dotfiles/check-cache.sh
 	@mkdir ~/.cache/dotfiles
 	@echo '==> Installing fakeroot...'
 	@sudo pacman -S fakeroot --noconfirm
@@ -33,13 +32,7 @@ install: ## Install all packages and Create symlink to home directory
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	-@yay -Syyu --noconfirm
-	@set +e
-	@if [ -f /bin/vim ]; then yay -R vim --noconfirm; fi
-	@fakeroot
-	@if [ -L /bin/vi ]; then sudo rm /bin/vi
-	@exit
-	@if [ -f /bin/vi && ! -L /bin/vi ]; then yay -R vi --noconfirm; fi
-	@set -e
+	@bash ~/.dotfiles/check-vi.sh
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
 		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin jdtls kaku-bin less \
