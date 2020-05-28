@@ -31,7 +31,7 @@ install: ## Create symlink to home directory
 	@echo '==> Installing yay...'
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
-	@yay -Syyu --noconfirm
+	@yay -Syyu --noconfirm 2> /dev/null
 	@set +e
 	@yay -R vim --noconfirm 2> /dev/null
 	@set -e
