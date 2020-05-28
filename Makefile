@@ -21,11 +21,9 @@ install: ## Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
-	@set +e
-	@mkdir -v ~/.cache
-	@set -e
+	@mkdir -v ~/.cache 2> /dev/null
 	@mkdir -v ~/.cache/dotfiles
-	@echo '==> Installing fakeroot...'		
+	@echo '==> Installing fakeroot...'	
 	@sudo pacman -S fakeroot --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
@@ -35,7 +33,7 @@ install: ## Create symlink to home directory
 	@echo '==> Installing packages...'
 	@yay -Syyu --noconfirm
 	@set +e
-	@yay -R vim
+	@yay -R vim --noconfirm 2> /dev/null
 	@set -e
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
@@ -48,12 +46,11 @@ install: ## Create symlink to home directory
 	@echo ''
 	@echo '==> Starting fakeroot environment...'
 	@fakeroot
-	@cd ~/.dotfiles
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo '==> Deploying dotfiles to your home directory...'
 	@echo ''
-	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
+	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Exiting fakeroot environment...'
 	@exit
