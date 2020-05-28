@@ -6,6 +6,6 @@ if [ -L /bin/vi ]; then
   sudo rm /bin/vi
 fi
 
-if [[ -f /bin/vi ] && [ ! -L /bin/vi ]]; then
+if [ -f /bin/vi -a ! -L /bin/vi ]; then
   yay -R vi --noconfirm
 fi
