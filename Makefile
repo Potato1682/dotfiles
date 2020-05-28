@@ -21,6 +21,7 @@ install: ## Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
+	@mkdir -v ~/.cache
 	@mkdir -v ~/.cache/dotfiles
 	@echo '==> Installing fakeroot...'
 	@sudo pacman -S fakeroot --noconfirm
