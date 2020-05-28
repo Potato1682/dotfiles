@@ -21,7 +21,9 @@ install: ## Create symlink to home directory
 	@echo '© Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
+	@set +e
 	@mkdir -v ~/.cache
+	@set -e
 	@mkdir -v ~/.cache/dotfiles
 	@echo '==> Installing fakeroot...'		
 	@sudo pacman -S fakeroot --noconfirm
@@ -32,7 +34,9 @@ install: ## Create symlink to home directory
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	@yay -Syyu --noconfirm
+	@set +e
 	@yay -R vim
+	@set -e
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
 		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin jdtls kaku-bin less \
