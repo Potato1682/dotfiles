@@ -32,6 +32,7 @@ install: ## Install all packages and Create symlink to home directory
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	-@yay -Syyu --noconfirm
+	@echo '==> Checking vi and vim confricts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
 	@yay -S --noconfirm aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
 		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
