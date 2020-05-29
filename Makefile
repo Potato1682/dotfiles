@@ -43,16 +43,12 @@ install: ## Install all packages and Create symlink to home directory
 		uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
 	@echo ':: Installation success.'
 	@echo ''
-	@echo '==> Starting fakeroot environment...'
-	@fakeroot
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo '==> Deploying dotfiles to your home directory...'
 	@echo ''
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
-	@echo '==> Exiting fakeroot environment...'
-	@exit
 	@echo 'Installation finished successfly.'
 
 clean: ## Remove the dot files and this repo
