@@ -4,15 +4,15 @@
 # Discord: Potato1682#9684
 # EMail: contact@potato1682.ml
 #
-# This file required git, lsd(cargo), gotop, man-db, oh-my-zsh and 3 additional plugins.
+# This file required git, lsd(cargo), gotop, man-db and zinit.
 # Please visit source error message.
 
 # -------
 # General
 # -------
 
-# Set path. (I setting Ruby gem local install path and perl path)
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin"
+# Set path. (I setting Ruby gem local install path and .local path)
+export PATH="$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
 
 # Set LANG environment variables.
 export LANG=ja_JP.UTF-8
@@ -24,17 +24,67 @@ export ARCHFLAGS="-arch x86_64"
 export LSCOLORS=gxfxcxdxbxegedabagacag
 export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;46'
 
+# Change terminal color rendering.
+# "xterm-256color" is compatible many application.
+export TERM="xterm-256color"
+
+# Add history settings.
+HISTFILE=$HOME/.zsh-history
+HISTSIZE=100000
+SAVEHIST=1000000
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
 # -------
 # Plugins
 # -------
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
+
+# [User]/[Repogitory] zone
+
+# Load with turbo mode. enhance performance.
+zinit wait lucid for \
+	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+		zdharma/fast-syntax-highlighting \
+	blockf \
+	        zsh-users/zsh-completions \
+	atload"!_zsh_autosuggest_start" \
+		zsh-users/zsh-autosuggestions
+
 zinit light mollifier/cd-gitroot
+zinit light supercrabtree/k
+zinit light mollifier/anyframe
+
+# Prezto modules zone
+zinit snippet PZT::modules/helper/init.zsh
+zinit snippet PZT::modules/pacman/init.zsh
+zinit snippet PZT::modules/tmux/init.zsh
+zinit snippet PZT::modules/gnu-utility/init.zsh
+zinit snippet PZT::modules/environment/init.zsh
+zinit snippet PZT::/modules/gpg/init.zsh
+
+# oh-my-zsh plugins zone
+zinit snippet OMZL::git.zsh
 zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit snippet OMZ::plugins/gitfast/gitfast.plugin.zsh
-zinit snippet OMZ::plugins/git-auto-fetch/git-auto-fetch.plugin.zsh
-zinit snippet OMZ::plugins/tmux/tmux.plugin.zsh
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
 zinit snippet OMZ::plugins/copyfile/copyfile.plugin.zsh
 zinit snippet OMZ::plugins/copydir/copydir.plugin.zsh
@@ -44,6 +94,12 @@ zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
 zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+
+# ------
+# Themes
+# ------
+
+zinit snippet OMZ::themes/robbyrussell.zsh-theme
 
 # -------
 # Options
@@ -71,6 +127,8 @@ setopt hist_ignore_dups
 setopt extended_history
 # Ignore save history with only space.
 setopt hist_ignore_space
+# Share history to multi shell.
+setopt inc_append_history
 # Enable USEFUL options.
 setopt auto_param_keys
 setopt auto_param_slash
@@ -80,8 +138,8 @@ setopt interactive_comments
 setopt complete_in_word
 # ????????
 setopt always_last_prompt
-# SSH Color Compartibility.
-setopt print_eight_bit
+# Enable prompt substring.
+setopt prompt_subst
 # Enhance glob. (example: ~, *)
 setopt extended_glob
 # Complete without dots.
@@ -112,8 +170,16 @@ colors
 
 # Display completion menu to Ctrl + I.
 bindkey "^I" menu-complete
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
+
+bindkey '^xb' anyframe-widget-cdr
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+
+bindkey '^xr' anyframe-widget-execute-history
+
+bindkey '^x^b' anyframe-widget-checkout-git-branch
+
+bindkey '^xg' anyframe-widget-cd-ghq-repository
 
 # -------
 # ZStyles
@@ -170,6 +236,7 @@ alias .....="cd ../../../.."
 # Misc
 # ----
 
+# SSH Connection terminal is display special text.
 if [ -n "$SSH_CONNECTION"  ]; then
 	cat ~/.ascii
 	HOSTNAME=$(hostname)
@@ -177,9 +244,11 @@ if [ -n "$SSH_CONNECTION"  ]; then
 	echo -n "Now date is "
 	date +%F
 fi
+
 # Open tmux if tmux installed.
 if [ -z $TMUX ]; then
-  tmux
+  tmux -2
+  tmux source-file ~/.tmux.conf
 fi
 
 # Set Completion cheat-sheet.
