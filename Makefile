@@ -23,8 +23,8 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '==> Creating cache...'
 	@bash ~/.dotfiles/check-cache.sh
 	@mkdir ~/.cache/dotfiles
-	@echo '==> Installing fakeroot...'
-	@sudo pacman -S fakeroot --noconfirm
+	@echo '==> Re-Installing base-devel...'
+	@sudo pacman -S base-devel --noconfirm
 	@echo ''
 	@echo '==> Downloading yay...'
 	@git clone "https://aur.archlinux.org/yay.git" ~/.cache/dotfiles/yay
@@ -40,15 +40,21 @@ install: ## Install all packages and Create symlink to home directory
 		mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk npm ocs-url openvpn \
 		pacman-contrib pamac-aur pass plank python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust \
 		screenfetch sshguard tmux tnftp tor uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
-	@echo ':: Installation success.'
+	@gem install neovim
+	@echo 'INFO: CHECKING SUDO!'
+	@sudo npm -g install neovim
 	@echo ''
 	@echo '==> Deploying dotfiles to your home directory...'
 	@rm -rf ~/.config
+	@rm ~/.gnupg/gpg.conf
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo ''
+	@echo '==> Deleting cache...'
+	@echo ''
+	@rm -rfv ~/.cache/dotfiles
 	@echo 'Installation finished successfly.'
 
 clean: ## Remove the dot files and this repo
