@@ -34,20 +34,20 @@ install: ## Install all packages and Create symlink to home directory
 	-@yay -Syyu --noconfirm
 	@echo '==> Checking vi and vim confricts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
-	@yay -S --noconfirm  aircrack-ng aptpac arpwatch autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker \
-		etherape exploitdb filezilla firefox floo-git gist github-cli go google-chrome gotop gradle hexchat htop \
-		intellij-idea-community-edition inverse-icon-theme-git iptraf-ng java-lombok java-openjdk-ea-bin kaku-bin less lostfiles \
-		lsd lynis lynx maven meson metasploit mikutter mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap \
-		noto-fonts noto-fonts-cjk npm ocs-url openvpn pacman-contrib pamac-aur pass plank python-pip python-pynvim python2-pynvim \
-		ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp tor tripwire-git \
-		uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
+	@yay -S --noconfirm  aptpac autoconf automake clang cmatrix code cordless-git ctags dirsearch discord docker exploitdb filezilla \
+		firefox floo-git gist github-cli go google-chrome ytop gradle hexchat htop intellij-idea-community-edition \
+		inverse-icon-theme-git java-lombok java-openjdk-ea-bin kaku-bin less lostfiles lsd lynis lynx maven meson mikutter \
+		mplayer mpv msmtp mutt neofetch neovim neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk npm ocs-url openvpn \
+		pacman-contrib pamac-aur pass plank python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust \
+		screenfetch sshguard tmux tnftp tor uncrustify urlview vim-plug w3m weechat wireshark-cli zsh
 	@echo ':: Installation success.'
+	@echo ''
+	@echo '==> Deploying dotfiles to your home directory...'
+	@rm -rf ~/.config
+	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
-	@echo '==> Deploying dotfiles to your home directory...'
-	@echo ''
-	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo 'Installation finished successfly.'
 

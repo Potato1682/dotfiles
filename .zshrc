@@ -11,8 +11,8 @@
 # General
 # -------
 
-# Set path. (I setting Ruby gem local install path and .local path)
-export PATH="$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
+# Set path. (I setting .dotfiles/bin, Ruby gem local install path and .local path)
+export PATH="$HOME/.dotfiles/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
 
 # Set LANG environment variables.
 export LANG=ja_JP.UTF-8
@@ -27,6 +27,14 @@ export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43
 # Change terminal color rendering.
 # "xterm-256color" is compatible many application.
 export TERM="xterm-256color"
+
+# Set auto open variables.
+export EDITOR="nvim"
+export SHELL="zsh"
+
+# Set pulseaudio server address automatically.
+# Important: this option only work in WSL2. please commentout WSL1 or other linux!
+export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{print $2}');
 
 # Add history settings.
 HISTFILE=$HOME/.zsh-history
@@ -132,7 +140,7 @@ setopt inc_append_history
 # Enable USEFUL options.
 setopt auto_param_keys
 setopt auto_param_slash
-# Enable comments with shell.
+# Enable comments in shell.
 setopt interactive_comments
 # Enable word completion.
 setopt complete_in_word
@@ -218,6 +226,7 @@ alias sorc="source ~/.zshrc"
 alias zshrc="vi ~/.zshrc"
 alias grep="grep --color"
 alias sgrep="grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}"
+alias mux="tmuxinator"
 alias fd="find . -type d -name"
 alias ff="find . -type f -name"
 alias mkdir="mkdir -v"
