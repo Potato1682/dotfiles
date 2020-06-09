@@ -11,8 +11,8 @@
 # General
 # -------
 
-# Set path. (I setting .dotfiles/bin, Ruby gem local install path and .local path)
-export PATH="$HOME/.dotfiles/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
+# Set path. (I setting .dotfiles/bin, npm prefix, Ruby gem local install path and .local path)
+export PATH="$HOME/.dotfiles/bin:$HOME/.npm-global/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
 
 # Set LANG environment variables.
 export LANG=ja_JP.UTF-8
@@ -32,9 +32,10 @@ export TERM="xterm-256color"
 export EDITOR="nvim"
 export SHELL="zsh"
 
-# Set pulseaudio server address automatically.
+# Set pulseaudio server and display server address automatically.
 # Important: this option only work in WSL2. please commentout WSL1 or other linux!
 export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{print $2}');
+export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0;
 
 # Add history settings.
 HISTFILE=$HOME/.zsh-history
@@ -78,9 +79,22 @@ zinit wait lucid for \
 	atload"!_zsh_autosuggest_start" \
 		zsh-users/zsh-autosuggestions
 
+zinit light mollifier/cd-bookmark
 zinit light mollifier/cd-gitroot
+zinit light AdrieanKhisbe/diractions
+zinit light rupa/z
 zinit light supercrabtree/k
 zinit light mollifier/anyframe
+zinit light Tarrasch/zsh-bd
+zinit light oknowton/zsh-dwim
+zinit light tarruda/zsh-fuzzy-match
+zinit light chrissicool/zsh-256color
+zinit light Tarrasch/zsh-colors
+zinit light ascii-soup/zsh-url-highlighter
+zinit light voronkovich/gitignore.plugin.zsh
+zinit light knu/zsh-git-escape-magic
+zinit light peterhurford/git-aliases.zsh
+zinit light denysdovhan/spaceship-prompt
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -102,12 +116,6 @@ zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
 zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
-# ------
-# Themes
-# ------
-
-zinit snippet OMZ::themes/robbyrussell.zsh-theme
 
 # -------
 # Options
@@ -276,3 +284,4 @@ git config --global color.ui true
 cd ~
 
 # End of file
+fpath=($fpath "/home/potato1682/.zfunctions")
