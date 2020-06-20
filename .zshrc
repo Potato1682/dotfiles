@@ -11,6 +11,13 @@
 # General
 # -------
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Set path. (I setting .dotfiles/bin, npm prefix, Ruby gem local install path and .local path)
 export PATH="$HOME/.dotfiles/bin:$HOME/.npm-global/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
 
@@ -31,6 +38,9 @@ export TERM="xterm-256color"
 # Set auto open variables.
 export EDITOR="nvim"
 export SHELL="zsh"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Set pulseaudio server and display server address automatically.
 # Important: this option only work in WSL2. please commentout WSL1 or other linux!
@@ -79,22 +89,22 @@ zinit wait lucid for \
 	atload"!_zsh_autosuggest_start" \
 		zsh-users/zsh-autosuggestions
 
-zinit light mollifier/cd-bookmark
-zinit light mollifier/cd-gitroot
-zinit light AdrieanKhisbe/diractions
-zinit light rupa/z
-zinit light supercrabtree/k
-zinit light mollifier/anyframe
-zinit light Tarrasch/zsh-bd
-zinit light oknowton/zsh-dwim
-zinit light tarruda/zsh-fuzzy-match
-zinit light chrissicool/zsh-256color
-zinit light Tarrasch/zsh-colors
-zinit light ascii-soup/zsh-url-highlighter
-zinit light voronkovich/gitignore.plugin.zsh
-zinit light knu/zsh-git-escape-magic
-zinit light peterhurford/git-aliases.zsh
-zinit light denysdovhan/spaceship-prompt
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit ice depth=1; zinit light mollifier/cd-bookmark
+zinit ice depth=1; zinit light mollifier/cd-gitroot
+zinit ice depth=1; zinit light AdrieanKhisbe/diractions
+zinit ice depth=1; zinit light rupa/z
+zinit ice depth=1; zinit light supercrabtree/k
+zinit ice depth=1; zinit light mollifier/anyframe
+zinit ice depth=1; zinit light Tarrasch/zsh-bd
+zinit ice depth=1; zinit light oknowton/zsh-dwim
+zinit ice depth=1; zinit light tarruda/zsh-fuzzy-match
+zinit ice depth=1; zinit light chrissicool/zsh-256color
+zinit ice depth=1; zinit light Tarrasch/zsh-colors
+zinit ice depth=1; zinit light ascii-soup/zsh-url-highlighter
+zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
+zinit ice depth=1; zinit light knu/zsh-git-escape-magic
+zinit ice depth=1; zinit light peterhurford/git-aliases.zsh
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -225,8 +235,19 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31
 
 # Set aliases.
 alias ls="lsd -a"
-alias la="lsd -la"
-alias ll="lsd -lF"
+alias la="lsd -A"
+alias ll="lsd -lFA"
+alias sl="lsd -a"
+alias relogin="exec $SHELL -l"
+alias re="relogin"
+alias c=clear
+alias cls=reset
+alias dir="ll"
+alias df="df -h"
+alias du="du -h"
+alias du1="du -d1"
+alias cmd="winpty cmd"
+alias psh="winpty powershell"
 alias term="echo $TERM"
 alias help="man"
 alias cdu="cd-gitroot"
@@ -246,9 +267,12 @@ alias cp="cp -v"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top="ytop"
+alias cdwin="source ~/.dotfiles/bin/cdwin"
 alias ...="cd ../.."
 alias ...."cd ../../.."
 alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
 
 # ----
 # Misc
@@ -265,6 +289,7 @@ fi
 
 # Open tmux if tmux installed.
 if [ -z $TMUX ]; then
+  clear
   tmux -2
   tmux source-file ~/.tmux.conf
 fi
@@ -279,10 +304,13 @@ git-cheat () { zle -M "`cat ~/zsh/git-cheat.conf`" }
 zle -N git-cheat
 bindkey "^[^g" git-cheat
 
+fpath=($fpath "/home/potato1682/.zfunctions")
+
 # Colorize git output.
 git config --global color.ui true
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 cd ~
 
 # End of file
-fpath=($fpath "/home/potato1682/.zfunctions")

@@ -92,7 +92,7 @@ Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
-Plugin 'othree/yajs.vim'
+Plug 'othree/yajs.vim'
 call plug#end()
 
 " -------
@@ -170,10 +170,7 @@ nnoremap ｄｄ dd
 nnoremap ｙｙ yy
 
 " Save cursor point.
-if has("autocm    \ 'c': ['clangd', '-compile-commands-dir=' . getcwd() . '/build'],
-    \ 'cpp': ['clangd', '-compile-commands-dir=' . getcwd() . '/build'],
-\ }
-d")
+if has("autocmd")
   augroup redhat
     " In text files, always limit the width of text to 78 characters
     autocmd BufRead *.txt set tw=78
@@ -220,7 +217,7 @@ let g:quickrun_config={'*': {'split': ''}}
 let g:quickrun_config.cpp = {
         \   'command': 'g++',
         \   'cmdopt': '-std=c++11'
-:\ }
+\ }
 
 " mattn/emmet-vim
 autocmd FileType html imap <buffer><expr><tab>
@@ -535,10 +532,6 @@ call defx#custom#column('git', 'indicators', {
   \ 'Deleted'   : '✖',
   \ 'Unknown'   : '?'
   \ })
-
-autocmd BufNewFile,BufRead *.fs,*.fsi,*.fsx
-
-setlocal filetype=fsharp
 
 " fsharp-language-server
 let s:pathFslangServer = '~/Projects/fsharp-language-server/src/FSharpLanguageServer/bin/Release/netcoreapp2.0/FSharpLanguageServer.dll'
