@@ -2,5 +2,5 @@
 **WARNING: This files only work in Arch Linux.**
 ## Dependencies
 * pacman (Arch Linux Repository)
-* git 
+* git `or` wget `or` curl
 * base-devel (Needed by `makepkg`)
