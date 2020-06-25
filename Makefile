@@ -20,15 +20,15 @@ list: ## Show dot files in this repo
 
 install: ## Install all packages and Create symlink to home directory
 	@echo '© Potato1682.'
-	@read -p "Install GUI Packages? [y/N]:" ans; \
+	@read -p "Install GUI Packages? [y/N]: " ans; \
     	if [ "$$ans" = y ]; then  \
     	  PKGINSSRC="code discord firefox google-chrome hexchat intellij-idea-community-edition mikutter pamac-aur wireshark grub-customizer linux-tools $PKGINSSRC"; \
   	fi
-	@read -p "Install inverse icon theme and KDE Plasma? [y/N]:" ans; \
+	@read -p "Install inverse icon theme and KDE Plasma? [y/N]: " ans; \
 	if [ "$$ans" = y ]; then  \
           PKGINSSRC="inverse-icon-theme-git plasma-meta $PKGINSSRC"; \
         fi
-	@read -p "Your GPG Keyserver working properly? [y/N]:" ans; \
+	@read -p "Your GPG Keyserver working properly? [y/N]: " ans; \
 	if [ "$$ans" = y ]; then  \
           rm -rf ~/.dotfiles/.gnupg; \
 	else \
@@ -36,8 +36,7 @@ install: ## Install all packages and Create symlink to home directory
         fi
 	@echo ''
 	@echo '==> Creating cache...'
-	@bash ~/.dotfiles/check-cache.sh
-	@mkdir ~/.cache/dotfiles
+	@mkdir -pv ~/.cache/dotfiles
 	@echo '==> Re-Installing base-devel...'
 	@sudo pacman -S base-devel --noconfirm --needed
 	@echo ''
