@@ -40,6 +40,6 @@ if [ $? -ne 0  ]; then
 	exit 1
 fi
 
-make install
+make install || echo "Deleting cache and error occured directory" || rm -rf ~/.cache/dotfiles || rm -rf ~/.dotfiles
 
 # End of file
