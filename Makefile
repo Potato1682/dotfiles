@@ -24,9 +24,15 @@ install: ## Install all packages and Create symlink to home directory
     	if [ "$$ans" = y ]; then  \
     	  PKGINSSRC="code discord firefox google-chrome hexchat intellij-idea-community-edition mikutter pamac-aur wireshark grub-customizer linux-tools $PKGINSSRC"; \
   	fi
-	@read -p "Install inverse icon theme and KDE Plasma? [y,N]:" ans; \
+	@read -p "Install inverse icon theme and KDE Plasma? [y/N]:" ans; \
 	if [ "$$ans" = y ]; then  \
           PKGINSSRC="inverse-icon-theme-git plasma-meta $PKGINSSRC"; \
+        fi
+	@read -p "Your GPG Keyserver working properly? [y/N]:" ans; \
+	if [ "$$ans" = y ]; then  \
+          rm -rf ~/.dotfiles/.gnupg; \
+	else \
+	  rm ~/.gnupg/gpg.conf; \
         fi
 	@echo ''
 	@echo '==> Creating cache...'
@@ -51,7 +57,6 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '==> Deploying dotfiles to your home directory...'
 	@mkdir -p $HOME/.config
 	@mkdir -p $HOME/.gnupg
-	@rm ~/.gnupg/gpg.conf
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Installing zinit...'
