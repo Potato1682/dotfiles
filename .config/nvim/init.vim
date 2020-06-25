@@ -82,9 +82,9 @@ Plug 'vim-jp/vim-cpp'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vhdirk/vim-cmake'
 Plug 'junegunn/vim-easy-align'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'davidhalter/jedi-vim'
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+Plug 'raimon49/requirements.txt.vim', { 'for': 'requirements' }
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'hail2u/vim-css3-syntax'
@@ -93,6 +93,8 @@ Plug 'tpope/vim-haml'
 Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'othree/yajs.vim'
+Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
+Plug 'preservim/nerdcommenter'
 call plug#end()
 
 " -------
@@ -551,5 +553,9 @@ nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+" preservim/nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
 
 " End of file
