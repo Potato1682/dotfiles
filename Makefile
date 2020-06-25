@@ -47,7 +47,7 @@ install: ## Install all packages and Create symlink to home directory
 	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
 	-@yay -Syyu --noconfirm
-	@echo '==> Checking vi and vim confricts before installing neovim...'
+	@echo '==> Checking vi and vim conflicts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
 	@yay -S --noconfirm --needed ${PKGINSSRC}
 	@gem install neovim
