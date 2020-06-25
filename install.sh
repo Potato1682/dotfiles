@@ -13,6 +13,7 @@ ESC=$(printf '\033')
 RESET="${ESC}[0m"
 BOLD="${ESC}[1m"
 RED="${ESC}[31m"
+YELLOW="${ESC}[33m"
 
 if type "git" > /dev/null 2>&1; then
 	git clone --depth 1 --recursive "$GITHUB_URL" "$DOTPATH"
@@ -30,16 +31,16 @@ elif type "curl" > /dev/null 2>&1 || type "wget" > /dev/null 2>&1; then
 	mv -f dotfiles-master "$DOTPATH"
 
 else
-	echo "${RED}${BOLD}ERROR${RESET}: curl or wget required"
+	echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}curl${RESET} or ${BOLD}wget${RESET} required"
 	exit 1
 fi
 
 cd ~/.dotfiles
 if [ $? -ne 0  ]; then
-	echo "${RED}${BOLD}ERROR${RESET}: $DOTPATH not found"
+	echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}$DOTPATH not found${RESET}"
 	exit 1
 fi
 
-make install || echo "Deleting cache and error occured directory" || rm -rf ~/.cache/dotfiles || rm -rf ~/.dotfiles
+make install || echo "${YELLOW}${BOLD}CLEAN${RESET}: ${BOLD}Deleting cache and error occured directory...${RESET}" || rm -rf ~/.cache/dotfiles || rm -rf ~/.dotfiles
 
 # End of file
