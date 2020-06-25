@@ -39,7 +39,7 @@ install: ## Install all packages and Create symlink to home directory
 	@bash ~/.dotfiles/check-cache.sh
 	@mkdir ~/.cache/dotfiles
 	@echo '==> Re-Installing base-devel...'
-	@sudo pacman -S base-devel --noconfirm
+	@sudo pacman -S base-devel --noconfirm --needed
 	@echo ''
 	@echo '==> Downloading yay...'
 	@git clone "https://aur.archlinux.org/yay-bin.git" ~/.cache/dotfiles/yay
@@ -49,7 +49,7 @@ install: ## Install all packages and Create symlink to home directory
 	-@yay -Syyu --noconfirm
 	@echo '==> Checking vi and vim confricts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
-	@yay -S --noconfirm --needed $PKGINSSRC
+	@yay -S --noconfirm --needed ${PKGINSSRC}
 	@gem install neovim
 	@echo 'INFO: CHECKING SUDO!'
 	@sudo npm -g install neovim
