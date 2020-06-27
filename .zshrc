@@ -18,8 +18,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Set path. (I setting .dotfiles/bin, npm prefix, Ruby gem local install path and .local path)
-export PATH="$HOME/.dotfiles/bin:$HOME/.npm-global/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
+# Set path. (I setting .dotfiles/bin, ccache/colorgcc path, npm prefix, Ruby gem local install path and .local path)
+export PATH="$HOME/.dotfiles/bin:/usr/lib/ccache/bin/:/usr/lib/colorgcc/bin/:$HOME/.npm-global/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
+export CCACHE_PATH="/usr/bin"
 
 # Set LANG environment variables.
 export LANG=ja_JP.UTF-8
@@ -267,6 +268,11 @@ alias cp="cp -v"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top="ytop"
+alias yay="yay --needed --pacman pacmatic"
+alias yayr="yay --pacman pacmatic -Rsnc"
+alias pacman="sudo pacman"
+alias weather="curl \"wttr.info/Tokyo?lang=ja&MFq\""
+alias cweather="curl \"wttr.info/Tokyo?lang=ja&MFq0\""
 alias cdwin="source ~/.dotfiles/bin/cdwin"
 alias ...="cd ../.."
 alias ...."cd ../../.."
