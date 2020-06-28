@@ -151,6 +151,7 @@ zinit ice depth=1; zinit light qoomon/zsh-lazyload
 zinit ice depth=1; zinit light oz/safe-paste
 zinit ice depth=1; zinit light djui/alias-tips
 zinit ice depth=1; zinit light kazhala/dotbare
+zinit ice depth=1; zinit light b4b4r07/enhancd
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -276,8 +277,10 @@ autoload -Uz zmv
 autoload -Uz run-help-git
 autoload -Uz run-help-svk
 autoload -Uz run-help-svn
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
 autoload -U compinit; compinit -u
 autoload colors; colors
 autoload -Uz url-quote-magic
@@ -299,6 +302,9 @@ bindkey '^xr' anyframe-widget-execute-history
 bindkey '^x^b' anyframe-widget-checkout-git-branch
 
 bindkey '^xg' anyframe-widget-cd-ghq-repository
+
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 # -------
 # ZStyles

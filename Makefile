@@ -9,7 +9,7 @@ DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 CANDIDATES := $(wildcard .??*) bin
 EXCLUSIONS := .DS_Store .git .gitmodules
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
-PKGINSSRC  := ripgrep fzf sshfs python2-pip python-pip alder aria2-fast aptpac autoconf automake clang cmatrix cordless-git ctags dirsearch docker exploitdb filezilla floo-git gist github-cli go ytop gradle htop java-lombok pacmatic lostfiles pkgfile pkgtools repoctl repose snap-pac vrms-arch powerpill java-openjdk-ea-bin kaku-bin less lostfiles lsd lynis w3m maven meson mplayer mpv msmtp mutt neofetch-git neovim neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk npm ocs-url openvpn pacman-contrib python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp uncrustify urlview vim-plug w3m weechat wireshark-cli zsh colormake prettyping lesspipe colordiff ruby-rainbow rainbow python-blessings grc
+PKGINSSRC  := ripgrep sshfs python2-pip python-pip alder aria2-fast aptpac autoconf automake clang cmatrix cordless-git ctags dirsearch docker exploitdb filezilla floo-git gist github-cli go ytop gradle htop java-lombok pacmatic lostfiles pkgfile pkgtools repoctl repose snap-pac vrms-arch powerpill java-openjdk-ea-bin kaku-bin less lostfiles lsd lynis w3m maven meson mplayer mpv msmtp mutt neofetch-git neovim neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk npm ocs-url openvpn pacman-contrib python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp uncrustify urlview vim-plug w3m weechat wireshark-cli zsh colormake prettyping lesspipe colordiff ruby-rainbow rainbow python-blessings grc
 
 .DEFAULT_GOAL := help
 
