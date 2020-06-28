@@ -86,10 +86,10 @@ zinit wait lucid for \
 	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
 		zdharma/fast-syntax-highlighting \
 	blockf \
-	        zsh-users/zsh-completions \
+	  zsh-users/zsh-completions \
 	atload"!_zsh_autosuggest_start" \
 		zsh-users/zsh-autosuggestions
-		
+
 zinit wait lucid nocd depth=1 \
     atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
       for 3v1n0/zsh-bash-completions-fallback
@@ -153,7 +153,6 @@ zinit ice depth=1; zinit light qoomon/zsh-lazyload
 zinit ice depth=1; zinit light oz/safe-paste
 zinit ice depth=1; zinit light djui/alias-tips
 zinit ice depth=1; zinit light kazhala/dotbare
-
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
