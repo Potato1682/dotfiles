@@ -89,6 +89,10 @@ zinit wait lucid for \
 	        zsh-users/zsh-completions \
 	atload"!_zsh_autosuggest_start" \
 		zsh-users/zsh-autosuggestions
+		
+zinit wait lucid nocd depth=1 \
+    atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
+      for 3v1n0/zsh-bash-completions-fallback
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit ice depth=1; zinit light mollifier/cd-bookmark
@@ -106,6 +110,49 @@ zinit ice depth=1; zinit light ascii-soup/zsh-url-highlighter
 zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
 zinit ice depth=1; zinit light knu/zsh-git-escape-magic
 zinit ice depth=1; zinit light peterhurford/git-aliases.zsh
+zinit ice depth=1; zinit light molovo/revolver
+zinit ice depth=1; zinit light dbkaplun/smart-cd
+zinit ice depth=1; zinit light willghatch/zsh-snippets
+zinit ice depth=1; zinit light hcgraf/zsh-sudo
+zinit ice depth=1; zinit light le0me55i/zsh-systemd
+zinit ice depth=1; zinit light jreese/zsh-titles
+zinit ice depth=1; zinit light RobertAudi/tsm
+zinit ice depth=1; zinit light joow/youtube-dl
+zinit ice depth=1; zinit light zinit-zsh/zinit-console
+zinit ice depth=1; zinit light zinit-zsh/z-a-man
+zinit ice depth=1; zinit light zinit-zsh/zinit-vim-syntax
+zinit ice depth=1; zinit light zdharma/zui
+zinit ice depth=1; zinit light lukechilds/zsh-better-npm-completion
+zinit ice depth=1; zinit light zpm-zsh/ssh
+zinit ice depth=1; zinit light hkupty/ssh-agent
+zinit ice depth=1; zinit light g-plane/zsh-yarn-autocompletions
+zinit ice depth=1; zinit light sparsick/ansible-zsh
+zinit ice depth=1; zinit light voronkovich/apache2.plugin.zsh
+zinit ice depth=1; zinit light mollifier/anyframe
+zinit ice depth=1; zinit light zpm-zsh/autoenv
+zinit ice depth=1; zinit light hlissner/zsh-autopair
+zinit ice depth=1; zinit light MichaelAquilina/zsh-autoswitch-virtualenv
+zinit ice depth=1; zinit light chriskempson/base16-shell
+zinit ice depth=1; zinit light walesmd/caniuse.plugin.zsh
+zinit ice depth=1; zinit light arzzen/calc.plugin.zsh
+zinit ice depth=1; zinit light zpm-zsh/clipboard
+zinit ice depth=1; zinit light zuxfoucault/colored-man-pages_mod
+zinit ice depth=1; zinit light molovo/crash
+zinit ice depth=1; zinit light zdharma/declare-zsh
+zinit ice depth=1; zinit light vladmyr/dotfiles-plugin
+zinit ice depth=1; zinit light b4b4r07/emoji-cli
+zinit ice depth=1; zinit light xav-b/zsh-extend-history
+zinit ice depth=1; zinit light b4b4r07/enhancd
+zinit ice depth=1; zinit light zpm-zsh/figures
+zinit ice depth=1; zinit light zpm-zsh/colors
+zinit ice depth=1; zinit light Tarrasch/zsh-functional
+zinit ice depth=1; zinit light diazod/git-prune
+zinit ice depth=1; zinit light caarlos0/zsh-git-sync
+zinit ice depth=1; zinit light joepvd/grep2awk
+zinit ice depth=1; zinit light willghatch/zsh-hooks
+zinit ice depth=1; zinit light qoomon/zsh-lazyload
+zinit ice depth=1; zinit light oz/safe-paste
+zinit ice depth=!; zinit light djui/alias-tips
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -118,12 +165,10 @@ zinit snippet PZT::/modules/gpg/init.zsh
 # oh-my-zsh plugins zone
 zinit snippet OMZL::git.zsh
 zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
 zinit snippet OMZ::plugins/copyfile/copyfile.plugin.zsh
 zinit snippet OMZ::plugins/copydir/copydir.plugin.zsh
 zinit snippet OMZ::plugins/history/history.plugin.zsh
 zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
-zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
 zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
@@ -293,11 +338,12 @@ if [ -n "$SSH_CONNECTION"  ]; then
 	date +%F
 fi
 
-# Open tmux if tmux installed.
-if [ -z $TMUX ]; then
+# Open tmux if installed.
+if [[ "${+commands[tmux]}" == 1 ]]; then
   clear
-  tmux -2
-  tmux source-file ~/.tmux.conf
+  tmux has-session -t global 2>/dev/null || tmux new-session -ds global \
+      && tmux attach-session -t global
+  exit
 fi
 
 # Set Completion cheat-sheet.
