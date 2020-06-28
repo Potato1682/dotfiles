@@ -30,8 +30,8 @@ install: ## Install all packages and Create symlink to home directory
         fi
 	@read -p "Your GPG Keyserver working properly? [y/N]: " ans; \
 	if [ "$$ans" = n ]; then  \
-          rm -rf ~/.dotfiles/.gnupg; \
 	  mkdir -p ~/.gnupg; \
+          rm -f ~/.gnupg/gpg.conf; \
 	  ln -sv ~/.dotfiles/.gnupg/gpg.conf ~/.gnupg/gpg.conf; \
         fi
 	@echo ''
