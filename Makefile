@@ -29,10 +29,8 @@ install: ## Install all packages and Create symlink to home directory
           PKGINSSRC="inverse-icon-theme-git plasma-meta $PKGINSSRC"; \
         fi
 	@read -p "Your GPG Keyserver working properly? [y/N]: " ans; \
-	if [ "$$ans" = y ]; then  \
+	if [ "$$ans" = n ]; then  \
           rm -rf ~/.dotfiles/.gnupg; \
-	else \
-	  rm ~/.gnupg/gpg.conf; \
         fi
 	@echo ''
 	@echo '==> Creating cache...'
