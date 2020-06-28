@@ -81,8 +81,6 @@ zinit light-mode for \
 
 # [User]/[Repogitory] zone
 
-zinit ice depth=1; zinit light benniemosher/the-one-theme
-
 # Load with turbo mode. enhance performance.
 zinit wait lucid for \
 	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
