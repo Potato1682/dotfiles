@@ -126,7 +126,6 @@ zinit ice depth=1; zinit light hkupty/ssh-agent
 zinit ice depth=1; zinit light g-plane/zsh-yarn-autocompletions
 zinit ice depth=1; zinit light sparsick/ansible-zsh
 zinit ice depth=1; zinit light voronkovich/apache2.plugin.zsh
-zinit ice depth=1; zinit light mollifier/anyframe
 zinit ice depth=1; zinit light zpm-zsh/autoenv
 zinit ice depth=1; zinit light hlissner/zsh-autopair
 zinit ice depth=1; zinit light MichaelAquilina/zsh-autoswitch-virtualenv
@@ -266,6 +265,8 @@ setopt mark_dirs
 # Autoload
 # --------
 
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
 autoload -Uz history-search-end
 autoload -Uz cdr
 autoload -Uz modify-current-argument
@@ -293,18 +294,26 @@ zle -N self-insert url-quote-magic
 # Display completion menu to Ctrl + I.
 bindkey "^I" menu-complete
 
-bindkey '^xb' anyframe-widget-cdr
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-
-bindkey '^xr' anyframe-widget-execute-history
-
-bindkey '^x^b' anyframe-widget-checkout-git-branch
-
-bindkey '^xg' anyframe-widget-cd-ghq-repository
-
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
+
+bindkey '^xb' anyframe-widget-cdr
+bindkey '^x^b' anyframe-widget-checkout-git-branch
+
+bindkey '^xr' anyframe-widget-execute-history
+bindkey '^x^r' anyframe-widget-execute-history
+
+bindkey '^xi' anyframe-widget-put-history
+bindkey '^x^i' anyframe-widget-put-history
+
+bindkey '^xg' anyframe-widget-cd-ghq-repository
+bindkey '^x^g' anyframe-widget-cd-ghq-repository
+
+bindkey '^xk' anyframe-widget-kill
+bindkey '^x^k' anyframe-widget-kill
+
+bindkey '^xe' anyframe-widget-insert-git-branch
+bindkey '^x^e' anyframe-widget-insert-git-branch
 
 # -------
 # ZStyles
@@ -329,6 +338,8 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
+zstyle ":anyframe:selector:fzf:" command 'fzf --extended'
+zstyle ":anyframe:selector:" use fzf
 
 # -------
 # Aliases
