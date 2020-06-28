@@ -31,6 +31,8 @@ install: ## Install all packages and Create symlink to home directory
 	@read -p "Your GPG Keyserver working properly? [y/N]: " ans; \
 	if [ "$$ans" = n ]; then  \
           rm -rf ~/.dotfiles/.gnupg; \
+	  mkdir -p ~/.gnupg; \
+	  ln -sv ~/.dotfiles/.gnupg/gpg.conf ~/.gnupg/gpg.conf; \
         fi
 	@echo ''
 	@echo '==> Creating cache...'
@@ -53,7 +55,6 @@ install: ## Install all packages and Create symlink to home directory
 	@echo ''
 	@echo '==> Deploying dotfiles to your home directory...'
 	@mkdir -p $HOME/.config
-	@mkdir -p $HOME/.gnupg
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Installing zinit...'
