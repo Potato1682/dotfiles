@@ -95,6 +95,7 @@ Plug 'SirVer/ultisnips'
 Plug 'othree/yajs.vim'
 Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
 Plug 'preservim/nerdcommenter'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 " -------
