@@ -41,6 +41,6 @@ if [ $? -ne 0  ]; then
 	exit 1
 fi
 
-make install || echo "${YELLOW}${BOLD}CLEAN${RESET}: ${BOLD}Deleting cache and error occured directory...${RESET}" || rm -rf ~/.cache/dotfiles || rm -rf $HOME/.dotfiles
+make install || echo "${YELLOW}${BOLD}CLEAN${RESET}: ${BOLD}Deleting cache and error occured directory...${RESET}" || rm -rf ~/.cache/dotfiles ~/.gnupg ~/.dotfiles
 
 # End of file
