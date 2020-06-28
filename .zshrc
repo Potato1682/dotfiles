@@ -152,7 +152,9 @@ zinit ice depth=1; zinit light joepvd/grep2awk
 zinit ice depth=1; zinit light willghatch/zsh-hooks
 zinit ice depth=1; zinit light qoomon/zsh-lazyload
 zinit ice depth=1; zinit light oz/safe-paste
-zinit ice depth=!; zinit light djui/alias-tips
+zinit ice depth=1; zinit light djui/alias-tips
+zinit ice depth=1; zinit light kazhala/dotbare
+
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
