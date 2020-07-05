@@ -39,7 +39,6 @@ Plug 'dense-analysis/ale'
 Plug 'maximbaz/lightline-ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'kassio/neoterm'
 Plug 'tpope/vim-commentary'
 Plug 'mbbill/undotree'
@@ -90,12 +89,28 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
-Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'othree/yajs.vim'
 Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
 Plug 'preservim/nerdcommenter'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-docker'
+Plug 'deoplete-plugins/deoplete-zsh'
+Plug 'Shougo/neco-syntax'
+if has('win32') || has('win64')
+  Plug 'tbodt/deoplete-tabnine', { 'do': 'powershell.exe .\install.ps1' }
+else
+  Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+endif
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'fszymanski/deoplete-emoji'
+Plug 'SevereOverfl0w/deoplete-github'
+Plug 'Inazuma110/deoplete-greek'
+Plug 'joereynolds/vim-minisnip'
+Plug 'joereynolds/deoplete-minisnip'
+Plug 'deoplete-plugins/deoplete-tag'
+Plug 'deoplete-plugins/deoplete-asm'
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
@@ -156,8 +171,6 @@ set signcolumn=yes
 " Wrap support.
 nnoremap j gj
 nnoremap k gk
-noremap! <Down> gj
-noremap! <Up>   gk
 
 " Insert arrow keys move support.
 inoremap <C-j> <Down>
@@ -179,7 +192,7 @@ if has("autocmd")
     " In text files, always limit the width of text to 78 characters
     autocmd BufRead *.txt set tw=78
     " When editing a file, always jump to the last cursor position
-    autocmd BufReadPost *
+    autocmd BufReadPost gk *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
     \   exe "normal! g'\"" |
     \ endif
@@ -234,24 +247,6 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["~/vim-snippets/"]
-
-" Valloric/YouCompleteMe
-let g:ycm_server_python_interpreter = '/usr/bin/python2.7'
-let g:ycm_python_binary_path = '/usr/bin/python2.7'
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_auto_trigger = 1
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
-let g:ycm_key_list_stop_completion = ['<C-y>', '<Enter>']
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:make = 'gmake'
-if exists('make')
-    let g:make = 'make'
-endif
 
 " airblade/vim-gitgutter
 set updatetime=100
@@ -317,30 +312,6 @@ let g:ale_linters = {
         \   'c' : ['clangd'],
         \   'cpp' : ['clangd']
 \}
-
-" neoclide/coc.nvim
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-	if (index(['vim','help'], &filetype) >= 0)
-		execute 'h '.expand('<cword>')
-	else
-		call CocAction('doHover')
-	endif
-endfunction
 
 " kassio/neoterm
 let g:neoterm_default_mod='belowright'
@@ -416,12 +387,6 @@ vmap <C-v> <Plug>(expand_region_shrink)
 
 " kana/vim-operator-replace
 map _ <Plug>(operator-replace)
-
-" deoplete-plugins/deoplete-clang
-let g:deoplete#sources#clang#libclang_path = system("llvm-config --prefix")[:-2] . '/lib/libclang.dylib'
-let g:deoplete#sources#clang#clang_header = system("llvm-config --prefix")[:-2] . '/lib/clang'
-let g:deoplete#sources#clang#sort_algo = 'priority'
-let g:deoplete#sources#clang#clang_complete_database="./build/"
 
 " lyuts/vim-rtags
 let g:rtagsUseDefaultMappings = 0
@@ -555,6 +520,30 @@ nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+" deoplete-plugins/deoplete-clang
+let g:deoplete#sources#clang#libclang_path = '/lib/libclang.so'
+let g:deoplete#sources#clang#clang_header = '/lib/clang'
+let g:deoplete#sources#clang#sort_algo = 'priority'
+let g:deoplete#sources#clang#clang_complete_database="./build/"
+
+" carlitux/deoplete-ternjs
+let g:deoplete#sources#ternjs#tern_bin = '/usr/bin/tern'
+let g:deoplete#sources#ternjs#timeout = 1
+let g:deoplete#sources#ternjs#types = 1
+let g:deoplete#sources#ternjs#depths = 1
+let g:deoplete#sources#ternjs#docs = 1
+let g:deoplete#sources#ternjs#case_insensitive = 1
+let g:deoplete#sources#ternjs#include_keywords = 1
+
+" SevereOverfl0w/deoplete-github
+let g:deoplete#sources = {}
+let g:deoplete#sources.gitcommit=['github']
+let g:deoplete#keyword_patterns = {}
+let g:deoplete#keyword_patterns.gitcommit = '.+'
+
+" joereynolds/deoplete-minisnip
+let g:minisnip_dir = '~/.config/nvim/minisnip'
 
 " preservim/nerdcommenter
 let g:NERDSpaceDelims = 1

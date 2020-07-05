@@ -9,7 +9,7 @@ DOTPATH=~/.dotfiles
 GITHUB_URL=https://github.com/Potato1682/dotfiles
 
 # Colored output
-ESC=$(printf '\033') 
+ESC=$(printf '\033')
 RESET="${ESC}[0m"
 BOLD="${ESC}[1m"
 RED="${ESC}[31m"
@@ -42,5 +42,7 @@ if [ $? -ne 0  ]; then
 fi
 
 make install || echo "${YELLOW}${BOLD}CLEAN${RESET}: ${BOLD}Deleting cache and error occured directory...${RESET}" || rm -rf ~/.cache/dotfiles ~/.gnupg ~/.dotfiles
+
+source ~/.zshrc
 
 # End of file

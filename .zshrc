@@ -36,6 +36,9 @@ export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43
 # "xterm-256color" is compatible many application.
 export TERM="xterm-256color"
 
+#  Set fpath. this is VERY JUUYOU.
+fpath=($HOME/.zsh/anyframe(N-/) $fpath)
+
 # Set auto open variables.
 export EDITOR="nvim"
 export SHELL="zsh"
@@ -48,12 +51,21 @@ export SHELL="zsh"
 export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{print $2}');
 export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0;
 
+# Make fzf nice.
+export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+
 # Add history settings.
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=1000000
 
+# -------
+# Plugins
+# -------
+
 ### Added by Zinit's installer
+
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
@@ -75,13 +87,9 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-# -------
-# Plugins
-# -------
-
 # [User]/[Repogitory] zone
 
-# Load with turbo mode. enhance performance.
+# Load with turbo mode. this settings improve performance.
 zinit wait lucid for \
 	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
 		zdharma/fast-syntax-highlighting \
@@ -109,26 +117,21 @@ zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
 zinit ice depth=1; zinit light knu/zsh-git-escape-magic
 zinit ice depth=1; zinit light peterhurford/git-aliases.zsh
 zinit ice depth=1; zinit light molovo/revolver
-zinit ice depth=1; zinit light dbkaplun/smart-cd
 zinit ice depth=1; zinit light willghatch/zsh-snippets
 zinit ice depth=1; zinit light hcgraf/zsh-sudo
 zinit ice depth=1; zinit light le0me55i/zsh-systemd
 zinit ice depth=1; zinit light jreese/zsh-titles
 zinit ice depth=1; zinit light RobertAudi/tsm
 zinit ice depth=1; zinit light joow/youtube-dl
-zinit ice depth=1; zinit light zinit-zsh/zinit-console
 zinit ice depth=1; zinit light zinit-zsh/z-a-man
 zinit ice depth=1; zinit light zinit-zsh/zinit-vim-syntax
 zinit ice depth=1; zinit light zdharma/zui
+zinit ice depth=1; zinit light zinit-zsh/zinit-console
 zinit ice depth=1; zinit light lukechilds/zsh-better-npm-completion
-zinit ice depth=1; zinit light zpm-zsh/ssh
-zinit ice depth=1; zinit light hkupty/ssh-agent
 zinit ice depth=1; zinit light g-plane/zsh-yarn-autocompletions
 zinit ice depth=1; zinit light sparsick/ansible-zsh
-zinit ice depth=1; zinit light voronkovich/apache2.plugin.zsh
 zinit ice depth=1; zinit light zpm-zsh/autoenv
 zinit ice depth=1; zinit light hlissner/zsh-autopair
-zinit ice depth=1; zinit light MichaelAquilina/zsh-autoswitch-virtualenv
 zinit ice depth=1; zinit light chriskempson/base16-shell
 zinit ice depth=1; zinit light walesmd/caniuse.plugin.zsh
 zinit ice depth=1; zinit light zpm-zsh/clipboard
@@ -145,12 +148,9 @@ zinit ice depth=1; zinit light Tarrasch/zsh-functional
 zinit ice depth=1; zinit light diazod/git-prune
 zinit ice depth=1; zinit light caarlos0/zsh-git-sync
 zinit ice depth=1; zinit light joepvd/grep2awk
-zinit ice depth=1; zinit light willghatch/zsh-hooks
-zinit ice depth=1; zinit light qoomon/zsh-lazyload
 zinit ice depth=1; zinit light oz/safe-paste
 zinit ice depth=1; zinit light djui/alias-tips
 zinit ice depth=1; zinit light kazhala/dotbare
-zinit ice depth=1; zinit light b4b4r07/enhancd
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -158,7 +158,6 @@ zinit snippet PZT::modules/pacman/init.zsh
 zinit snippet PZT::modules/tmux/init.zsh
 zinit snippet PZT::modules/gnu-utility/init.zsh
 zinit snippet PZT::modules/environment/init.zsh
-zinit snippet PZT::/modules/gpg/init.zsh
 
 # oh-my-zsh plugins zone
 zinit snippet OMZL::git.zsh
@@ -170,6 +169,9 @@ zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
 zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+
+# Generic scripts zone
+zinit snippet http://stchaz.free.fr/mouse.zsh
 
 # -------
 # Options
@@ -286,6 +288,8 @@ autoload -U compinit; compinit -u
 autoload colors; colors
 autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
+autoload -Uz anyframe-init
+anyframe-init
 
 # --------
 # Bindkeys
@@ -340,6 +344,7 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 zstyle ":anyframe:selector:fzf:" command 'fzf --extended'
 zstyle ":anyframe:selector:" use fzf
+zstyle ':completion::complete:*' gain-privileges 1
 
 # -------
 # Aliases
@@ -378,11 +383,12 @@ alias cp="cp -v"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top="ytop"
-alias yay="yay --needed --pacman pacmatic"
-alias yayr="yay --pacman pacmatic -Rsnc"
+alias yay="yay --pacman pacmatic -Syu"
+alias yays="/usr/bin/yay --needed --pacman pacmatic -S"
+alias yayr="/usr/bin/yay --pacman pacmatic -Rsnc"
 alias pacman="sudo pacman"
-alias weather="curl \"wttr.info/Tokyo?lang=ja&MFq\""
-alias cweather="curl \"wttr.info/Tokyo?lang=ja&MFq0\""
+alias weather="curl \"wttr.in/Tokyo?lang=ja&MFq\""
+alias cweather="curl \"wttr.in/Tokyo?lang=ja&MFq0\""
 alias cdwin="source ~/.dotfiles/bin/cdwin"
 alias ...="cd ../.."
 alias ...."cd ../../.."
@@ -403,14 +409,6 @@ if [ -n "$SSH_CONNECTION"  ]; then
 	date +%F
 fi
 
-# Open tmux if installed.
-if [[ "${+commands[tmux]}" == 1 ]]; then
-  clear
-  tmux has-session -t global 2>/dev/null || tmux new-session -ds global \
-      && tmux attach-session -t global
-  exit
-fi
-
 # Set Completion cheat-sheet.
 cheat-sheet () { zle -M "`cat ~/zsh/cheat-sheet.conf`" }
 zle -N cheat-sheet
@@ -421,12 +419,14 @@ git-cheat () { zle -M "`cat ~/zsh/git-cheat.conf`" }
 zle -N git-cheat
 bindkey "^[^g" git-cheat
 
-fpath=($fpath "/home/potato1682/.zfunctions")
-
 # Colorize git output.
 git config --global color.ui true
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# oh-yeah-fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_TMUX=1
 
 cd ~
 

@@ -60,6 +60,8 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo ''
+	@echo '==> Installing fzf...'
+	@git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 	@echo '==> Deleting cache...'
 	@echo ''
 	@rm -rfv ~/.cache/dotfiles
