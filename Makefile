@@ -40,15 +40,15 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '==> Re-Installing base-devel...'
 	@sudo pacman -S base-devel --noconfirm --needed
 	@echo ''
-	@echo '==> Downloading yay...'
-	@git clone "https://aur.archlinux.org/yay-bin.git" ~/.cache/dotfiles/yay
-	@echo '==> Installing yay...'
-	@cd ~/.cache/dotfiles/yay && makepkg -si --noconfirm
+	@echo '==> Downloading pikaur...'
+	@git clone "https://aur.archlinux.org/pikaur.git" ~/.cache/dotfiles/pika
+	@echo '==> Installing pikaur...'
+	@cd ~/.cache/dotfiles/pika && makepkg -si --noconfirm
 	@echo '==> Installing packages...'
-	-@yay -Syyu --noconfirm
+	-@pikaur -Syyu --noconfirm
 	@echo '==> Checking vi and vim conflicts before installing neovim...'
 	@bash ~/.dotfiles/check-vi.sh
-	@yay -S --noconfirm --needed ${PKGINSSRC} && pip install --user licen
+	@pikaur -S --noconfirm --needed ${PKGINSSRC} && pip install --user licen
 	@gem install neovim
 	@echo 'INFO: CHECKING SUDO!'
 	@sudo npm -g install neovim
@@ -60,8 +60,6 @@ install: ## Install all packages and Create symlink to home directory
 	@echo '==> Installing zinit...'
 	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo ''
-	@echo '==> Installing fzf...'
-	@git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 	@echo '==> Deleting cache...'
 	@echo ''
 	@rm -rfv ~/.cache/dotfiles
