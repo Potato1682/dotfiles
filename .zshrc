@@ -115,7 +115,6 @@ zinit ice depth=1; zinit light Tarrasch/zsh-colors
 zinit ice depth=1; zinit light ascii-soup/zsh-url-highlighter
 zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
 zinit ice depth=1; zinit light knu/zsh-git-escape-magic
-zinit ice depth=1; zinit light peterhurford/git-aliases.zsh
 zinit ice depth=1; zinit light molovo/revolver
 zinit ice depth=1; zinit light willghatch/zsh-snippets
 zinit ice depth=1; zinit light hcgraf/zsh-sudo
@@ -141,16 +140,14 @@ zinit ice depth=1; zinit light zdharma/declare-zsh
 zinit ice depth=1; zinit light vladmyr/dotfiles-plugin
 zinit ice depth=1; zinit light b4b4r07/emoji-cli
 zinit ice depth=1; zinit light xav-b/zsh-extend-history
-zinit ice depth=1; zinit light b4b4r07/enhancd
 zinit ice depth=1; zinit light zpm-zsh/figures
 zinit ice depth=1; zinit light zpm-zsh/colors
 zinit ice depth=1; zinit light Tarrasch/zsh-functional
 zinit ice depth=1; zinit light diazod/git-prune
 zinit ice depth=1; zinit light caarlos0/zsh-git-sync
 zinit ice depth=1; zinit light joepvd/grep2awk
-zinit ice depth=1; zinit light oz/safe-paste
-zinit ice depth=1; zinit light djui/alias-tips
-zinit ice depth=1; zinit light kazhala/dotbare
+zinit ice from'gh-r' as'program' depth=1; zinit light sei40kr/fast-alias-tips-bin
+zinit ice depth=1; zinit light sei40kr/zsh-fast-alias-tips
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -158,6 +155,8 @@ zinit snippet PZT::modules/pacman/init.zsh
 zinit snippet PZT::modules/tmux/init.zsh
 zinit snippet PZT::modules/gnu-utility/init.zsh
 zinit snippet PZT::modules/environment/init.zsh
+zinit snippet PZT::modules/gpg/init.zsh
+zinit snippet PZT::modules/rsync/init.zsh
 
 # oh-my-zsh plugins zone
 zinit snippet OMZL::git.zsh
@@ -354,7 +353,6 @@ zstyle ':completion::complete:*' gain-privileges 1
 alias ls="lsd -a"
 alias la="lsd -A"
 alias ll="lsd -lFA"
-alias sl="lsd -a"
 alias relogin="exec $SHELL -l"
 alias re="relogin"
 alias c=clear
@@ -383,10 +381,10 @@ alias cp="cp -v"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top="ytop"
-alias yay="yay --pacman pacmatic -Syu"
-alias yays="/usr/bin/yay --needed --pacman pacmatic -S"
-alias yayr="/usr/bin/yay --pacman pacmatic -Rsnc"
-alias pacman="sudo pacman"
+alias pika="pikaur -Syu"
+alias pikas="/usr/bin/pikaur --needed -S"
+alias pikar="/usr/bin/pikaur -Rsnc"
+alias pacman="sudo pacmatic"
 alias weather="curl \"wttr.in/Tokyo?lang=ja&MFq\""
 alias cweather="curl \"wttr.in/Tokyo?lang=ja&MFq0\""
 alias cdwin="source ~/.dotfiles/bin/cdwin"
@@ -399,6 +397,9 @@ alias .......="cd ../../../../../.."
 # ----
 # Misc
 # ----
+
+# STOP ^S!!!!!!!
+stty stop undef
 
 # SSH Connection terminal is display special text.
 if [ -n "$SSH_CONNECTION"  ]; then
