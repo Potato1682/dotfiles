@@ -79,7 +79,6 @@ Plug 'kristijanhusak/defx-git'
 Plug 'vim-scripts/a.vim'
 Plug 'vim-jp/vim-cpp'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'vhdirk/vim-cmake'
 Plug 'junegunn/vim-easy-align'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'davidhalter/jedi-vim'
