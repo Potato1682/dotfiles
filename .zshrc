@@ -11,6 +11,10 @@
 # General
 # -------
 
+if (which zprof > /dev/null 2>&1); then
+  zprof
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -36,9 +40,6 @@ export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43
 # "xterm-256color" is compatible many application.
 export TERM="xterm-256color"
 
-#  Set fpath. this is VERY JUUYOU.
-fpath=($HOME/.zsh/anyframe(N-/) $fpath)
-
 # Set auto open variables.
 export EDITOR="nvim"
 export SHELL="zsh"
@@ -59,6 +60,12 @@ export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --lin
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=1000000
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # -------
 # Plugins
@@ -90,56 +97,37 @@ zinit light-mode for \
 # [User]/[Repogitory] zone
 
 # Load with turbo mode. this settings improve performance.
-zinit wait lucid for \
+zinit wait lucid depth=1 light-mode for \
 	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
 		zdharma/fast-syntax-highlighting \
-	blockf \
-	  zsh-users/zsh-completions \
-	atload"!_zsh_autosuggest_start" \
-		zsh-users/zsh-autosuggestions
-
-zinit wait lucid nocd depth=1 \
-    atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
-      for 3v1n0/zsh-bash-completions-fallback
+	atload"_zsh_autosuggest_start" \
+		zsh-users/zsh-autosuggestions \
+	blockf atpull'zinit creinstall -q .' \
+		zsh-users/zsh-completions
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit ice depth=1; zinit light mollifier/cd-bookmark
 zinit ice depth=1; zinit light mollifier/cd-gitroot
-zinit ice depth=1; zinit light AdrieanKhisbe/diractions
-zinit ice depth=1; zinit light mollifier/anyframe
 zinit ice depth=1; zinit light Tarrasch/zsh-bd
-zinit ice depth=1; zinit light oknowton/zsh-dwim
-zinit ice depth=1; zinit light tarruda/zsh-fuzzy-match
 zinit ice depth=1; zinit light chrissicool/zsh-256color
-zinit ice depth=1; zinit light Tarrasch/zsh-colors
 zinit ice depth=1; zinit light ascii-soup/zsh-url-highlighter
 zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
-zinit ice depth=1; zinit light knu/zsh-git-escape-magic
-zinit ice depth=1; zinit light molovo/revolver
-zinit ice depth=1; zinit light willghatch/zsh-snippets
 zinit ice depth=1; zinit light hcgraf/zsh-sudo
 zinit ice depth=1; zinit light le0me55i/zsh-systemd
 zinit ice depth=1; zinit light jreese/zsh-titles
 zinit ice depth=1; zinit light RobertAudi/tsm
 zinit ice depth=1; zinit light joow/youtube-dl
-zinit ice depth=1; zinit light zinit-zsh/z-a-man
 zinit ice depth=1; zinit light zinit-zsh/zinit-vim-syntax
 zinit ice depth=1; zinit light zdharma/zui
 zinit ice depth=1; zinit light zinit-zsh/zinit-console
 zinit ice depth=1; zinit light lukechilds/zsh-better-npm-completion
 zinit ice depth=1; zinit light g-plane/zsh-yarn-autocompletions
-zinit ice depth=1; zinit light sparsick/ansible-zsh
 zinit ice depth=1; zinit light zpm-zsh/autoenv
 zinit ice depth=1; zinit light hlissner/zsh-autopair
-zinit ice depth=1; zinit light chriskempson/base16-shell
 zinit ice depth=1; zinit light walesmd/caniuse.plugin.zsh
 zinit ice depth=1; zinit light zpm-zsh/clipboard
-zinit ice depth=1; zinit light zuxfoucault/colored-man-pages_mod
 zinit ice depth=1; zinit light molovo/crash
 zinit ice depth=1; zinit light zdharma/declare-zsh
-zinit ice depth=1; zinit light vladmyr/dotfiles-plugin
 zinit ice depth=1; zinit light b4b4r07/emoji-cli
-zinit ice depth=1; zinit light xav-b/zsh-extend-history
 zinit ice depth=1; zinit light zpm-zsh/figures
 zinit ice depth=1; zinit light zpm-zsh/colors
 zinit ice depth=1; zinit light Tarrasch/zsh-functional
@@ -148,6 +136,7 @@ zinit ice depth=1; zinit light caarlos0/zsh-git-sync
 zinit ice depth=1; zinit light joepvd/grep2awk
 zinit ice from'gh-r' as'program' depth=1; zinit light sei40kr/fast-alias-tips-bin
 zinit ice depth=1; zinit light sei40kr/zsh-fast-alias-tips
+zinit ice depth=1; zinit light Aloxaf/fzf-tab
 
 # Prezto modules zone
 zinit snippet PZT::modules/helper/init.zsh
@@ -168,9 +157,6 @@ zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
 zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
 zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
 zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
-# Generic scripts zone
-zinit snippet http://stchaz.free.fr/mouse.zsh
 
 # -------
 # Options
@@ -266,8 +252,6 @@ setopt mark_dirs
 # Autoload
 # --------
 
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
 autoload -Uz history-search-end
 autoload -Uz cdr
 autoload -Uz modify-current-argument
@@ -283,12 +267,6 @@ autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-autoload -U compinit; compinit -u
-autoload colors; colors
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
-autoload -Uz anyframe-init
-anyframe-init
 
 # --------
 # Bindkeys
@@ -299,24 +277,6 @@ bindkey "^I" menu-complete
 
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
-
-bindkey '^xb' anyframe-widget-cdr
-bindkey '^x^b' anyframe-widget-checkout-git-branch
-
-bindkey '^xr' anyframe-widget-execute-history
-bindkey '^x^r' anyframe-widget-execute-history
-
-bindkey '^xi' anyframe-widget-put-history
-bindkey '^x^i' anyframe-widget-put-history
-
-bindkey '^xg' anyframe-widget-cd-ghq-repository
-bindkey '^x^g' anyframe-widget-cd-ghq-repository
-
-bindkey '^xk' anyframe-widget-kill
-bindkey '^x^k' anyframe-widget-kill
-
-bindkey '^xe' anyframe-widget-insert-git-branch
-bindkey '^x^e' anyframe-widget-insert-git-branch
 
 # -------
 # ZStyles
@@ -399,7 +359,9 @@ alias .......="cd ../../../../../.."
 # ----
 
 # STOP ^S!!!!!!!
-stty stop undef
+if [ "$SSH_TTY" != "" ]; then
+	stty stop undef
+fi
 
 # SSH Connection terminal is display special text.
 if [ -n "$SSH_CONNECTION"  ]; then
@@ -428,6 +390,11 @@ export NVM_DIR="$HOME/.nvm"
 # oh-yeah-fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_TMUX=1
+
+# Compile zshrc.
+if [ ~/.dotfiles/.zshrc -nt ~/.zshrc.zwc ]; then
+  zcompile ~/.zshrc
+fi
 
 cd ~
 
