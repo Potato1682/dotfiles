@@ -1,278 +1,151 @@
-# ~/.zshrc
-#
-# © Potato1682.
-# Discord: Potato1682#9684
-# EMail: contact@potato1682.ml
-#
-# This file required git, lsd(cargo), gotop, man-db and zinit.
-# Please visit source error message.
-
 # -------
 # General
 # -------
+
+if [[ -z "$TMUX" ]]; then
+  tmux new-session
+  exit
+fi
+
+() {
+  local src
+  for src in $@; do
+    ([[ ! -e $src.zwc ]] || [ ${src:A} -nt $src ]) && zcompile $src
+  done
+} ~/.zshrc ~/.zshenv
 
 if (which zprof > /dev/null 2>&1); then
   zprof
 fi
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Set path. (I setting .dotfiles/bin, ccache/colorgcc path, npm prefix, Ruby gem local install path and .local path)
-export PATH="$HOME/.dotfiles/bin:/usr/lib/ccache/bin/:/usr/lib/colorgcc/bin/:$HOME/.npm-global/bin:$HOME/.gem/ruby/2.7.0/bin:$HOME/.local/bin:$PATH"
-export CCACHE_PATH="/usr/bin"
-
-# Set LANG environment variables.
-export LANG=ja_JP.UTF-8
-
-# Completion architecture flag.
-export ARCHFLAGS="-arch x86_64"
-
-# Customize ls color.
-export LSCOLORS=gxfxcxdxbxegedabagacag
-export LS_COLORS='di=36;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;46'
-
-# Change terminal color rendering.
-# "xterm-256color" is compatible many application.
-export TERM="xterm-256color"
-
-# Set auto open variables.
-export EDITOR="nvim"
-export SHELL="zsh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Set pulseaudio server and display server address automatically.
-# Important: this option only work in WSL2. please commentout WSL1 or other linux!
-export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{print $2}');
-export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0;
-
-# Make fzf nice.
-export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
-
-# Add history settings.
-HISTFILE=$HOME/.zsh-history
-HISTSIZE=100000
-SAVEHIST=1000000
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-# -------
-# Plugins
-# -------
-
-### Added by Zinit's installer
-
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
-
-### End of Zinit's installer chunk
-
-# [User]/[Repogitory] zone
-
-# Load with turbo mode. this settings improve performance.
-zinit wait lucid depth=1 light-mode for \
-	atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-		zdharma/fast-syntax-highlighting \
-	atload"_zsh_autosuggest_start" \
-		zsh-users/zsh-autosuggestions \
-	blockf atpull'zinit creinstall -q .' \
-		zsh-users/zsh-completions
-
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit ice depth=1; zinit light mollifier/cd-gitroot
-zinit ice depth=1; zinit light Tarrasch/zsh-bd
-zinit ice depth=1; zinit light chrissicool/zsh-256color
-zinit ice depth=1; zinit light ascii-soup/zsh-url-highlighter
-zinit ice depth=1; zinit light voronkovich/gitignore.plugin.zsh
-zinit ice depth=1; zinit light hcgraf/zsh-sudo
-zinit ice depth=1; zinit light le0me55i/zsh-systemd
-zinit ice depth=1; zinit light jreese/zsh-titles
-zinit ice depth=1; zinit light RobertAudi/tsm
-zinit ice depth=1; zinit light joow/youtube-dl
-zinit ice depth=1; zinit light zinit-zsh/zinit-vim-syntax
-zinit ice depth=1; zinit light zdharma/zui
-zinit ice depth=1; zinit light zinit-zsh/zinit-console
-zinit ice depth=1; zinit light lukechilds/zsh-better-npm-completion
-zinit ice depth=1; zinit light g-plane/zsh-yarn-autocompletions
-zinit ice depth=1; zinit light zpm-zsh/autoenv
-zinit ice depth=1; zinit light hlissner/zsh-autopair
-zinit ice depth=1; zinit light walesmd/caniuse.plugin.zsh
-zinit ice depth=1; zinit light zpm-zsh/clipboard
-zinit ice depth=1; zinit light molovo/crash
-zinit ice depth=1; zinit light zdharma/declare-zsh
-zinit ice depth=1; zinit light b4b4r07/emoji-cli
-zinit ice depth=1; zinit light zpm-zsh/figures
-zinit ice depth=1; zinit light zpm-zsh/colors
-zinit ice depth=1; zinit light Tarrasch/zsh-functional
-zinit ice depth=1; zinit light diazod/git-prune
-zinit ice depth=1; zinit light caarlos0/zsh-git-sync
-zinit ice depth=1; zinit light joepvd/grep2awk
-zinit ice from'gh-r' as'program' depth=1; zinit light sei40kr/fast-alias-tips-bin
-zinit ice depth=1; zinit light sei40kr/zsh-fast-alias-tips
-zinit ice depth=1; zinit light Aloxaf/fzf-tab
-
-# Prezto modules zone
-zinit snippet PZT::modules/helper/init.zsh
-zinit snippet PZT::modules/pacman/init.zsh
-zinit snippet PZT::modules/tmux/init.zsh
-zinit snippet PZT::modules/gnu-utility/init.zsh
-zinit snippet PZT::modules/environment/init.zsh
-zinit snippet PZT::modules/gpg/init.zsh
-zinit snippet PZT::modules/rsync/init.zsh
-
-# oh-my-zsh plugins zone
-zinit snippet OMZL::git.zsh
-zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit snippet OMZ::plugins/copyfile/copyfile.plugin.zsh
-zinit snippet OMZ::plugins/copydir/copydir.plugin.zsh
-zinit snippet OMZ::plugins/history/history.plugin.zsh
-zinit snippet OMZ::plugins/colorize/colorize.plugin.zsh
-zinit snippet OMZ::plugins/nmap/nmap.plugin.zsh
-zinit snippet OMZ::plugins/vscode/vscode.plugin.zsh
-zinit snippet OMZ::plugins/command-not-found/command-not-found.plugin.zsh
-
-# -------
-# Options
-# -------
-
-# Move current directory without cd.
-setopt auto_cd
-# Disable beep sound.
-setopt no_beep
-setopt nolistbeep
-setopt nohistbeep
-# Enable argument completion.
-setopt magic_equal_subst
-# Enable Auto-Pushd.
-setopt auto_pushd
-# Ignore duplication pushd.
-setopt pushd_ignore_dups
-# Automate list-menu display.
-setopt auto_list
-setopt auto_menu
-# Share history to multi shell.
-setopt share_history
-# Ignore duplication history.
-setopt hist_ignore_dups
-# Verbose history save.
-setopt extended_history
-# Ignore save history with only space.
-setopt hist_ignore_space
-# Share history to multi shell.
-setopt inc_append_history
-# Enable USEFUL options.
-setopt auto_param_keys
-setopt auto_param_slash
-# Enable comments in shell.
-setopt interactive_comments
-# Enable word completion.
-setopt complete_in_word
-# ????????
-setopt always_last_prompt
-# Enable prompt substring.
-setopt prompt_subst
-# Enhance glob. (example: ~, *)
-setopt extended_glob
-# Complete without dots.
-setopt globdots
-# Can {a-c} -> a b c.
-setopt brace_ccl
-# Split words.
-setopt sh_word_split
-# Remove comannd of 'hostory' or 'fc -l' from history list.
-setopt hist_no_store
-# Pack extra blank with history.
-setopt hist_reduce_blanks
-# Do not display a previously found event.
-setopt hist_find_no_dups
-# Prevent overwrite prompt from output withour cr.
-setopt no_prompt_cr
-# Ignore case when glob.
-setopt no_case_glob
-# pushd [no arg] in execute pushd $HOME.
-setopt pushd_to_home
-# reduce not required quotes.
-setopt rc_quotes
-# Remove functions from history list.
-setopt hist_no_functions
-# Enable packet list and colorize.
-setopt list_packed
-setopt list_types
-# can '=ls' -> '/bin/ls'
-setopt equals
-# Do not use Ctrl-s/Ctrl-q as flow control.
-setopt no_flow_control
-# Look for a sub-directory in $PATH when the slash is included in the command.
-setopt path_dirs
-# Confirm when executing 'rm *'.
-setopt rm_star_wait
-# Let me know immediately when terminating job.
-setopt notify
-# Show process ID.
-setopt long_list_jobs
-# Resume when executing the same name command as suspended process name.
-setopt auto_resume
-# Append to history file.
-setopt append_history
-# Write to the history file immediately, not when the shell exits.
-setopt inc_append_history
-# Expire a duplicate event first when trimming history.
-setopt hist_expire_dups_first
-# If the path is directory, add '/' to path tail when generating path by glob.
-setopt mark_dirs
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fnm/fnm ] && eval $(fnm env)
+command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 
 # --------
 # Autoload
 # --------
 
-autoload -Uz history-search-end
-autoload -Uz cdr
-autoload -Uz modify-current-argument
-autoload -Uz smart-insert-last-word
-autoload -Uz terminfo
-autoload -Uz vcs_info
-autoload -Uz zcalc
-autoload -Uz zmv
-autoload -Uz run-help-git
-autoload -Uz run-help-svk
-autoload -Uz run-help-svn
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
+autoload -Uz compinit && compinit
+autoload -Uz history-search-end cdr modify-current-argument smart-insert-last-word terminfo vcs_info zcalc zmv run-help-git run-help-svk run-help-svn
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+
+# -------
+# Plugins
+# -------
+
+source () {
+  [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
+  builtin source $@
+}
+
+. () {
+  [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
+  builtin . $@
+}
+
+# [User]/[Repogitory] zone
+
+source ~/.zinit/plugins/romkatv---powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zinit/plugins/zdharma---fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zinit/plugins/zsh-users---zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+source ~/.zinit/plugins/chrissicool---zsh-256color/zsh-256color.plugin.zsh
+source ~/.zinit/plugins/voronkovich---gitignore.plugin.zsh/gitignore.plugin.zsh
+source ~/.zinit/plugins/hcgraf---zsh-sudo/sudo.plugin.zsh
+source ~/.zinit/plugins/le0me55i---zsh-systemd/systemd.plugin.zsh
+source ~/.zinit/plugins/jreese---zsh-titles/titles.plugin.zsh
+source ~/.zinit/plugins/RobertAudi---tsm/tsm.plugin.zsh
+source ~/.zinit/plugins/g-plane---zsh-yarn-autocompletions/yarn-autocompletions.plugin.zsh
+source ~/.zinit/plugins/zpm-zsh---autoenv/autoenv.plugin.zsh
+source ~/.zinit/plugins/hlissner---zsh-autopair/zsh-autopair.plugin.zsh
+source ~/.zinit/plugins/b4b4r07---emoji-cli/emoji-cli.plugin.zsh
+source ~/.zinit/plugins/zpm-zsh---colors/colors.plugin.zsh
+source ~/.zinit/plugins/zpm-zsh---figures/figures.plugin.zsh
+
+# Prezto modules zone
+
+source ~/.zinit/snippets/PZT::modules--helper/init.zsh
+source ~/.zinit/snippets/PZT::modules--pacman/init.zsh
+source ~/.zinit/snippets/PZT::modules--tmux/init.zsh
+source ~/.zinit/snippets/PZT::modules--gnu-utility/init.zsh
+source ~/.zinit/snippets/PZT::modules--environment/init.zsh
+source ~/.zinit/snippets/PZT::modules--gpg/init.zsh
+source ~/.zinit/snippets/PZT::modules--rsync/init.zsh
+
+# oh-my-zsh plugins zone
+
+source ~/.zinit/snippets/OMZL::git.zsh/OMZL::git.zsh
+source ~/.zinit/snippets/OMZ::plugins--git/git.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--copyfile/copyfile.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--copydir/copydir.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--history/history.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--colorize/colorize.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--nmap/nmap.plugin.zsh
+source ~/.zinit/snippets/OMZ::plugins--vscode/vscode.plugin.zsh
+
+# other
+source /etc/profile.d/cnf.sh
+
+# -------
+# Options
+# -------
+
+setopt autocd
+setopt nobeep
+setopt nolistbeep
+setopt nohistbeep
+setopt magicequalsubst
+setopt autopushd
+setopt pushdignoredups
+setopt autolist
+setopt automenu
+setopt sharehistory
+setopt histignoredups
+setopt extendedhistory
+setopt histignorespace
+setopt incappendhistory
+setopt autoparamkeys
+setopt autoparamslash
+setopt interactivecomments
+setopt completeinword
+setopt alwayslastprompt
+setopt extendedglob
+setopt globdots
+setopt braceccl
+setopt shwordsplit
+setopt histnostore
+setopt histreduceblanks
+setopt histfindnodups
+setopt nopromptcr
+setopt nocaseglob
+setopt pushdtohome
+setopt rcquotes
+setopt histnofunctions
+setopt listpacked
+setopt listtypes
+setopt equals
+setopt noflowcontrol
+setopt pathdirs
+setopt rmstarwait
+setopt notify
+setopt longlistjobs
+setopt autoresume
+setopt appendhistory
+setopt incappendhistory
+setopt histexpiredupsfirst
+setopt markdirs
 
 # --------
 # Bindkeys
 # --------
 
-# Display completion menu to Ctrl + I.
 bindkey "^I" menu-complete
 
 bindkey "^[[A" up-line-or-beginning-search
@@ -282,7 +155,6 @@ bindkey "^[[B" down-line-or-beginning-search
 # ZStyles
 # -------
 
-# Enhance zsh completion.
 zstyle ':completion:*:default' menu select=2
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
@@ -301,21 +173,16 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
-zstyle ":anyframe:selector:fzf:" command 'fzf --extended'
-zstyle ":anyframe:selector:" use fzf
-zstyle ':completion::complete:*' gain-privileges 1
 
 # -------
 # Aliases
 # -------
 
-# Set aliases.
-alias ls="lsd -a"
-alias la="lsd -A"
+alias cat="bat -p"
+alias ls="lsd -A"
+alias la="lsd -lFa"
 alias ll="lsd -lFA"
-alias relogin="exec $SHELL -l"
-alias re="relogin"
-alias c=clear
+alias sudo="sudo -E"
 alias cls=reset
 alias dir="ll"
 alias df="df -h"
@@ -323,14 +190,22 @@ alias du="du -h"
 alias du1="du -d1"
 alias cmd="winpty cmd"
 alias psh="winpty powershell"
+alias dc='docker-compose'
+alias dcu='dc up -d'
+alias dcd='dc down'
+alias dcr='dcd; dcu'
+alias dcp='dc pull'
+alias dcl='dc logs -f --tail=1000'
+alias dce='dc exec'
+alias dcs='dc ps'
 alias term="echo $TERM"
 alias help="man"
 alias cdu="cd-gitroot"
 alias so="source"
 alias sorc="source ~/.zshrc"
-alias zshrc="vi ~/.zshrc"
-alias grep="grep --color"
-alias sgrep="grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS}"
+alias zshrc="$EDITOR ~/.zshrc"
+alias zshenv="$EDITOR ~/.zshenv"
+alias grep="rg --hidden --follow --smart-case 2>/dev/null"
 alias mux="tmuxinator"
 alias fd="find . -type d -name"
 alias ff="find . -type f -name"
@@ -340,62 +215,20 @@ alias rmdir="rm -rf"
 alias cp="rsync -Pr"
 alias ln="ln -sv"
 alias p="ps -f"
-alias top="ytop"
-alias pika="pikaur -Syu"
-alias pikas="/usr/bin/pikaur --needed -S"
-alias pikar="/usr/bin/pikaur -Rsnc"
-alias pacman="sudo pacmatic"
-alias weather="curl \"wttr.in/Tokyo?lang=ja&MFq\""
-alias cweather="curl \"wttr.in/Tokyo?lang=ja&MFq0\""
-alias cdwin="source ~/.dotfiles/bin/cdwin"
-alias ...="cd ../.."
-alias ...."cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-alias .......="cd ../../../../../.."
-
-# ----
-# Misc
-# ----
-
-# STOP ^S!!!!!!!
-if [ "$SSH_TTY" != "" ]; then
-	stty stop undef
-fi
-
-# SSH Connection terminal is display special text.
-if [ -n "$SSH_CONNECTION"  ]; then
-	cat ~/.ascii
-	HOSTNAME=$(hostname)
-	echo -n "Welcome to $HOSTNAME" && echo " on SSH environment\!"
-	echo -n "Now date is "
-	date +%F
-fi
-
-# Set Completion cheat-sheet.
-cheat-sheet () { zle -M "`cat ~/zsh/cheat-sheet.conf`" }
-zle -N cheat-sheet
-bindkey "^[^h" cheat-sheet
-
-# Set Git Completion cheat-sheet.
-git-cheat () { zle -M "`cat ~/zsh/git-cheat.conf`" }
-zle -N git-cheat
-bindkey "^[^g" git-cheat
-
-# Colorize git output.
-git config --global color.ui true
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-# oh-yeah-fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_TMUX=1
-
-# Compile zshrc.
-if [ ~/.dotfiles/.zshrc -nt ~/.zshrc.zwc ]; then
-  zcompile ~/.zshrc
-fi
-
-cd ~
-
-# End of file
+alias top='btm'
+alias pu='pikaur -Syu'
+alias pi='pikaur -S --needed'
+alias pio='pikaur -S --needed $(comm -23 <(expac -l"\n" "%o" | sort -u) <(expac -l"\n" "%n\n%S" | sort -u) | tr "\n" " " | sed -e "s/linux/ /" | sed -e "s/python2-grequests/ /")'
+alias pr='pikaur -Rsnc'
+alias pacman='pikaur'
+alias weather='curl "wttr.in/Osaka?lang=ja&MFq"'
+alias cweather='curl "wttr.in/Osaka?lang=ja&MFq0"'
+alias make="colormake"
+alias ping="prettyping"
+alias ip="ip --color=auto"
+alias :q="exit"
+alias ...='cd ../..'
+alias ....'cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'

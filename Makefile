@@ -7,9 +7,9 @@
 
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 CANDIDATES := $(wildcard .??*) bin
-EXCLUSIONS := .DS_Store .git .gitmodules
+EXCLUSIONS := .DS_Store .git .gitmodules .gitignore
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
-PKGINSSRC  := jq ripgrep sshfs python2-pip python-pip alder aria2-fast aptpac autoconf automake clang cmatrix cordless-git ctags dirsearch docker exploitdb filezilla floo-git gist github-cli go ytop gradle htop java-lombok pacmatic lostfiles pkgfile pkgtools repoctl repose snap-pac vrms-arch powerpill java-openjdk-ea-bin less lostfiles lsd lynis w3m maven meson mplayer mpv msmtp mutt neofetch-git neovim neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk npm openvpn pacman-contrib python-pip python-pynvim python2-pynvim ranger repo rkhunter rtorrent ruby rust screenfetch sshguard tmux tnftp uncrustify urlview vim-plug w3m weechat wireshark-cli zsh colormake prettyping lesspipe colordiff ruby-rainbow rainbow python-blessings grc
+PKGINSSRC  := jq reflector ripgrep sshfs python2-pip python-pip alder aria2-fast aptpac autoconf automake clang cmatrix ctags dirsearch the_silver_searcher exploitdb gist github-cli bottom gradle lostfiles pkgfile pkgtools repoctl repose vrms-arch powerpill less lostfiles lsd lynis w3m maven meson neofetch-git neovim-nightly neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk openvpn pacman-contrib ranger repo ruby screenfetch sshguard tmux tnftp uncrustify wireshark-cli zsh prettyping
 
 .DEFAULT_GOAL := help
 
@@ -21,44 +21,38 @@ list: ## Show dot files in this repo
 install: ## Install all packages and Create symlink to home directory
 	@echo '© Potato1682.'
 	@read -p "Install GUI Packages? [y/N]: " ans; \
-    	if [ "$$ans" = y ]; then  \
-    	  PKGINSSRC="ocs-url kaku-bin code discord firefox google-chrome hexchat intellij-idea-community-edition mikutter pamac-aur wireshark grub-customizer linux-tools $PKGINSSRC"; \
+    if [ "$$ans" = y ]; then  \
+    	  PKGINSSRC="ocs-url kaku-bin code discord firefox google-chrome hexchat mikutter pamac-aur wireshark grub-customizer linux-tools $PKGINSSRC"; \
   	fi
 	@read -p "Install inverse icon theme and KDE Plasma? [y/N]: " ans; \
 	if [ "$$ans" = y ]; then  \
           PKGINSSRC="inverse-icon-theme-git plasma-meta $PKGINSSRC"; \
-        fi
-	@read -p "Your GPG Keyserver working properly? [y/N]: " ans; \
-	if [ "$$ans" = n ]; then  \
-	  mkdir -p ~/.gnupg; \
-          rm -f ~/.gnupg/gpg.conf; \
-	  ln -sv ~/.dotfiles/.gnupg/gpg.conf ~/.gnupg/gpg.conf; \
-        fi
+    fi
 	@echo ''
 	@echo '==> Creating cache...'
 	@mkdir -pv ~/.cache/dotfiles
-	@echo '==> Re-Installing base-devel...'
+	@echo '==> Installing base-devel...'
 	@sudo pacman -S base-devel --noconfirm --needed
 	@echo ''
-	@echo '==> Downloading pikaur...'
-	@git clone "https://aur.archlinux.org/pikaur.git" ~/.cache/dotfiles/pika
-	@echo '==> Installing pikaur...'
-	@cd ~/.cache/dotfiles/pika && makepkg -si --noconfirm
-	@echo '==> Installing packages...'
+	@if [ -n command pikaur &2>1 /dev/null ]; then \
+		echo '==> Downloading pikaur...'; \
+		git clone "https://aur.archlinux.org/pikaur.git" ~/.cache/dotfiles/pikaur; \
+		echo '==> Installing pikaur...'; \
+		cd ~/.cache/dotfiles/pikaur && makepkg -si --noconfirm; \
+	fi
+	@echo '==> Updating...'
 	-@pikaur -Syyu --noconfirm
-	@echo '==> Checking vi and vim conflicts before installing neovim...'
-	@bash ~/.dotfiles/check-vi.sh
-	@pikaur -S --noconfirm --needed ${PKGINSSRC} && pip install --user licen
+	@echo ''
+	@echo '==> Installing packages...'
+	@pikaur -S --noconfirm --needed ${PKGINSSRC}
 	@gem install neovim
-	@echo 'INFO: CHECKING SUDO!'
-	@sudo npm -g install neovim
 	@echo ''
 	@echo '==> Deploying dotfiles to your home directory...'
-	@mkdir -p $HOME/.config
+	@rm -rf $HOME/.config
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
 	@echo '==> Installing zinit...'
-	@sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+	@cd ~ && sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 	@echo ''
 	@echo '==> Deleting cache...'
 	@echo ''
@@ -75,4 +69,3 @@ help: ## Self-documented Makefile
 		| sort \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-# End of file

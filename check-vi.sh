@@ -1,11 +1,8 @@
 if [ -f /bin/vim ]; then 
-  yay -R vim --noconfirm
-fi
-
-if [ -L /bin/vi ]; then
-  sudo rm /bin/vi
+  pikaur -R vim --noconfirm
 fi
 
 if [ -f /bin/vi -a ! -L /bin/vi ]; then
-  yay -R vi --noconfirm
+  pikaur -R vi --noconfirm
 fi
+

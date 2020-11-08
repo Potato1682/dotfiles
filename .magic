@@ -1,7 +1,0 @@
-# ~/.magic
-#
-# © 2020 Potato1682.
-#
-
-0 search/1 #!/usr/bin/env\ zsh Zsh
-!:mime text/x-shellscript
