@@ -3,23 +3,23 @@
 # -------
 
 if [[ -z "$TMUX" ]]; then
-  tmux new-session
-  exit
+    tmux new-session -A -s main
+    exit
 fi
 
 () {
-  local src
-  for src in $@; do
-    ([[ ! -e $src.zwc ]] || [ ${src:A} -nt $src ]) && zcompile $src
-  done
+    local src
+    for src in $@; do
+        ([[ ! -e $src.zwc ]] || [ ${src:A} -nt $src ]) && zcompile $src
+    done
 } ~/.zshrc ~/.zshenv
 
 if (which zprof > /dev/null 2>&1); then
-  zprof
+    zprof
 fi
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
@@ -42,13 +42,13 @@ zle -N down-line-or-beginning-search
 # -------
 
 source () {
-  [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
-  builtin source $@
+    [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
+    builtin source $@
 }
 
 . () {
-  [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
-  builtin . $@
+    [[ ! "$1.zwc" -nt $1 ]] || zcompile $1
+    builtin . $@
 }
 
 # [User]/[Repogitory] zone

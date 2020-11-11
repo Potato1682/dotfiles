@@ -9,13 +9,12 @@ export SHELL="zsh"
 if mount | grep -i 'drvfs' > /dev/null; then
     export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{print $2}');
     export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0;
-    [[ $USERNAME == "potato" ]] \
-        && export BROWSER="${USERPROFILE}/scoop/apps/googlechrome-canary/current/chrome.exe" \
-        || export BROWSER="/mnt/c/Program Files\ (x86)/Google/Chrome/Application/chrome.exe"
+    [[ $USERNAME == "potato1682" ]] \
+    && export BROWSER="${USERPROFILE}/scoop/apps/googlechrome-canary/current/chrome.exe" \
+    || export BROWSER="/mnt/c/Program Files\ (x86)/Google/Chrome/Application/chrome.exe"
 fi
 export HISTFILE=$HOME/.zsh-history
 export HISTSIZE=100000
 export SAVEHIST=1000000
 export PERL_CPANM_OPT="--local-lib=~/extlib"
 export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
-
