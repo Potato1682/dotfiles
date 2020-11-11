@@ -30,7 +30,7 @@
 	url = https://github.com/MenkeTechnologies/zsh-git-acp
 [submodule "plugins/zsh-more-completions"]
 	path = plugins/zsh-more-completions
-	url = https://github.com/MenkeTechnologies/zsh-more-completios
+	url = https://github.com/MenkeTechnologies/zsh-more-completions
 [submodule "plugins/zsh-very-colorful-manuals"]
 	path = plugins/zsh-very-colorful-manuals
 	url = https://github.com/MenkeTechnologies/zsh-very-colorful-manuals
