@@ -1,7 +1,8 @@
-# Potato1682 dotfiles
-**WARNING: This files only work in Arch Linux.**
+# Potato1682 dotfiles for Arch Linux
+
 ## Dependencies
-* pacman **with Arch Linux Repository**
-* curl
-* git or wget
-* base-devel (Needed by `makepkg`)
+
+-   pacman
+-   curl
+-   git or wget
+-   tar

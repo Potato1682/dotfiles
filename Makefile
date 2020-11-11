@@ -1,15 +1,7 @@
-#!/sbin/make
-#
-# © Potato1682.
-# Discord: Potato1682#9684
-# EMail: contact@potato1682.ml
-#
-
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 CANDIDATES := $(wildcard .??*) bin
 EXCLUSIONS := .DS_Store .git .gitmodules .gitignore
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
-PKGINSSRC  := jq reflector ripgrep sshfs python2-pip python-pip alder aria2-fast aptpac autoconf automake clang cmatrix ctags dirsearch the_silver_searcher exploitdb gist github-cli bottom gradle lostfiles pkgfile pkgtools repoctl repose vrms-arch powerpill less lostfiles lsd lynis w3m maven meson neofetch-git neovim-nightly neovim-drop-in ninja nmap noto-fonts noto-fonts-cjk openvpn pacman-contrib ranger repo ruby screenfetch sshguard tmux tnftp uncrustify wireshark-cli zsh prettyping
 
 .DEFAULT_GOAL := help
 
@@ -19,15 +11,7 @@ list: ## Show dot files in this repo
 	@$(foreach val, $(DOTFILES), /bin/ls -dF $(val);)
 
 install: ## Install all packages and Create symlink to home directory
-	@echo '© Potato1682.'
-	@read -p "Install GUI Packages? [y/N]: " ans; \
-    if [ "$$ans" = y ]; then  \
-    	  PKGINSSRC="ocs-url kaku-bin code discord firefox google-chrome hexchat mikutter pamac-aur wireshark grub-customizer linux-tools $PKGINSSRC"; \
-  	fi
-	@read -p "Install inverse icon theme and KDE Plasma? [y/N]: " ans; \
-	if [ "$$ans" = y ]; then  \
-          PKGINSSRC="inverse-icon-theme-git plasma-meta $PKGINSSRC"; \
-    fi
+	@echo '© 2020 Potato1682.'
 	@echo ''
 	@echo '==> Creating cache...'
 	@mkdir -pv ~/.cache/dotfiles
@@ -44,19 +28,16 @@ install: ## Install all packages and Create symlink to home directory
 	-@pikaur -Syyu --noconfirm
 	@echo ''
 	@echo '==> Installing packages...'
-	@pikaur -S --noconfirm --needed ${PKGINSSRC}
+	@pikaur -S --noconfirm --needed $(cat "~/.dotfiles/packages" | sed '/^#/d')
 	@gem install neovim
 	@echo ''
 	@echo '==> Deploying dotfiles to your home directory...'
-	@rm -rf $HOME/.config
+	@rm -rf ~/.config
 	@cd ~/.dotfiles && $(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 	@echo ''
-	@echo '==> Installing zinit...'
-	@cd ~ && sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
-	@echo ''
 	@echo '==> Deleting cache...'
-	@echo ''
 	@rm -rfv ~/.cache/dotfiles
+	@echo ''
 	@echo 'Installation finished successfly.'
 
 clean: ## Remove the dot files and this repo

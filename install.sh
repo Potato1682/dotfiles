@@ -2,7 +2,7 @@
 #
 # © Potato1682.
 # Discord: Potato1682#9684
-# EMail: contact@potato1682.ml
+# Email: contact@potato1682.ml
 #
 
 DOTPATH=~/.dotfiles
@@ -29,7 +29,6 @@ if type "git" > /dev/null 2>&1; then
     fi | tar zx
     
     mv -f dotfiles-master "$DOTPATH"
-    
 else
     echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}curl${RESET} or ${BOLD}wget${RESET} required"
     exit 1
@@ -40,5 +39,3 @@ cd ~/.dotfiles || echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}$DOTPATH not found${R
 make install || echo "${YELLOW}${BOLD}CLEAN${RESET}: ${BOLD}Deleting cache and errored directory...${RESET}" || rm -rf ~/.cache/dotfiles ~/.gnupg ~/.dotfiles
 
 source ~/.zshrc
-
-# End of file
