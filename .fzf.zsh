@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */home/potato1682/.fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/home/potato1682/.fzf/bin"
+    export PATH="${PATH:+${PATH}:}/home/potato1682/.fzf/bin"
 fi
 
 # Auto-completion

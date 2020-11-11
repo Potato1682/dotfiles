@@ -2,11 +2,6 @@
 # General
 # -------
 
-if [[ -z "$TMUX" ]]; then
-    tmux new-session -A -s main
-    exit
-fi
-
 () {
     local src
     for src in $@; do
@@ -14,8 +9,14 @@ fi
     done
 } ~/.zshrc ~/.zshenv
 
+if command -v tmux &> /dev/null && [[ -z "$TMUX" ]]; then
+    tmux new-session -A -s main
+    exit
+fi
+
 if (which zprof > /dev/null 2>&1); then
     zprof
+    export ZSH_256COLOR_DEBUG=1
 fi
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -51,47 +52,46 @@ source () {
     builtin . $@
 }
 
-# [User]/[Repogitory] zone
+loadplg () {
+    local extensions=(".plugin.zsh" ".zsh-theme")
+    for extension in $extensions; do
+        if [[ $# == 2 ]]; then
+            if [[ $2 == "pzt" ]]; then
+                [[ -f "~/.dotfiles/plugins/prezto/${1}/init.zsh" ]] && source "~/.dotfiles/plugins/prezto/${1}/init.zsh" || echo "${1}: ~/.dotfiles/plugins/prezto/${1}/init.zsh not found"
+            elif [[ $2 == "omz" ]]; then
+                [[ -f "~/.dotfiles/plugins/omz/${1}/${1}${extension}" ]] && source "~/.dotfiles/plugins/omz/${1}/${1}${extension}" || echo "${1}: ~/.dotfiles/plugins/omz/${1}/${1}${extension} not found"
+        fi
+        [[ -f "~/.dotfiles/plugins/${1}/${1}${extension}" ]] && source "~/.dotfiles/plugins/${1}/${1}${extension}" || echo "${1}: ~/.dotfiles/plugins/${1}/${1}${extension} not found"
+    done
+}
 
-source ~/.zinit/plugins/romkatv---powerlevel10k/powerlevel10k.zsh-theme
-source ~/.zinit/plugins/zdharma---fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zinit/plugins/zsh-users---zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-source ~/.zinit/plugins/chrissicool---zsh-256color/zsh-256color.plugin.zsh
-source ~/.zinit/plugins/voronkovich---gitignore.plugin.zsh/gitignore.plugin.zsh
-source ~/.zinit/plugins/hcgraf---zsh-sudo/sudo.plugin.zsh
-source ~/.zinit/plugins/le0me55i---zsh-systemd/systemd.plugin.zsh
-source ~/.zinit/plugins/jreese---zsh-titles/titles.plugin.zsh
-source ~/.zinit/plugins/RobertAudi---tsm/tsm.plugin.zsh
-source ~/.zinit/plugins/g-plane---zsh-yarn-autocompletions/yarn-autocompletions.plugin.zsh
-source ~/.zinit/plugins/zpm-zsh---autoenv/autoenv.plugin.zsh
-source ~/.zinit/plugins/hlissner---zsh-autopair/zsh-autopair.plugin.zsh
-source ~/.zinit/plugins/b4b4r07---emoji-cli/emoji-cli.plugin.zsh
-source ~/.zinit/plugins/zpm-zsh---colors/colors.plugin.zsh
-source ~/.zinit/plugins/zpm-zsh---figures/figures.plugin.zsh
+updateplg () {
+    cd ~/.dotfiles || echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}~/.dotfiles not found${RESET}"; exit 1
+    git submodule --init --remote --update
+}
 
-# Prezto modules zone
+# Repository zone
 
-source ~/.zinit/snippets/PZT::modules--helper/init.zsh
-source ~/.zinit/snippets/PZT::modules--pacman/init.zsh
-source ~/.zinit/snippets/PZT::modules--tmux/init.zsh
-source ~/.zinit/snippets/PZT::modules--gnu-utility/init.zsh
-source ~/.zinit/snippets/PZT::modules--environment/init.zsh
-source ~/.zinit/snippets/PZT::modules--gpg/init.zsh
-source ~/.zinit/snippets/PZT::modules--rsync/init.zsh
+loadplg alias-tips
+loadplg colorize
+loadplg enhancd
+loadplg fast-syntax-highlighting
+loadplg powerlevel10k
+loadplg zsh-autopair
+loadplg zsh-autosuggestions
+loadplg zsh-expand
+loadplg zsh-git-acp
+loadplg zsh-more-completions
+loadplg zsh-very-colorful-manuals
 
-# oh-my-zsh plugins zone
+# Prezto zone
 
-source ~/.zinit/snippets/OMZL::git.zsh/OMZL::git.zsh
-source ~/.zinit/snippets/OMZ::plugins--git/git.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--copyfile/copyfile.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--copydir/copydir.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--history/history.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--colorize/colorize.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--nmap/nmap.plugin.zsh
-source ~/.zinit/snippets/OMZ::plugins--vscode/vscode.plugin.zsh
+loadplg environment pzt
+loadplg gpg pzt
 
-# other
-source /etc/profile.d/cnf.sh
+# Other
+
+source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # -------
 # Options

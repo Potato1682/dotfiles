@@ -1,0 +1,136 @@
+# Base
+'base'
+'dash'
+'linux-firmware'
+'linux-headers'
+'kernel-modules-hook'
+'mkinitcpio-encrypt-detached-header'
+'logrotate'
+'man-db'
+'btrfs-progs'
+'bottom'
+'base-devel'
+'lsd'
+
+# Other arch
+'pacman-contrib'
+'devtools'
+'reflector'
+'lostfiles'
+'pkgfile'
+'pkgtools'
+'powerpill
+
+# Archiving
+'lbzip2'
+'pigz'
+'pixz'
+'p7zip'
+'unrar'
+'unzip'
+'zip'
+
+# Networking
+'iwd'
+'ufw'
+'bandwhich'
+'nmap'
+'openbsd-netcat'
+'bind-tools'
+'sipcalc'
+'wget'
+'rsync'
+'openssh'
+'curlie'
+'speedtest-cli'
+'wireguard-tools'
+'systemd-resolvconf'
+
+# Security
+'arch-audit'
+'overdue'
+'ccid'
+'pinentry'
+'gcr'
+'checksec'
+
+# AUR
+'aurpublish'
+'aurutils'
+'repoctl'
+'rebuild-detector'
+
+# Git
+'git'
+'diff-so-fancy'
+'meld'
+'tig'
+
+# Developing tools
+'neovim-nightly'
+'neovim-drop-in'
+'prettier'
+'dos2unix'
+'editorconfig-core-c'
+'direnv'
+'github-cli'
+'terraform'
+'jq'
+
+# C / C++ developing
+'clang'
+'ctags'
+'meson'
+'ninja'
+
+# Java developing
+'ant'
+'gradle'
+'maven'
+
+# Shell developing
+'bash-language-server'
+'checkbashisms'
+'shellcheck'
+'shfmt'
+
+# Python developing
+'python-language-server'
+'python-black'
+'python-pip'
+'python2-pip'
+'python-pylint'
+'yapf'
+'bpython'
+
+# Go developing
+'go'
+'go-tools'
+'gopls'
+
+# Rust developing
+'rust'
+
+# Ruby developing
+'ruby'
+
+# Terminal
+'zsh'
+'tmux'
+
+# Penetration testing
+'exploitdb'
+'metasploit'
+'termshark-git'
+
+# Miscellaneous
+'ripgrep'
+'alder'
+'aria2-fast'
+'neofetch-git'
+'screenfetch'
+'cowsay'
+'cmatrix'
+'the_silver_searcher'
+'prettyping'
+'grc'
