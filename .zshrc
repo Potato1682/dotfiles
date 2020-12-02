@@ -16,8 +16,17 @@ fi
 
 if (which zprof > /dev/null 2>&1); then
     zprof
-    export ZSH_256COLOR_DEBUG=1
 fi
+
+DIRSTACKFILE="$HOME/.cache/zsh/dirs"
+DIRSTACKSIZE=30
+if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+    dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+    [[ -d $dirstack[1] ]] && cd $dirstack[1]
+fi
+chpwd() {
+    print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+}
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
     source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -35,8 +44,29 @@ command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 autoload -Uz compinit && compinit
 autoload -Uz history-search-end cdr modify-current-argument smart-insert-last-word terminfo vcs_info zcalc zmv run-help-git run-help-svk run-help-svn
 autoload -U up-line-or-beginning-search down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
+
+# -------
+# ZStyles
+# -------
+
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+zstyle ':completion:*:messages' format '%F{YELLOW}%d'$DEFAULT
+zstyle ':completion:*:warnings' format '%F{RED}No matches for:''%F{YELLOW} %d'$DEFAULT
+zstyle ':completion:*:descriptions' format '%F{YELLOW}completing %B%d%b'$DEFAULT
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'$DEFAULT
+zstyle ':completion:*' list-separator '-->'
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 
 # -------
 # Plugins
@@ -53,15 +83,12 @@ source () {
 }
 
 loadplg () {
-    local extensions=(".plugin.zsh" ".zsh-theme")
+    local extensions=("plugin.zsh" "zsh-theme")
     for extension in $extensions; do
-        if [[ $# == 2 ]]; then
-            if [[ $2 == "pzt" ]]; then
-                [[ -f "~/.dotfiles/plugins/prezto/${1}/init.zsh" ]] && source "~/.dotfiles/plugins/prezto/${1}/init.zsh" || echo "${1}: ~/.dotfiles/plugins/prezto/${1}/init.zsh not found"
-            elif [[ $2 == "omz" ]]; then
-                [[ -f "~/.dotfiles/plugins/omz/${1}/${1}${extension}" ]] && source "~/.dotfiles/plugins/omz/${1}/${1}${extension}" || echo "${1}: ~/.dotfiles/plugins/omz/${1}/${1}${extension} not found"
+        if [[ "${2}x" != "x" ]]; then
+            cd "$HOME/.dotfiles/plugins"; source "prezto/$1/init.zsh" || echo "${1}: ~/.dotfiles/plugins/prezto/$1/init.zsh not found"
         fi
-        [[ -f "~/.dotfiles/plugins/${1}/${1}${extension}" ]] && source "~/.dotfiles/plugins/${1}/${1}${extension}" || echo "${1}: ~/.dotfiles/plugins/${1}/${1}${extension} not found"
+        cd "$HOME/.dotfiles/plugins"; source "$1/$1.$extension" 2&>1 /dev/null
     done
 }
 
@@ -74,12 +101,10 @@ updateplg () {
 
 loadplg alias-tips
 loadplg colorize
-loadplg enhancd
 loadplg fast-syntax-highlighting
 loadplg powerlevel10k
 loadplg zsh-autopair
 loadplg zsh-autosuggestions
-loadplg zsh-expand
 loadplg zsh-git-acp
 loadplg zsh-more-completions
 loadplg zsh-very-colorful-manuals
@@ -94,6 +119,13 @@ loadplg gpg pzt
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # -------
+# ZLE
+# -------
+
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+# -------
 # Options
 # -------
 
@@ -104,6 +136,9 @@ setopt nohistbeep
 setopt magicequalsubst
 setopt autopushd
 setopt pushdignoredups
+setopt pushdminus
+setopt pushdsilent
+setopt pushdtohome
 setopt autolist
 setopt automenu
 setopt sharehistory
@@ -141,6 +176,8 @@ setopt appendhistory
 setopt incappendhistory
 setopt histexpiredupsfirst
 setopt markdirs
+setopt completealiases
+setopt promptsubst
 
 # --------
 # Bindkeys
@@ -150,29 +187,6 @@ bindkey "^I" menu-complete
 
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
-
-# -------
-# ZStyles
-# -------
-
-zstyle ':completion:*:default' menu select=2
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
-zstyle ':completion:*:messages' format '%F{YELLOW}%d'$DEFAULT
-zstyle ':completion:*:warnings' format '%F{RED}No matches for:''%F{YELLOW} %d'$DEFAULT
-zstyle ':completion:*:descriptions' format '%F{YELLOW}completing %B%d%b'$DEFAULT
-zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'$DEFAULT
-zstyle ':completion:*' list-separator '-->'
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-zstyle ':completion:*' use-cache true
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([%0-9]#)*=0=01;31'
 
 # -------
 # Aliases
@@ -216,11 +230,11 @@ alias cp="rsync -Pr"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top='btm'
-alias pu='pikaur -Syu'
-alias pi='pikaur -S --needed'
-alias pio='pikaur -S --needed $(comm -23 <(expac -l"\n" "%o" | sort -u) <(expac -l"\n" "%n\n%S" | sort -u) | tr "\n" " " | sed -e "s/linux/ /" | sed -e "s/python2-grequests/ /")'
-alias pr='pikaur -Rsnc'
-alias pacman='pikaur'
+alias pu='pikaur -Syu --noconfirm'
+alias pi='pikaur -S --needed --noconfirm'
+alias pio='pikaur -S --needed --noconfirm $(comm -23 <(expac -l"\n" "%o" | sort -u) <(expac -l"\n" "%n\n%S" | sort -u) | tr "\n" " " | sed -e "s/linux/ /" | sed -e "s/python2-grequests/ /" | sed -e "s/python2-neovim/ /" | sed -e "s/xxd/ /" | sed -e "s/gem2arch/ /")'
+alias pr='pikaur -Rsnc --noconfirm'
+alias pacman='pikaur --noconfirm'
 alias weather='curl "wttr.in/Osaka?lang=ja&MFq"'
 alias cweather='curl "wttr.in/Osaka?lang=ja&MFq0"'
 alias make="colormake"

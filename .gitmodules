@@ -7,9 +7,6 @@
 [submodule "plugins/colorize"]
 	path = plugins/colorize
 	url = https://github.com/zpm-zsh/colorize
-[submodule "plugins/enhancd"]
-	path = plugins/enhancd
-	url = https://github.com/b4b4r07/enhancd
 [submodule "plugins/fast-syntax-highlighting"]
 	path = plugins/fast-syntax-highlighting
 	url = https://github.com/zdharma/fast-syntax-highlighting
@@ -22,9 +19,6 @@
 [submodule "plugins/zsh-autosuggestions"]
 	path = plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
-[submodule "plugins/zsh-expand"]
-	path = plugins/zsh-expand
-	url = https://github.com/MenkeTechnologies/zsh-expand
 [submodule "plugins/zsh-git-acp"]
 	path = plugins/zsh-git-acp
 	url = https://github.com/MenkeTechnologies/zsh-git-acp

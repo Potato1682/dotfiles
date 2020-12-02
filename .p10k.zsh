@@ -1011,7 +1011,7 @@
 
 
   typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
-  typeset -g POWERLEVEL9K_INSTANT_PROMPT=verbose
+  typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
   typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
 
