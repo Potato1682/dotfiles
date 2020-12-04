@@ -1,0 +1,28 @@
+{
+  "emmet.showAbbreviationSuggestions": true,
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "emmet.optimizeStylesheetParsing": true,
+  "eslint.packageManager": "npm",
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": [
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
+  ],
+  "explorer.icon.enableNerdfont": true,
+  "explorer.icon.enableVimDevicons": true,
+  "explorer.file.showHiddenFiles": true,
+  "explorer.keyMappings.global": {
+    "<cr>": [
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ]
+  },
+  "typescript.format.enabled": true
+}
