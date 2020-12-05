@@ -18,6 +18,11 @@ if (which zprof > /dev/null 2>&1); then
     zprof
 fi
 
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+PWDDIR=$(pwd)
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 DIRSTACKSIZE=30
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -27,10 +32,6 @@ fi
 chpwd() {
     print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
 }
-
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -86,25 +87,27 @@ loadplg () {
     local extensions=("plugin.zsh" "zsh-theme")
     for extension in $extensions; do
         if [[ "${2}x" != "x" ]]; then
-            cd "$HOME/.dotfiles/plugins"; source "prezto/$1/init.zsh" || echo "${1}: ~/.dotfiles/plugins/prezto/$1/init.zsh not found"
-        fi
-        cd "$HOME/.dotfiles/plugins"; source "$1/$1.$extension" 2&>1 /dev/null
+            source "$HOME/.dotfiles/plugins/prezto/$1/init.zsh" || echo "${1}: ~/.dotfiles/plugins/prezto/$1/init.zsh not found"
+	fi
+        source "$HOME/.dotfiles/plugins/$1/$1.$extension" 2&>1 /dev/null
     done
 }
 
 updateplg () {
+    NOWDIR=$(pwd)
     cd ~/.dotfiles || echo "${RED}${BOLD}ERROR${RESET}: ${BOLD}~/.dotfiles not found${RESET}"; exit 1
     git submodule --init --remote --update
+    cd $NOWDIR
 }
 
 # Repository zone
 
 loadplg alias-tips
 loadplg colorize
-loadplg fast-syntax-highlighting
 loadplg powerlevel10k
 loadplg zsh-autopair
 loadplg zsh-autosuggestions
+loadplg zsh-syntax-highlighting
 loadplg zsh-git-acp
 loadplg zsh-more-completions
 loadplg zsh-very-colorful-manuals
@@ -112,7 +115,6 @@ loadplg zsh-very-colorful-manuals
 # Prezto zone
 
 loadplg environment pzt
-loadplg gpg pzt
 
 # Other
 
@@ -246,3 +248,7 @@ alias ....'cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
+
+rm 1
+cd $PWDDIR
+

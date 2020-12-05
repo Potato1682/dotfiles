@@ -2,3 +2,4 @@ OME
 .zinit/
 plugged/
 1
+.config/nvim/providers/python*
