@@ -35,7 +35,7 @@ chpwd() {
 
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.fnm/fnm ] && eval $(fnm env)
+eval $(fnm env)
 command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 
 # --------
@@ -104,10 +104,10 @@ updateplg () {
 
 loadplg alias-tips
 loadplg colorize
+loadplg fast-syntax-highlighting
 loadplg powerlevel10k
 loadplg zsh-autopair
 loadplg zsh-autosuggestions
-loadplg zsh-syntax-highlighting
 loadplg zsh-git-acp
 loadplg zsh-more-completions
 loadplg zsh-very-colorful-manuals
@@ -226,15 +226,15 @@ alias mux="tmuxinator"
 alias fd="find . -type d -name"
 alias ff="find . -type f -name"
 alias mkdir="mkdir -pv"
-alias mv="mv -v"
+alias mv="rsync -a --progress --remove-source-files"
 alias rmdir="rm -rf"
-alias cp="rsync -Pr"
+alias cp="rsync -a --progress"
 alias ln="ln -sv"
 alias p="ps -f"
 alias top='btm'
 alias pu='pikaur -Syu --noconfirm'
 alias pi='pikaur -S --needed --noconfirm'
-alias pio='pikaur -S --needed --noconfirm $(comm -23 <(expac -l"\n" "%o" | sort -u) <(expac -l"\n" "%n\n%S" | sort -u) | tr "\n" " " | sed -e "s/linux/ /" | sed -e "s/python2-grequests/ /" | sed -e "s/python2-neovim/ /" | sed -e "s/xxd/ /" | sed -e "s/gem2arch/ /")'
+alias pio='pikaur -S --needed --noconfirm $(comm -23 <(expac -l"\n" "%o" | sort -u) <(expac -l"\n" "%n\n%S" | sort -u) | tr "\n" " " | perl -pe "s/(python2-grequests|python2?-neovim|xxd|gem2arch)/ /g")'
 alias pr='pikaur -Rsnc --noconfirm'
 alias pacman='pikaur --noconfirm'
 alias weather='curl "wttr.in/Osaka?lang=ja&MFq"'
@@ -252,3 +252,4 @@ alias .......='cd ../../../../../..'
 rm 1
 cd $PWDDIR
 
+[ -f ~/.fzf.colors ] && source ~/.fzf.colors

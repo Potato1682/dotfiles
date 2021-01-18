@@ -28,6 +28,3 @@
 [submodule "plugins/zsh-very-colorful-manuals"]
 	path = plugins/zsh-very-colorful-manuals
 	url = https://github.com/MenkeTechnologies/zsh-very-colorful-manuals
-[submodule "plugins/zsh-syntax-highlighting"]
-	path = plugins/zsh-syntax-highlighting
-	url = Github:zsh-users/zsh-syntax-highlighting

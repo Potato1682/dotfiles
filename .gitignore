@@ -3,3 +3,7 @@ OME
 plugged/
 1
 .config/nvim/providers/python*
+undo/
+.gnupg/
+!.gnupg/gpg.conf
+!.gnupg/gpg-agent.conf

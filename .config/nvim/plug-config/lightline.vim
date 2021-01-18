@@ -1,6 +1,6 @@
 " ~/.config/nvim/plug-config/lightline.vim
 "
-" ©Potato1682.
+" © Potato1682.
 " Discord: Potato1682#9684
 " Email: contact@potato1682.ml
 "

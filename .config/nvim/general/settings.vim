@@ -23,7 +23,6 @@ if has("termguicolors")
   set t_Co=256                     " Support 256 colors
   set termguicolors                " Support 256 colors
 endif
-set conceallevel=0                 " Do not concealation in json, markdown, and other filtypes
 set tabstop=4                      " Insert 4 spaces for a tab in default
 set softtabstop=4                  " Insert 4 spaces for a tab in default 
 set shiftwidth=4                   " Change the number of space characters instead for indentation

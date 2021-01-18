@@ -1,4 +1,9 @@
 {
+  "coc.preferences.formatOnType": true,
+  "suggest.floatEnable": true,
+  "suggest.enablePreview": true,
+  "suggest.enablePreselect": true,
+  "codeLens.enable": true,
   "emmet.showAbbreviationSuggestions": true,
   "emmet.includeLanguages": {
     "vue-html": "html",
@@ -9,20 +14,36 @@
   "eslint.packageManager": "npm",
   "eslint.autoFixOnSave": true,
   "eslint.filetypes": [
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact"
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
   ],
   "explorer.icon.enableNerdfont": true,
-  "explorer.icon.enableVimDevicons": true,
   "explorer.file.showHiddenFiles": true,
+  "explorer.previewAction.onHover": "labeling",
+  "explorer.file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
+  "explorer.buffer.root.template": "[icon & 1] OPEN EDITORS",
+  "explorer.file.root.template": "[icon & 1] PROJECT ([root])",
   "explorer.keyMappings.global": {
     "<cr>": [
       "expandable?",
-      ["expanded?", "collapse", "expand"],
+      [
+        "expanded?",
+        "collapse",
+        "expand"
+      ],
       "open"
     ]
   },
-  "typescript.format.enabled": true
+  "java.completion.importOrder": [
+    "java",
+    "javax",
+    "com",
+    "org"
+  ],
+  "java.format.enabled": true,
+  "java.import.maven.enabled": true,
+  "typescript.format.enabled": true,
+  "coc.preferences.extensionUpdateCheck": "daily"
 }

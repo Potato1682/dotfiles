@@ -19,7 +19,7 @@
 'lostfiles'
 'pkgfile'
 'pkgtools'
-'powerpill
+'powerpill'
 
 # Archiving
 'lbzip2'
@@ -67,7 +67,7 @@
 'tig'
 
 # Developing tools
-'neovim-nightly'
+'neovim-nightly-git'
 'neovim-drop-in'
 'prettier'
 'dos2unix'
@@ -97,9 +97,7 @@
 # Python developing
 'python-language-server'
 'python-black'
-'python-pip'
-'python2-pip'
-'python-pylint'
+'python-pipenv'
 'yapf'
 'bpython'
 
