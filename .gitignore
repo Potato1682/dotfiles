@@ -1,9 +1,9 @@
 OME
 .zinit/
 plugged/
-1
 .config/nvim/providers/python*
 undo/
 .gnupg/
+pack/
 !.gnupg/gpg.conf
 !.gnupg/gpg-agent.conf
