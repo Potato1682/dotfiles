@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+if ! pactl stat &> /dev/null; then
+    echo " "
+
+    exit
+fi
+
+bar="━"
+bar_right="╸"
+bar_left="╺"
+result=""
+volume=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+
+volume=$(printf "%4d\n" $volume)
+
+muted=$(pactl list sinks | awk '/Mute:/ { print $2 }')
+
+if pactl list cards | grep 'device.bus = "bluetooth"' &> /dev/null; then
+    result="#[fg=#61afef,bold]` ( [[ volume = 0 ]] || [[ muted == 'yes' ]] ) && echo "" || echo "" ` #[default]"
+else
+    result="#[fg=#c678dd,bold]` ( [[ volume = 0 ]] || [[ muted = 'yes' ]] ) && echo "婢" || echo "墳"`#[default]"
+fi
+
+volume_halves=$(( 20 * 2 * volume / 100 ))
+bar_count=$(printf '%d' $(( volume_halves / 2 )))
+half_bar_count=$(( volume_halves % 2 ))
+
+other_bar_count=$half_bar_count
+
+if (( volume == 100 )); then
+    other_bar_count=1
+fi
+
+volume_bar="#[fg=`(( $volume > 100 )) && echo '#e06c75' || echo '#98c379'`]"
+
+for i in $(seq $(( bar_count - other_bar_count ))); do
+    volume_bar="$volume_bar$bar"
+done
+
+if (( volume == 100 )); then
+    volume_bar="$volume_bar$bar_right"
+fi
+
+volume_half_bar=""
+
+for i in $(seq $half_bar_count); do
+    volume_half_bar="$volume_half_bar$bar_right"
+done
+
+remaining_bars=$(( 20 - bar_count - half_bar_count ))
+
+volume_remaining_bar=""
+
+if (( half_bar_count == 1 )); then
+    volume_remaining_bar=$bar_left
+fi
+
+other_remaining_count=0
+
+if (( volume == 0 )); then
+    other_remaining_count=1
+fi
+
+full_bar=""
+
+for i in $(seq $(( remaining_bars - other_remaining_count ))); do
+    full_bar="$full_bar$bar"
+done
+
+volume_remaining_bar="$volume_remaining_bar$full_bar"
+
+if (( volume == 0 )); then
+    volume_remaining_bar="$volume_remaining_bar$bar_right"
+fi
+
+bar="$volume_bar$volume_half_bar#[fg=colour240]$volume_remaining_bar"
+
+if (( volume > 100 )); then
+    volume="#[fg=#e06c75]$volume"
+else
+    volume="#[fg=colour$(( volume / 5 + 235 ))]$volume"
+fi
+
+result="$(separator-segment --reverse)  $result $bar$volume"
+
+echo $result
+

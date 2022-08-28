@@ -1,0 +1,61 @@
+# Code from https://github.com/tjin/udev.tmLanguage
+
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: udev rules
+file_extensions:
+  - rules
+scope: source.udev
+contexts:
+  main:
+    - match: "#.*$"
+      comment: "Comments | anything after a #"
+      scope: comment.line.udev
+    - match: ACTION|ATTRS?|DEVPATH|DRIVERS?|ENV|GROUP|IMPORT|KERNELS?|MODE|NAME|OPTIONS|OWNER|PROGRAM|RESULT|RUN|SUBSYSTEMS?|SYMLINK|TEST
+      comment: match keys
+      scope: support.variable.tag.udev
+    - match: "[A-Z]+"
+      comment: key
+      scope: variable.keyword.udev
+    - match: '\{[a-zA-Z0-9-_]+\}'
+      comment: property
+      scope: variable.parameter.udev
+    - match: \"
+      comment: value
+      captures:
+        0: punctuation.definition.string.begin.udev
+      push:
+        - meta_scope: string.quoted.double.udev
+        - match: \"
+          captures:
+            0: punctuation.definition.string.begin.udev
+          pop: true
+        - match: '(\$attr|\$env)\{([a-zA-Z-_]+)\}'
+          comment: string substitutions
+          scope: variable.language.udev
+          captures:
+            1: variable.language.udev
+            2: variable.parameter.udev
+        - match: \$(devpath|kernel|major|minor|name)
+          comment: string substitutions
+          scope: variable.language.udev
+    - match: \=\=
+      comment: match
+      scope: keyword.operator.udev
+    - match: \!\=
+      comment: negative match
+      scope: keyword.operator.udev
+    - match: \+\=
+      comment: append
+      scope: keyword.operator.udev
+    - match: \=
+      comment: assign
+      scope: keyword.operator.udev
+    - match: \:\=
+      comment: assign unchangeble value
+      scope: keyword.operator.udev
+    - match: \,
+      comment: comma
+      scope: keyword.operator.udev
+

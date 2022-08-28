@@ -1,0 +1,2 @@
+cd base && stow -t ~ *
+

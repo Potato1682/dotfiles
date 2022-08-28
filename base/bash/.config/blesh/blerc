@@ -1,0 +1,25 @@
+bleopt exec_errexit_mark=
+bleopt exec_elapsed_mark=
+
+bleopt edit_abell=
+
+bleopt prompt_ps1_transient=same-dir
+bleopt prompt_ps1_final='\[\e[0;32m\]❯\[\e[0m\] '
+bleopt prompt_rps1_transient=
+bleopt prompt_status_line=
+
+bleopt history_share=on
+
+ble-sabbrev UUID='$(uuidgen | tr -d \n)'
+ble-sabbrev C="| bat"
+ble-sabbrev G="| rg --hidden --follow --smart-case 2>/dev/null"
+ble-sabbrev H="| head"
+ble-sabbrev HC="| head | bat"
+ble-sabbrev X="| xargs"
+
+function my/vim-load-custom {
+  bleopt keymap_vi_mode_show=
+}
+
+blehook/eval-after-load keymap_vi my/vim-load-custom
+

@@ -1,0 +1,63 @@
+#!/usr/bin/zsh
+
+# osu!lazer fixes
+export SDL_VIDEODRIVER=wayland
+
+systemctl --user --import-environment
+
+# Initialize log dir
+WAYFIRE_LOG_DIR="$XDG_CACHE_HOME/wayfire"
+mkdir -p "$WAYFIRE_LOG_DIR"
+
+# Dynamic display configuration manager
+kanshi >"$WAYFIRE_LOG_DIR/kanshi.log" 2>&1 &
+
+# Polkit
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# Notifications
+killall swaync
+swaync >"$WAYFIRE_LOG_DIR/notification.log" 2>&1 &
+
+# Networkd notify
+[[ "$(systemctl is-active systemd-networkd)" != "inactive" ]] && command -v networkd-notify &>/dev/null && networkd-notify >"$WAYFIRE_LOG_DIR/network-notify.log" 2>&1 &
+[[ "$(systemctl is-active NetworkManager)" != "inactive" ]] && 
+
+# Udiskie
+udiskie --appindicator >"$WAYFIRE_LOG_DIR/udiskie.log" 2>&1 &
+
+# Check disk usage
+check-disk-usage >"$WAYFIRE_LOG_DIR/check-disk-usage.log" 2>&1 &
+
+# Panel
+vala-panel >"$WAYFIRE_LOG_DIR/panel.log" &
+
+# Dock
+#wf-dock >"$WAYFIRE_LOG_DIR/dock.log" &
+
+# Wallpaper
+~/.azotebg
+
+# ulauncher server
+ulauncher --hide-window >"$WAYFIRE_LOG_DIR/ulauncher.log" 2>&1 &
+
+# Thunar
+thunar --daemon >"$WAYFIRE_LOG_DIR/thunar.log" 2>&1 &
+
+# Dex
+dex -as /etc/xdg/autostart:"$XDG_CONFIG_HOME/autostart" >"$WAYFIRE_LOG_DIR/autostart.log" 2>&1 &
+
+# Lock before suspend
+swayidle -w before-sleep 'sleep 0.5 && swaylock --screenshots --clock --indicator-radius=200 --indicator --indicator-thickness=4 --effect-blur=7x5 --effect-vignette=0.5:0.5 --inside-color=00000088 --separator-color=00000000 --fade-in=0.2' &
+swayidle -w lock 'swaylock --screenshots --clock --indicator-radius=200 --indicator --indicator-thickness=4 --effect-blur=7x5 --effect-vignette=0.5:0.5 --inside-color=00000088 --separator-color=00000000 --fade-in=0.2' &
+swayidle -w after-resume 'canberra-gtk-play -i suspend-resume' &
+
+# Redshift
+killall redshift 2>/dev/null
+killall redshift-gtk 2>/dev/null
+redshift-gtk >"$WAYFIRE_LOG_DIR/redshift.log" 2>&1 &
+
+# Dbus
+dbus-update-activation-environment --systemd XAUTHORITY DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway GTK_IM_MODULE QT_IM_MODULE XMODIFIERS
+systemd-notify --ready
+

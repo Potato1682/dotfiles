@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+vmstat 1 2 | tail -1 | awk "{ USAGE=100-\$15; if (USAGE < 20) { printf \"#[fg=green,bright]\"; } else if (USAGE < 80) { printf \"#[fg=yellow,bright]\"; } else { printf \"#[bg=red,fg=white,bright]\"; }; print \" \" USAGE \"% \" }"
+

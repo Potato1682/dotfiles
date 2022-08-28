@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+separator=$([[ $1 == "--reverse" ]] && echo "" || echo "")
+
+echo "#[fg=#70757d,bg=#282c34]${separator}#[default]"
+

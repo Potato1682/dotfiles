@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+name=""
+symbol=""
+
+temp=$(ip route get 8.8.8.8 || echo "none")
+
+if [[ $temp == "none" ]]; then
+    name="Not connected"
+    symbol=" "
+elif (echo $temp | grep -Po 'dev \K\w+' | grep -qFf - /proc/net/wireless); then
+    name=$(nmcli -t -f active,ssid dev wifi | egrep '^yes' | cut -d\' -f2)
+    symbol="直"
+else
+    name="Ethernet"
+    symbol=" "
+fi
+
+echo "$(separator-segment --reverse)  #[fg=colour75]$symbol#[fg=colour15]$name"
+

@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+
+mkdir -p "$XDG_DATA_HOME/maven"
+
+HOME="$XDG_DATA_HOME/maven" /usr/bin/mvn -Dmaven.repo.local="$XDG_DATA_HOME/maven/repository" "$@"
+

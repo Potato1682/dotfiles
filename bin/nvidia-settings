@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+command nvidia-settings --config=${XDG_CONFIG_HOME:-$HOME/.config}/nvidia/settings
+

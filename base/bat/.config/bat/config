@@ -1,0 +1,8 @@
+--style=numbers,changes
+--theme=OneHalfDark
+--pager="less -FR"
+--italic-text="always"
+
+--map-syntax="/etc/nftables.conf:Nftables"
+--map-syntax="*.props:Java Properties"
+

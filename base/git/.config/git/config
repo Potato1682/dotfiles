@@ -1,0 +1,54 @@
+[include]
+  path = conf.d/alias.conf
+  path = conf.d/user.conf
+  path = conf.d/color.conf
+  path = conf.d/interactive.conf
+  path = conf.d/diff.conf
+  path = conf.d/sign.conf
+  path = conf.d/stash.conf
+  path = conf.d/fetch-pull.conf
+  path = conf.d/merge-rebase-squash.conf
+  path = conf.d/speedup.conf
+  path = conf.d/delta.conf
+  path = conf.d/lfs.conf
+
+[core]
+  autocrlf = false
+  safecrlf = true
+  ignorecase = false
+  quotepath = false
+  untrackedCache = true
+  editor = "nvim"
+
+[grep]
+  lineNumber = true
+  extendedRegexp = true
+
+[help]
+  autoCorrect = 10
+
+[http]
+  sslVerify = true
+
+[init]
+  defaultBranch = "main"
+
+[maintenance]
+  strategy = "incremental"
+
+[push]
+  default = "current"
+
+[receive]
+  autogc = true
+  updateServerInfo = true
+
+[status]
+  short = true
+  branch = true
+
+[submodule]
+  recurse = true
+
+# vim: et ts=2 sw=2
+

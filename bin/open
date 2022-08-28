@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+if [[ $(uname) == "Linux" ]]; then
+    xdg-open "$@"
+else
+    command open "$@"
+fi
+

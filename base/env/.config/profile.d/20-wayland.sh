@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+
+export OBSIDIAN_USE_WAYLAND=1
+export MOZ_ENABLE_WAYLAND=1
+export MOZ_DBUS_REMOTE=1
+
+export WLR_NO_HARDWARE_CURSORS=1
+

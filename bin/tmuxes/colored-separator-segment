@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+symbol=$([[ $2 == "--reverse" ]] && echo "" || echo "")
+
+echo "#[fg=$1,bg=#282c34]$symbol#[default]"
+
