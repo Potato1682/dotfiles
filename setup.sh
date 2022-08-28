@@ -1,6 +1,8 @@
-if ! command -v stow >/dev/null; then
-  PERL_MM_USE_DEFAULT=1 cpan -T Stow && source ~/.bashrc
-fi
+if [[ "$CODESPACES" ==  true ]]; then
+  if ! command -v stow >/dev/null; then
+    PERL_MM_USE_DEFAULT=1 cpan -T Stow && source ~/.bashrc
+  fi
 
-rm ~/.bashrc ~/.zshrc && ~/.bcd base && stow -t ~ *
+  rm -f ~/.bashrc ~/.zshrc && cd base && stow -t ~ *
+fi
 
