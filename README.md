@@ -1,8 +1,7 @@
-# Potato1682 dotfiles for Arch Linux
+# Potato1682 dotfiles
 
 ## Dependencies
 
--   pacman
 -   curl
 -   git or wget
--   tar
+
