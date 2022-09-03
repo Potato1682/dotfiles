@@ -189,16 +189,28 @@ zinit wait=0a lucid for \
 zinit wait=0b lucid for \
   OMZL::termsupport.zsh \
   as="completion" \
-    OMZP::ipfs/_ipfs
+    OMZP::ipfs/_ipfs \
   as="completion" \
     OMZP::rust/_rustc
 
 zinit wait=0e lucid nocompile nocompletions for \
   MenkeTechnologies/zsh-more-completions
 
-zinit wait=0f lucid from="gh-r" as="command" for \
-  eval="./zoxide init zsh" \
-    ajeetdsouza/zoxide
+if (( $+commands[zoxide] )) {
+  zinit wait=2a lucid for \
+    id-as="zoxide" eval="zoxide init zsh" \
+      zdharma-continuum/null
+} else {
+  if [[ "$OSTYPE" == "linux-android" ]] {
+    zinit wait=0f lucid from="gh-r" as="command" for \
+      bpick="zoxide-*-aarch64-unknown-linux-musl.tar.gz" eval="./zoxide init zsh" \
+        ajeetdsouza/zoxide
+  } else {
+    zinit wait=0f lucid from="gh-r" as="command" for \
+      eval="./zoxide init zsh" \
+        ajeetdsouza/zoxide
+  }
+}
 
 zinit wait=1a lucid for \
   hlissner/zsh-autopair \
@@ -216,9 +228,21 @@ zinit wait=1a lucid for \
     MenkeTechnologies/zsh-expand \
   MenkeTechnologies/zsh-git-acp
 
-zinit wait=2a lucid from="gh-r" as="program" for \
-  mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
-    direnv/direnv
+if (( $+commands[direnv] )) {
+  zinit wait=2a lucid for \
+    id-as="direnv" eval="direnv hook zsh" \
+      zdharma-continuum/null
+} else {
+  if [[ "$OSTYPE" == "linux-android" ]] {
+    zinit wait=2a lucid from="gh-r" as="command" for \
+      mv="direnv.linux-arm64 -> direnv" eval="./direnv hook zsh" pick="direnv" \
+        direnv/direnv
+  } else {
+    zinit wait=2a lucid from="gh-r" as="command" for \
+      mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
+        direnv/direnv
+  }
+}
 
 zinit wait=2b lucid for \
   OMZL::clipboard.zsh \
