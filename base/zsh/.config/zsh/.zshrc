@@ -235,7 +235,7 @@ if (( $+commands[direnv] )) {
 } else {
   if [[ "$OSTYPE" == "linux-android" ]] {
     zinit wait=2a lucid from="gh-r" as="command" for \
-      mv="direnv.linux-arm64 -> direnv" eval="./direnv hook zsh" pick="direnv" \
+      bpick="direnv.linux-arm64" mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
         direnv/direnv
   } else {
     zinit wait=2a lucid from="gh-r" as="command" for \

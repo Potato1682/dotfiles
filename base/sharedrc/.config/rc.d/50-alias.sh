@@ -6,6 +6,7 @@ alias rmdir="rmdir -v"
 alias ln="ln -v"
 
 alias gco="git checkout"
+alias gdf="git diff"
 alias gl="git pull"
 alias gp="git push"
 alias gac="git add . && git commit"
