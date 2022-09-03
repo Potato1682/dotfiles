@@ -1,4 +1,4 @@
-# if the shell is not a interactive session, do nothing
+# If the shell is not a interactive session, do nothing
 [[ $- != *i* ]] && return
 
 if [[ ! -d "$XDG_DATA_HOME/bash" ]]; then
@@ -8,6 +8,14 @@ fi
 if [[ ! -f "$XDG_DATA_HOME/bash/lscolors.sh" ]]; then
   curl -fsSL -o "$XDG_DATA_HOME/bash" https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/lscolors.sh >/dev/null 2>&1
 fi
+
+# Set where history saved in
+HISTFILE="$XDG_STATE_HOME/bash/history"
+
+mkdir -p "$(dirname "$HISTFILE")"
+
+# Set history size saved in the file
+HISTFILESIZE=100000
 
 # ble.sh bootstrap
 if [[ ! -f "$XDG_DATA_HOME/blesh/ble.sh" ]]; then

@@ -68,8 +68,31 @@ unsetopt chase_links
 unsetopt flow_control
 unsetopt list_beep
 
-# Set history exclusion.
+# Directory hashes
+hash -d dl="$XDG_DOWNLOAD_DIR"
+hash -d proj="$HOME/Projects"
+hash -d dotfiles="$HOME/.dotfiles"
+hash -d src="$HOME/Sources"
+hash -d run="/run/user/$(id -u)"
+hash -d conf="$XDG_CONFIG_HOME"
+hash -d cache="$XDG_CACHE_HOME"
+hash -d data="$XDG_DATA_HOME"
+hash -d state="$XDG_STATE_HOME"
+hash -d media="/run/media/$(id -nu)"
+
+# Set history exclusion
 HISTORY_IGNORE="(cd *|z *|exit *|fzf*|ps *|bpytop|top|htop|glances|ls*|la*|ll*|l|l *|exa*|exity)"
+
+# Set where history saved in
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+
+mkdir -p "$(dirname "$HISTFILE")"
+
+# Set history size saved in RAM
+HISTSIZE=10000
+
+# Set history size saved in the file
+SAVEHIST=100000
 
 #
 # Plugin manager
@@ -126,6 +149,11 @@ zinit reset \
 zinit atinit="zstyle ':zim:input' double-dot-expand yes" for \
   zimfw/input
 
+zinit for OMZP::last-working-dir
+
+zinit wait lucid for \
+  zsh-users/zsh-history-substring-search
+
 zinit wait lucid null for \
   id-as="zshrc-lazy" atinit='source "$ZDOTDIR/.zshrc.lazy"' \
     zdharma-continuum/null
@@ -144,6 +172,10 @@ zinit wait=0a lucid for \
       compdef sc="systemctl"
       compdef scu="systemctl"
     }
+
+    if (( $+commands[mosh] )) {
+      compdef mosh="ssh"
+    }
   ' \
     zdharma-continuum/fast-syntax-highlighting \
   blockf atpull="zinit creinstall -q ." \
@@ -154,6 +186,13 @@ zinit wait=0a lucid for \
   atload="!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
+zinit wait=0b lucid for \
+  OMZL::termsupport.zsh \
+  as="completion" \
+    OMZP::ipfs/_ipfs
+  as="completion"
+    OMZP::rust/_rustc
+
 zinit wait=0e lucid nocompile nocompletions for \
   MenkeTechnologies/zsh-more-completions
 
@@ -162,10 +201,9 @@ zinit wait=0f lucid from="gh-r" as="command" for \
     ajeetdsouza/zoxide
 
 zinit wait=1a lucid for \
-  hlissner/zsh-autopair
-
-zinit wait=1a lucid for \
+  hlissner/zsh-autopair \
   atinit="
+    export ZPWR_EXPAND_BLACKLIST=(cat diff g grep ls ll cp mv mkdir ln ebuild man mysql sudo su w3m)
     export ZPWR_EXPAND=true
     export ZPWR_EXPAND_SECOND_POSITION=true
     export ZPWR_EXPAND_NATIVE=false
@@ -175,7 +213,8 @@ zinit wait=1a lucid for \
     export ZPWR_EXPAND_QUOTE_SINGLE=false
     export ZPWR_EXPAND_TO_HISTORY=false
   " \
-    MenkeTechnologies/zsh-expand
+    MenkeTechnologies/zsh-expand \
+  MenkeTechnologies/zsh-git-acp
 
 zinit wait=2a lucid from="gh-r" as="program" for \
   mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
@@ -183,5 +222,17 @@ zinit wait=2a lucid from="gh-r" as="program" for \
 
 zinit wait=2b lucid for \
   OMZL::clipboard.zsh \
-  OMZP::command-not-found
+  OMZP::command-not-found \
+  OMZP::extract \
+  OMZP::git-lfs \
+  OMZP::isodate \
+  OMZP::safe-paste
+
+zinit wait=2c lucid for \
+  id-as="brew-shellenv" has="brew" \
+  eval="brew shellenv" run-atpull \
+    zdharma-continuum/null \
+  id-as="poetry-completion" has="poetry" nocompile \
+  atclone="poetry completions zsh > _poetry" atpull="%atclone" \
+    zdharma-continuum/null
 

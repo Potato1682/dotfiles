@@ -68,19 +68,28 @@ zstyle -e ':completion:*:hosts' hosts 'reply=(
 
 # Users
 zstyle ':completion:*:*:*:users' ignored-patterns \
-  '_*' adm amanda apache avahi beaglidx bin cacti canna clamav daemon dbus \
-  distcache dovecot fax ftp games gdm gkrellmd gopher hacluster haldaemon \
-  halt hsqldb ident junkbust ldap lp mail mailman mailnull mldonkey mysql \
-  nagios named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
-  operator pcap postfix postgres privoxy pulse pvm quagga radvd rpc rpcuser \
-  rpm shutdown squid sshd sync uucp vcsa xfs
+  adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+  clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+  gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+  ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
+  named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+  operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+  rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+  usbmux uucp vcsa wwwrun xfs '_*'
+
+# Processes
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+if [[ "$OSTYPE" = solaris* ]]; then
+  zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm"
+else
+  zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
+fi
+
 
 # Man
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
-
-# Auto insert bracket when paste
-autoload -Uz bracketed-paste-url-magic && zle -N bracketed-paste bracketed-paste-url-magic
 
 autoload -Uz history-search-end && zle -N history-beginning-search-backward-end \
   history-search-end && \
@@ -92,8 +101,8 @@ typeset -A key
 key[Up]=${terminfo[kcuu1]}
 key[Down]=${terminfo[kcud1]}
 
-[[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   history-beginning-search-backward-end
-[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-beginning-search-forward-end
+[[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   history-substring-search-up
+[[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-substring-search-down
 
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
@@ -118,28 +127,26 @@ bindkey -M menuselect "^J" vi-down-line-or-history
 bindkey -M menuselect "^K" vi-up-line-or-history
 bindkey -M menuselect "^L" vi-forward-char
 
+# gpg-agent preexec
+function _gpg-agent_update-tty_preexec {
+  gpg-connect-agent updatestartuptty /bye &>/dev/null
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec _gpg-agent_update-tty_preexec
+
 #
 # Aliases
 #
 
-# Directory hashes
-hash -d dl="$XDG_DOWNLOAD_DIR"
-hash -d proj="$HOME/Projects"
-hash -d dotfiles="$HOME/.dotfiles"
-hash -d src="$HOME/Sources"
-hash -d run="/run/user/$(id -u)"
-hash -d conf="$XDG_CONFIG_HOME"
-hash -d cache="$XDG_CACHE_HOME"
-hash -d data="$XDG_DATA_HOME"
-hash -d state="$XDG_STATE_HOME"
-hash -d media="/run/media/$(id -nu)"
+# Add some cdpaths
+cdpath+=("$HOME/Projects" "$HOME/Sources" "/mnt" "/run/media/$(whoami)")
 
 # Global aliases
 alias -g UUID='$(uuidgen | tr -d \n)'
-alias -g C="| bat"
-alias -g G="| rg --hidden --follow --smart-case 2>/dev/null"
+alias -g C="| cat"
+alias -g G="| grep"
 alias -g H="| head"
-alias -g HC="| head | bat"
+alias -g HC="| head | cat"
 alias -g X="| xargs"
 
 # Extension based aliases
@@ -150,11 +157,6 @@ alias -s {pkg.tar.zst,pkg.tar.xz,pkg.tar.gz}="sudo pacman -U"
 
 # Zsh features
 alias mmv="noglob zmv -W"
-
-# fzf
-if ((( $+commands[fzf] )) && [ -z "$TMUX" ]) {
-  alias fzf="fzf-tmux --border none -p 80%,60%"
-}
 
 # For vimmer
 if (( $+commands[nvim] )) || (( $+commands[vim] )) {
@@ -278,28 +280,6 @@ if (( $+commands[grc] )) {
 }
 
 #
-# Hacks
-#
-
-# Add title
-function xterm_title_precmd () {
-  print -Pn -- '\e]2;%n@%m %~\a'
-  [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
-}
-
-function xterm_title_preexec () {
-  print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
-  [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
-}
-
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]] {
-  autoload -Uz add-zsh-hook && add-zsh-hook -Uz precmd xterm_title_precmd && add-zsh-hook -Uz preexec xterm_title_preexec
-}
-
-# Add some cdpaths
-cdpath+=("$HOME/Projects" "$HOME/Sources" "/mnt" "/run/media/$(whoami)")
-
-#
 # Finalization
 #
 
@@ -307,7 +287,5 @@ cdpath+=("$HOME/Projects" "$HOME/Sources" "/mnt" "/run/media/$(whoami)")
 [[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"
 
 # Import shared rc
-for file ($XDG_CONFIG_HOME/rc.d/*.sh); do
-  source "$file"
-done
+for file ($XDG_CONFIG_HOME/rc.d/*.sh) source "$file"
 

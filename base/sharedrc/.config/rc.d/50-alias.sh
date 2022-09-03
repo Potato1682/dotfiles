@@ -5,6 +5,12 @@ alias mkdir="mkdir -pv"
 alias rmdir="rmdir -v"
 alias ln="ln -v"
 
+alias gco="git checkout"
+alias gl="git pull"
+alias gp="git push"
+alias gac="git add . && git commit"
+alias gacp="git add . && git commit && git push"
+
 if command -v bat >/dev/null; then
   alias cat="bat"
 fi
@@ -37,7 +43,19 @@ if command -v systemctl >/dev/null; then
 fi
 
 # noglob
-if command -v w3m >/dev/null; then
-  alias w3m="noglob w3m"
+if [[ -n "$ZSH_NAME" ]]; then
+  alias cp="nocorrect cp"
+  alias mv="nocorrect mv"
+  alias mkdir="nocorrect mkdir -pv"
+  alias ln="nocorrect ln -v"
+  alias ebuild="nocorrect ebuild"
+  alias man="nocorrect man"
+  alias mysql="nocorrect mysql"
+  alias sudo="nocorrect sudo"
+  alias su="nocorrect su"
+
+  if command -v w3m >/dev/null; then
+    alias w3m="noglob w3m"
+  fi
 fi
 
