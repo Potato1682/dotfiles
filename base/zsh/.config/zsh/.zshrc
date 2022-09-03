@@ -190,7 +190,7 @@ zinit wait=0b lucid for \
   OMZL::termsupport.zsh \
   as="completion" \
     OMZP::ipfs/_ipfs
-  as="completion"
+  as="completion" \
     OMZP::rust/_rustc
 
 zinit wait=0e lucid nocompile nocompletions for \
