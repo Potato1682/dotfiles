@@ -14,6 +14,7 @@ if [[ -r "$XDG_CACHE_HOME/p10k-instant-prompt-${(%):-%n}.zsh" ]] {
 
 # Options
 setopt   always_last_prompt
+setopt   always_to_end
 setopt   auto_cd
 setopt   auto_list
 setopt   auto_menu
@@ -102,7 +103,9 @@ zinit light-mode depth=1 for zdharma-continuum/zinit-annex-default-ice
 # Set default ice
 zinit default-ice -q light-mode depth=1
 
-zinit light-mode depth=1 for NICHOLAS85/z-a-eval
+zinit light-mode depth=1 for \
+  atinit="Z_A_USECOMP=1" \
+    NICHOLAS85/z-a-eval
 
 #
 # Plugins
@@ -110,7 +113,7 @@ zinit light-mode depth=1 for NICHOLAS85/z-a-eval
 
 zinit nocd for \
   atload='
-    source $ZDOTDIR/.p10k.zsh
+    source "$ZDOTDIR/.p10k.zsh"
     (( ! ${+functions[p10k]} )) || p10k finalize
   ' \
     romkatv/powerlevel10k
@@ -124,7 +127,7 @@ zinit atinit="zstyle ':zim:input' double-dot-expand yes" for \
   zimfw/input
 
 zinit wait lucid null for \
-  atinit='source "$ZDOTDIR/.zshrc.lazy"' \
+  id-as="zshrc-lazy" atinit='source "$ZDOTDIR/.zshrc.lazy"' \
     zdharma-continuum/null
 
 zinit wait=0a lucid for \
@@ -158,10 +161,27 @@ zinit wait=0f lucid from="gh-r" as="command" for \
   eval="./zoxide init zsh" \
     ajeetdsouza/zoxide
 
-zinit lucid wait=2a from="gh-r" as="program" for \
+zinit wait=1a lucid for \
+  hlissner/zsh-autopair
+
+zinit wait=1a lucid for \
+  atinit="
+    export ZPWR_EXPAND=true
+    export ZPWR_EXPAND_SECOND_POSITION=true
+    export ZPWR_EXPAND_NATIVE=false
+    export ZPWR_CORRECT=true
+    export ZPWR_CORRECT_EXPAND=true
+    export ZPWR_EXPAND_QUOTE_DOUBLE=true
+    export ZPWR_EXPAND_QUOTE_SINGLE=false
+    export ZPWR_EXPAND_TO_HISTORY=false
+  " \
+    MenkeTechnologies/zsh-expand
+
+zinit wait=2a lucid from="gh-r" as="program" for \
   mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
     direnv/direnv
 
-zinit lucid wait=2b for \
-  OMZP::command-not-found/command-not-found.plugin.zsh
+zinit wait=2b lucid for \
+  OMZL::clipboard.zsh \
+  OMZP::command-not-found
 
