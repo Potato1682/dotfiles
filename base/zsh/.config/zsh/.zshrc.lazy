@@ -82,22 +82,6 @@ zstyle ':completion:*:manuals.(^1*)' insert-sections true
 # Auto insert bracket when paste
 autoload -Uz bracketed-paste-url-magic && zle -N bracketed-paste bracketed-paste-url-magic
 
-# Directory hashes
-function () {
-  source "$XDG_CONFIG_HOME/user-dirs.dirs"
-
-  hash -d dl="$XDG_DOWNLOAD_DIR"
-  hash -d proj="$HOME/Projects"
-  hash -d dotfiles="$HOME/.dotfiles"
-  hash -d src="$HOME/Sources"
-  hash -d run="/run/user/$(id -u)"
-  hash -d conf="$XDG_CONFIG_HOME"
-  hash -d cache="$XDG_CACHE_HOME"
-  hash -d data="$XDG_DATA_HOME"
-  hash -d state="$XDG_STATE_HOME"
-  hash -d media="/run/media/$(id -nu)"
-}
-
 autoload -Uz history-search-end && zle -N history-beginning-search-backward-end \
   history-search-end && \
 zle -N history-beginning-search-forward-end \
@@ -137,6 +121,18 @@ bindkey -M menuselect "^L" vi-forward-char
 #
 # Aliases
 #
+
+# Directory hashes
+hash -d dl="$XDG_DOWNLOAD_DIR"
+hash -d proj="$HOME/Projects"
+hash -d dotfiles="$HOME/.dotfiles"
+hash -d src="$HOME/Sources"
+hash -d run="/run/user/$(id -u)"
+hash -d conf="$XDG_CONFIG_HOME"
+hash -d cache="$XDG_CACHE_HOME"
+hash -d data="$XDG_DATA_HOME"
+hash -d state="$XDG_STATE_HOME"
+hash -d media="/run/media/$(id -nu)"
 
 # Global aliases
 alias -g UUID='$(uuidgen | tr -d \n)'

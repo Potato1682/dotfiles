@@ -24,16 +24,20 @@ if command -v exa >/dev/null; then
   alias lc="ll -schanged"
 fi
 
-# Enhanced grep
-alias grep="rg --hidden --follow --smart-case 2>/dev/null"
+if command -v rg >/dev/null; then
+  alias grep="rg --hidden --follow --smart-case 2>/dev/null"
+fi
 
 # Shell features
 alias so="source"
 
-# Systemd
-alias sc="systemctl"
-alias scu="systemctl --user"
+if command -v systemctl >/dev/null; then
+  alias sc="systemctl"
+  alias scu="systemctl --user"
+fi
 
 # noglob
-alias w3m="noglob w3m"
+if command -v w3m >/dev/null; then
+  alias w3m="noglob w3m"
+fi
 

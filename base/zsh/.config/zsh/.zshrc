@@ -93,42 +93,42 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 #
+# Annexes
+#
+
+
+zinit light-mode depth=1 for zdharma-continuum/zinit-annex-default-ice
+
+# Set default ice
+zinit default-ice -q light-mode depth=1
+
+zinit light-mode depth=1 for NICHOLAS85/z-a-eval
+
+#
 # Plugins
 #
 
-zinit light-mode depth=1 for \
+zinit nocd for \
   atload='
     source $ZDOTDIR/.p10k.zsh
     (( ! ${+functions[p10k]} )) || p10k finalize
   ' \
     romkatv/powerlevel10k
 
-zinit light-mode depth=1 reset \
-  atclone="
-    local P=${${(M)OSTYPE:#*darwin*}:+g}
-
-    \${P}sed -i '/DIR/c\DIR 38;5;63;1' LS_COLORS
-    \${P}dircolors -b LS_COLORS > c.zsh
-  " \
-  atpull="%atclone" \
-  pick="c.zsh" \
-  nocompile="!" \
+zinit reset \
+  eval="dircolors -b LS_COLORS" \
   atload='zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}' for \
     trapd00r/LS_COLORS
 
-zinit light-mode depth=1 \
-  atinit="zstyle ':zim:input' double-dot-expand yes" for \
-    zimfw/input
+zinit atinit="zstyle ':zim:input' double-dot-expand yes" for \
+  zimfw/input
 
-zinit light-mode depth=1 for \
-  zimfw/archive
-
-zinit wait lucid light-mode null for \
+zinit wait lucid null for \
   atinit='source "$ZDOTDIR/.zshrc.lazy"' \
     zdharma-continuum/null
 
-zinit wait=0a lucid light-mode depth=1 for \
-  atinit="
+zinit wait=0a lucid for \
+  atinit='
     ZINIT[COMPINIT_OPTS]=-C
 
     typeset -gA FAST_HIGHLIGHT
@@ -137,9 +137,11 @@ zinit wait=0a lucid light-mode depth=1 for \
     zicompinit
     zicdreplay
 
-    compdef sc="systemctl"
-    compdef scu="systemctl"
-  " \
+    if (( $+commands[systemctl] )) {
+      compdef sc="systemctl"
+      compdef scu="systemctl"
+    }
+  ' \
     zdharma-continuum/fast-syntax-highlighting \
   blockf atpull="zinit creinstall -q ." \
     zsh-users/zsh-completions \
@@ -149,17 +151,15 @@ zinit wait=0a lucid light-mode depth=1 for \
   atload="!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit wait=0e lucid light-mode depth=1 nocompile nocompletions for \
+zinit wait=0e lucid nocompile nocompletions for \
   MenkeTechnologies/zsh-more-completions
 
-zinit lucid wait=0f from="gh-r" as="command" \
-  atclone="./zoxide init zsh > zoxide.zsh" atpull="%atclone" \
-  src="zoxide.zsh" nocompile="!" for \
+zinit wait=0f lucid from="gh-r" as="command" for \
+  eval="./zoxide init zsh" \
     ajeetdsouza/zoxide
 
-zinit lucid wait=2a from="gh-r" as="program" mv="direnv* -> direnv" \
-  atclone="./direnv hook zsh > direnv.zsh" atpull="%atclone" \
-  pick="direnv" src="direnv.zsh" for \
+zinit lucid wait=2a from="gh-r" as="program" for \
+  mv="direnv* -> direnv" eval="./direnv hook zsh" pick="direnv" \
     direnv/direnv
 
 zinit lucid wait=2b for \
