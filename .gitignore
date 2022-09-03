@@ -9,3 +9,5 @@ base/ssh/.ssh/*/*
 base/pipewire/.config/pipewire/pipewire.conf
 desktop/dconf/.config/dconf/user
 
+*.zwc
+

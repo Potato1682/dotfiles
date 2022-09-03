@@ -135,8 +135,8 @@ zinit light-mode depth=1 for \
 #
 
 zinit nocd for \
+  atinit='source "$ZDOTDIR/.p10k.zsh"' \
   atload='
-    source "$ZDOTDIR/.p10k.zsh"
     (( ! ${+functions[p10k]} )) || p10k finalize
   ' \
     romkatv/powerlevel10k
@@ -150,9 +150,6 @@ zinit atinit="zstyle ':zim:input' double-dot-expand yes" for \
   zimfw/input
 
 zinit for OMZP::last-working-dir
-
-zinit wait lucid for \
-  zsh-users/zsh-history-substring-search
 
 zinit wait lucid null for \
   id-as="zshrc-lazy" atinit='source "$ZDOTDIR/.zshrc.lazy"' \
@@ -177,13 +174,25 @@ zinit wait=0a lucid for \
       compdef mosh="ssh"
     }
   ' \
+  atpull="%atclone" compile=".*fast*~*.zwc" nocd \
     zdharma-continuum/fast-syntax-highlighting \
+  atload='
+    typeset -A key
+
+    key[Up]=${terminfo[kcuu1]}
+    key[Down]=${terminfo[kcud1]}
+
+    [[ -n "${key[Up]}"   ]] && bindkey "${key[Up]}"   history-substring-search-up
+    [[ -n "${key[Down]}" ]] && bindkey "${key[Down]}" history-substring-search-down
+  ' \
+    zsh-users/zsh-history-substring-search \
   blockf atpull="zinit creinstall -q ." \
     zsh-users/zsh-completions \
   atinit="
     ZSH_AUTOSUGGEST_STRATEGY=(history completion)
   " \
   atload="!_zsh_autosuggest_start" \
+  compile='{src/*.zsh,src/strategies/*}' \
     zsh-users/zsh-autosuggestions
 
 zinit wait=0b lucid for \
@@ -198,7 +207,7 @@ zinit wait=0e lucid nocompile nocompletions for \
 
 if (( $+commands[zoxide] )) {
   zinit wait=2a lucid for \
-    id-as="zoxide" eval="zoxide init zsh" \
+    id-as="zoxide" eval="zoxide init zsh" nocompile nocd \
       zdharma-continuum/null
 } else {
   if [[ "$OSTYPE" == "linux-android" ]] {
@@ -230,7 +239,7 @@ zinit wait=1a lucid for \
 
 if (( $+commands[direnv] )) {
   zinit wait=2a lucid for \
-    id-as="direnv" eval="direnv hook zsh" \
+    id-as="direnv" eval="direnv hook zsh" nocompile nocd \
       zdharma-continuum/null
 } else {
   if [[ "$OSTYPE" == "linux-android" ]] {
