@@ -91,11 +91,6 @@ fi
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
 
-autoload -Uz history-search-end && zle -N history-beginning-search-backward-end \
-  history-search-end && \
-zle -N history-beginning-search-forward-end \
-  history-search-end
-
 typeset -A key
 
 key[Up]=${terminfo[kcuu1]}
@@ -150,8 +145,6 @@ alias -g HC="| head | cat"
 alias -g X="| xargs"
 
 # Extension based aliases
-alias -s tar.{gz,xz,zst,bz2}="tar xf"
-alias -s {tgz,txz,tbz}="tar xf"
 alias -s {aria2}="aria2c"
 alias -s {pkg.tar.zst,pkg.tar.xz,pkg.tar.gz}="sudo pacman -U"
 
