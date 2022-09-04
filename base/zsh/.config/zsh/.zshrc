@@ -222,6 +222,7 @@ if (( $+commands[zoxide] )) {
 }
 
 zinit wait=1a lucid for \
+  zdharma-continuum/history-search-multi-word \
   hlissner/zsh-autopair \
   atinit="
     export ZPWR_EXPAND_BLACKLIST=(cat diff g grep ls ll cp mv mkdir ln ebuild man mysql sudo su w3m)

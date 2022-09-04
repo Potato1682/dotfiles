@@ -35,12 +35,21 @@ if command -v rg >/dev/null; then
   alias grep="rg --hidden --follow --smart-case 2>/dev/null"
 fi
 
+if command -v dmesg >/dev/null; then
+  alias dmesg="sudo dmesg -H"
+fi
+
 # Shell features
 alias so="source"
 
 if command -v systemctl >/dev/null; then
   alias sc="systemctl"
   alias scu="systemctl --user"
+
+  alias jc="journalctl"
+  alias jcxe="journalctl -xe"
+  alias jcxeu="journalctl -xeu"
+  alias jcf="journalctl -f | less"
 fi
 
 # noglob

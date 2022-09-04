@@ -94,21 +94,6 @@ zstyle ':completion:*:*:kill:*' insert-ids single
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
 
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )) {
-  function zle-line-init () {
-    echoti smkx
-  }
-
-  function zle-line-finish () {
-    echoti rmkx
-  }
-
-  zle -N zle-line-init
-  zle -N zle-line-finish
-}
-
 # hjkl bindings
 zmodload zsh/complist
 
