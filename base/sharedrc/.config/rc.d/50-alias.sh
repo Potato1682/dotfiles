@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # General aliases
-alias sudo="sudo "
+alias sudo="sudo -v; sudo "
 
 alias mkdir="mkdir -pv"
 alias rmdir="rmdir -v"
@@ -63,7 +63,7 @@ if [[ -n "$ZSH_NAME" ]]; then
   alias ebuild="nocorrect ebuild"
   alias man="nocorrect man"
   alias mysql="nocorrect mysql"
-  alias sudo="nocorrect sudo"
+  alias sudo="sudo -v; nocorrect sudo "
   alias su="nocorrect su"
 
   if command -v w3m >/dev/null; then
