@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 
 # General aliases
+alias sudo="sudo "
+
 alias mkdir="mkdir -pv"
 alias rmdir="rmdir -v"
 alias ln="ln -v"
