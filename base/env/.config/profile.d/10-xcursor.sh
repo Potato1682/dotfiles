@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 if [ -z "$XCURSOR_PATH" ]; then
-  export XCURSOR_PATH="$XDG_DATA_HOME/icons"
+  export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
 else
   export XCURSOR_PATH="${XCURSOR_PATH}:$XDG_DATA_HOME/icons"
 fi
