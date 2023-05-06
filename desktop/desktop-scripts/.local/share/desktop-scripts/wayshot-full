@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+set -euo pipefail
+
+if WAYSHOT_TMP="$(wayshot --stdout | base64)"; then
+    echo -n -e "$WAYSHOT_TMP" | base64 -d - | wl-copy
+
+    notify-send -a Screenshots -A "Edit" -A "Save" -A "Save & Open" -u normal \
+        "Screenshot saved to clipboard" \
+        "You can paste it whatever you want." \
+        | if SELECTED_ACTION="$(cat /dev/stdin)"; then
+            if [[ $SELECTED_ACTION == 0 ]]; then # [Edit]
+                echo -n -e "$WAYSHOT_TMP" | base64 -d | swappy -f -
+            elif [[ $SELECTED_ACTION -ge 1 ]]; then # [Save] or [Save & Open]
+                SCREENSHOTS_PATH="$(xdg-user-dir PICTURES)/Screenshots"
+                FILE_PATH="$SCREENSHOTS_PATH/$(date +"Screenshot_%Y-%m-%d_%H-%M-%S").png"
+
+                mkdir -p "$SCREENSHOTS_PATH"
+
+                echo -n -e "$WAYSHOT_TMP" | base64 -d - >"$FILE_PATH"
+
+                if [[ $SELECTED_ACTION == 1 ]]; then # [Save]
+                    notify-send -a Screenshots -A "Copy Path" -u normal \
+                        "Screenshot saved" \
+                        "You can find it at $FILE_PATH" \
+                        | if [[ "$(cat /dev/stdin)" == 0 ]]; then
+                            echo -n "$FILE_PATH" | wl-copy
+                        fi
+                elif [[ $SELECTED_ACTION == 2 ]]; then # [Save & Open]
+                    # No need to notify-send, we can get the feedback by opening the screenshot
+
+                    xdg-open "$FILE_PATH"
+                fi
+            fi
+        fi
+else
+    notify-send -a Screenshots -u normal "Something went wrong while taking screenshot" '¯\\_(ツ)_/¯'
+fi

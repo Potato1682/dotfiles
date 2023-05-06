@@ -1,0 +1,27 @@
+#!/usr/bin/sh
+
+# uses swaylockd and swaylock-effects
+
+swaylockd -eSl \
+	-c 00000000 \
+	--clock \
+	--indicator-radius=240 \
+	--indicator \
+	--indicator-thickness=6 \
+	--effect-blur=10x7 \
+	--effect-vignette=0.2:0.2 \
+	--fade-in=0.2 \
+	--datestr="%Y-%m-%d (%a)" \
+	--inside-wrong-color=f38ba8 \
+	--ring-wrong-color=11111b \
+	--inside-clear-color=a6e3a1 \
+	--ring-clear-color=11111b \
+	--inside-ver-color=89b4fa \
+	--ring-ver-color=11111b \
+	--text-color=f5c2e7 \
+	--ring-color=11111b \
+	--key-hl-color=f5c2e7 \
+	--line-color=313244 \
+	--inside-color=0011111b \
+	--separator-color=00000000 \
+	--font="monospace"

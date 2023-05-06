@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+PICKED_COLOR="$(hyprpicker -a -f $1)"
+
+if [[ -z $PICKED_COLOR ]]; then
+    notify-send -a "Color Picker" -u normal -e "No color picked" "cancelled"
+
+    exit 1
+fi
+
+notify-send -a "Color Picker" -u normal "${1^^} Color picked" "$PICKED_COLOR"
