@@ -13,8 +13,8 @@ local function query_appearance_gnome()
 		["adwaita-dark"] = "Dark",
 		["adw-gtk3"] = "Light",
 		["adw-gtk3-dark"] = "Dark",
-		["Catppuccin-Macchiato-Standard-Red-Dark"] = "Dark",
-		["Catppuccin-Latte-Standard-Red-Light"] = "Light",
+		["Catppuccin-Macchiato-Standard-Blue-Dark"] = "Dark",
+		["Catppuccin-Latte-Standard-Blue-Light"] = "Light",
 	}
 
 	local appearance = mapping[stdout]
