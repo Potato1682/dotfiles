@@ -66,6 +66,7 @@ export PSQLRC="$XDG_CONFIG_HOME/postgres/rc"
 export PSQL_HISTORY="$XDG_STATE_HOME/postgres/history"
 export PGPASSFILE="$XDG_CONFIG_HOME/postgres/pass"
 export PGSERVICEFILE="$XDG_CONFIG_HOME/postgres/service.conf"
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PYTHON_EGG_CACHE="$XDG_CACHE_HOME/python-eggs"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/startup.py"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
@@ -91,6 +92,7 @@ export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java -Dawt.use
 export __GL_SHADER_DISK_CACHE_PATH="$XDG_DATA_HOME/nvidia"
 
 # Create directories
+mkdir -p "$XDG_STATE_HOME/fzf" # Used internally
 mkdir -p "$XDG_DATA_HOME/gnupg"
 chmod 700 "$XDG_DATA_HOME/gnupg"
 mkdir -p "$XDG_CONFIG_HOME/postgres"
@@ -100,4 +102,3 @@ mkdir -p "$XDG_STATE_HOME/wget"
 mkdir -p "$XDG_STATE_HOME/less"
 mkdir -p "$XDG_STATE_HOME/sqlite"
 mkdir -p "$XDG_CONFIG_HOME/wakatime"
-
