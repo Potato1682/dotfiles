@@ -16,3 +16,6 @@ desktop/dconf/.config/dconf/user
 
 *.zwc
 
+# profile-sync-daemon
+desktop/psd/.config/psd/.psd.conf
+
