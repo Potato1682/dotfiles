@@ -48,23 +48,13 @@ if command -v systemctl >/dev/null; then
   alias sc="systemctl"
   alias scu="systemctl --user"
 
-  alias jc="journalctl"
-  alias jcxe="journalctl -xe"
-  alias jcxeu="journalctl -xeu"
-  alias jcf="journalctl -f | less"
+  alias jc="journalctl --no-hostname -x"
+  alias jcf="jc -f | less"
 fi
 
 # noglob
 if [[ -n "$ZSH_NAME" ]]; then
-  alias cp="nocorrect cp"
-  alias mv="nocorrect mv"
-  alias mkdir="nocorrect mkdir -pv"
-  alias ln="nocorrect ln -v"
-  alias ebuild="nocorrect ebuild"
-  alias man="nocorrect man"
-  alias mysql="nocorrect mysql"
   alias sudo="sudo -v; nocorrect sudo "
-  alias su="nocorrect su"
 
   if command -v w3m >/dev/null; then
     alias w3m="noglob w3m"
