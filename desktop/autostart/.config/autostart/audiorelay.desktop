@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=AudioRelay
+Comment="AudioRelay: Stream your PC audio to your phone"
+Exec=/opt/audiorelay/bin/AudioRelay
+Icon=/opt/audiorelay/lib/AudioRelay.png
+Terminal=false
+Type=Application
+Categories=Unknown
+MimeType=

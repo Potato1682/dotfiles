@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/discord --start-minimized
+Name=electron
+Icon=/usr/share/pixmaps/discord.png
+Comment=Text and voice chat for gamers.
