@@ -156,9 +156,6 @@ zinit wait=0a lucid for \
   atinit='
     ZINIT[COMPINIT_OPTS]=-C
 
-    typeset -gA FAST_HIGHLIGHT
-    FAST_HIGHLIGHT[git-cmsg-len]=100
-
     zicompinit
     zicdreplay
 
@@ -170,9 +167,9 @@ zinit wait=0a lucid for \
     if (( $+commands[mosh] )) {
       compdef mosh="ssh"
     }
-  ' \
-  atpull="%atclone" compile=".*fast*~*.zwc" nocd \
-    zdharma-continuum/fast-syntax-highlighting \
+  ' nocd \
+    zsh-users/zsh-syntax-highlighting \
+    https://raw.githubusercontent.com/catppuccin/zsh-syntax-highlighting/main/themes/catppuccin_macchiato-zsh-syntax-highlighting.zsh \
   atload='
     typeset -A key
 
@@ -191,13 +188,6 @@ zinit wait=0a lucid for \
   atload="!_zsh_autosuggest_start" \
   compile='{src/*.zsh,src/strategies/*}' \
     zsh-users/zsh-autosuggestions
-
-zinit wait=0b lucid for \
-  bilelmoussaoui/flatpak-zsh-completion \
-  as="completion" \
-    OMZP::ipfs/_ipfs \
-  as="completion" \
-    OMZP::rust/_rustc
 
 zinit wait=0e lucid nocompile nocompletions for \
   MenkeTechnologies/zsh-more-completions
