@@ -1,8 +1,13 @@
+base/btop/.config/btop/btop.log
+base/cargo/.local/share/cargo/*
+!base/cargo/.local/share/cargo/config.toml
 base/ssh/.ssh/*
 !base/ssh/.ssh/config
 !base/ssh/.ssh/*/
 !base/ssh/.ssh/*/*.secret
 base/ssh/.ssh/*/*
+desktop/flatpak/.local/share/flatpak/*
+!desktop/flatpak/.local/share/flatpak/overrides
 
 .gitsecret/keys/random_seed
 !*.secret
