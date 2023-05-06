@@ -1,1 +1,1 @@
---sandbox_writable_path=$XDG_CACHE_HOME/ccache
+build --sandbox_writable_path="/home/isr/.cache/ccache" --experimental_use_sandboxfs
