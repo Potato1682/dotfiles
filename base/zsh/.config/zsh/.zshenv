@@ -17,3 +17,5 @@ if [[ -z "$ZIM_HOME" ]] {
   export ZIM_HOME="$XDG_DATA_HOME/zim"
 }
 
+export ZSHENV_LOADED=1
+

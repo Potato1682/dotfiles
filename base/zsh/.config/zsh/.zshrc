@@ -120,15 +120,17 @@ autoload -Uz _zinit
 # Annexes
 #
 
-
 zinit light-mode depth=1 for zdharma-continuum/zinit-annex-default-ice
 
 # Set default ice
 zinit default-ice -q light-mode depth=1
 
-zinit light-mode depth=1 for \
+zinit for \
   atinit="Z_A_USECOMP=1" \
     NICHOLAS85/z-a-eval
+
+zinit light zdharma-continuum/zinit-annex-bin-gem-node
+zinit light zdharma-continuum/zinit-annex-patch-dl
 
 #
 # Plugins
@@ -140,11 +142,6 @@ zinit nocd for \
     (( ! ${+functions[p10k]} )) || p10k finalize
   ' \
     romkatv/powerlevel10k
-
-zinit reset \
-  eval="dircolors -b LS_COLORS" \
-  atload='zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}' for \
-    trapd00r/LS_COLORS
 
 zinit atinit="zstyle ':zim:input' double-dot-expand yes" for \
   zimfw/input
@@ -196,7 +193,7 @@ zinit wait=0a lucid for \
     zsh-users/zsh-autosuggestions
 
 zinit wait=0b lucid for \
-  OMZL::termsupport.zsh \
+  bilelmoussaoui/flatpak-zsh-completion \
   as="completion" \
     OMZP::ipfs/_ipfs \
   as="completion" \
@@ -254,6 +251,19 @@ if (( $+commands[direnv] )) {
   }
 }
 
+if (( $+commands[vivid] )) {
+  zinit lucid reset for \
+    id-as="dircolors" eval='echo export LS_COLORS=\"$(vivid generate catppuccin-macchiato)\"' nocompile nocd \
+    atload='zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}' \
+      zdharma-continuum/null
+} else {
+  zinit lucid from="gh-r" reset for \
+    mv="vivid* -> vivid" pick="vivid" \
+    id-as="dircolors" eval='echo export LS_COLORS=\"$(./vivid*/vivid generate one-dark)\"' nocompile \
+    atload='zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}' \
+      @sharkdp/vivid
+}
+
 zinit wait=2b lucid for \
   OMZL::clipboard.zsh \
   OMZP::command-not-found \
@@ -269,4 +279,6 @@ zinit wait=2c lucid for \
   id-as="poetry-completion" has="poetry" nocompile \
   atclone="poetry completions zsh > _poetry" atpull="%atclone" \
     zdharma-continuum/null
+
+zinit wait=3 pack="bgn-binary+keys" for fzf
 
