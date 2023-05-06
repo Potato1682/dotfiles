@@ -15,6 +15,7 @@ base/pipewire/.config/pipewire/pipewire.conf
 desktop/dconf/.config/dconf/user
 
 *.zwc
+*.log
 
 # profile-sync-daemon
 desktop/psd/.config/psd/.psd.conf
