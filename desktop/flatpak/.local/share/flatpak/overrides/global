@@ -4,3 +4,6 @@ filesystems=xdg-data/fonts:ro;xdg-config/gtk-3.0:ro;xdg-config/gtk-4.0:ro;xdg-da
 [Session Bus Policy]
 com.canonical.AppMenu.Registrar=talk
 org.kde.KStyle.Kvantum=talk
+
+[Environment]
+GTK_THEME=Catppuccin-Macchiato-Standard-Red-Dark

@@ -1,5 +1,5 @@
 --style=numbers,changes
---theme=OneHalfDark
+--theme="Catppuccin-macchiato"
 --pager="less -FR"
 --italic-text="always"
 
