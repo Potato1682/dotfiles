@@ -1,6 +1,6 @@
 [include]
-  path = conf.d/alias.conf
   path = conf.d/user.conf
+  path = conf.d/alias.conf
   path = conf.d/color.conf
   path = conf.d/interactive.conf
   path = conf.d/diff.conf
@@ -11,6 +11,7 @@
   path = conf.d/speedup.conf
   path = conf.d/delta.conf
   path = conf.d/lfs.conf
+  path = conf.d/credential.conf
 
 [core]
   autocrlf = false

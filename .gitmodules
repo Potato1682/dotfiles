@@ -1,0 +1,3 @@
+[submodule "firefox-cascade"]
+	path = firefox-cascade
+	url = https://github.com/andreasgrafen/cascade
