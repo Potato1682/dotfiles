@@ -1,0 +1,61 @@
+Submodule firefox-cascade contains modified content
+diff --git a/firefox-cascade/chrome/includes/cascade-config-mouse.css b/firefox-cascade/chrome/includes/cascade-config-mouse.css
+index 971821c..3294785 100644
+--- a/firefox-cascade/chrome/includes/cascade-config-mouse.css
++++ b/firefox-cascade/chrome/includes/cascade-config-mouse.css
+@@ -7,7 +7,7 @@
+ 
+   /*  Global Border Radius
+    *  applied to ALL UI elements
+-   */ --uc-border-radius: 0px;
++   */ --uc-border-radius: 8px;
+ 
+ 
+   /*  The distance the Statuspanel floats
+@@ -44,7 +44,7 @@
+  *  4 – toolbar on bottom
+  */
+ :root {
+-  --uc-toolbar-position: 0;
++  --uc-toolbar-position: 4;
+ }
+ 
+ /*  Darken the Personal Toolbar by X amount
+@@ -87,7 +87,7 @@
+ #forward-button { display: none !important; } */
+ 
+ /* Disables the Tracking Protection Shield */
+-/* #tracking-protection-icon-container { display: none !important; } */
++#tracking-protection-icon-container { display: none !important; }
+ 
+ /* Encryption and Permissions icons */
+   /* Only hides permission items */
+diff --git a/firefox-cascade/chrome/userChrome.css b/firefox-cascade/chrome/userChrome.css
+index 1bb7bbf..b97e203 100644
+--- a/firefox-cascade/chrome/userChrome.css
++++ b/firefox-cascade/chrome/userChrome.css
+@@ -26,14 +26,16 @@
+ 
+ *==============================================================================================*/
+ 
++@import "includes/cascade-config.css";
++@import "includes/cascade-config-mouse.css";
++@import "includes/cascade-colours.css";
+ 
++@import "includes/cascade-layout.css";
++@import "includes/cascade-responsive.css";
++@import "includes/cascade-floating-panel.css";
+ 
+-@import 'includes/cascade-config.css';
+-@import 'includes/cascade-colours.css';
++@import "includes/cascade-nav-bar.css";
++@import "includes/cascade-tabs.css";
+ 
+-@import 'includes/cascade-layout.css';
+-@import 'includes/cascade-responsive.css';
+-@import 'includes/cascade-floating-panel.css';
+-
+-@import 'includes/cascade-nav-bar.css';
+-@import 'includes/cascade-tabs.css';
++@import "includes/cascade-macchiato.css";
++@import "includes/cascade-tcr.css";
