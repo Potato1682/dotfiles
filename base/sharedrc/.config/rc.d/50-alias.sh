@@ -22,9 +22,9 @@ if command -v delta >/dev/null; then
   alias diff="delta"
 fi
 
-if command -v exa >/dev/null; then
-  alias ls="exa -a --icons --group-directories-first"
-  alias ll="exa -l --icons --git"
+if command -v eza >/dev/null; then
+  alias ls="eza -a --icons --group-directories-first --hyperlink"
+  alias ll="eza -l --icons --git --hyperlink"
   alias l="ll -a"
   alias lr="ll -T"
   alias lx="ll -sextension"
