@@ -4,7 +4,7 @@ export GPG_TTY="`tty`"
 
 # GPG
 export GPG_AGENT_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent"
-if [ "$WSL2" == 1 ]; then
+if [ "$WSL2" = 1 ]; then
   export GPG_AGENT_TARGET_SOCK="$XDG_RUNTIME_DIR/gnupg/d.qwjoyo5i1i5wncx9jpmbnn3p/S.gpg-agent"
   if ! ss -a | grep -q "$GPG_AGENT_SOCK"; then
     rm -rf "$GPG_AGENT_SOCK"
