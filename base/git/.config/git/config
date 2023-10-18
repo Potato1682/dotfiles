@@ -13,6 +13,15 @@
   path = conf.d/lfs.conf
   path = conf.d/credential.conf
 
+[includeIf "gitdir:/Users"]
+  path = conf.d/platforms/macos.conf
+
+[includeIf "gitdir:C:"]
+  path = conf.d/platforms/windows.conf
+
+[includeIf "gitdir:/home"]
+  path = conf.d/platforms/linux.conf
+
 [core]
   autocrlf = false
   safecrlf = true
