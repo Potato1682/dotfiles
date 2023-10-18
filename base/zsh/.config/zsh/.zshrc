@@ -211,18 +211,6 @@ if (( $+commands[zoxide] )) {
 zinit wait=1a lucid for \
   zdharma-continuum/history-search-multi-word \
   hlissner/zsh-autopair \
-  atinit="
-    export ZPWR_EXPAND_BLACKLIST=(cat diff g grep ls ll cp mv mkdir ln ebuild man mysql sudo su w3m)
-    export ZPWR_EXPAND=true
-    export ZPWR_EXPAND_SECOND_POSITION=true
-    export ZPWR_EXPAND_NATIVE=false
-    export ZPWR_CORRECT=true
-    export ZPWR_CORRECT_EXPAND=true
-    export ZPWR_EXPAND_QUOTE_DOUBLE=true
-    export ZPWR_EXPAND_QUOTE_SINGLE=false
-    export ZPWR_EXPAND_TO_HISTORY=false
-  " \
-    MenkeTechnologies/zsh-expand \
   MenkeTechnologies/zsh-git-acp
 
 if (( $+commands[direnv] )) {
@@ -265,10 +253,11 @@ zinit wait=2b lucid for \
 zinit wait=2c lucid for \
   id-as="brew-shellenv" has="brew" \
   eval="brew shellenv" run-atpull \
-    zdharma-continuum/null \
-  id-as="poetry-completion" has="poetry" nocompile \
-  atclone="poetry completions zsh > _poetry" atpull="%atclone" \
     zdharma-continuum/null
 
 zinit wait=3 pack="bgn-binary+keys" for fzf
 
+
+# fnm
+export PATH="/home/isr/.local/share/fnm:$PATH"
+eval "`fnm env`"

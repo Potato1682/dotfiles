@@ -1,3 +1,7 @@
+for file ($HOME/.config/profile.d/*.sh) source "$file"
+
+source "/home/isr/.local/share/rye/env"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Settings
 #
@@ -279,7 +283,7 @@ _zcompile_profile() {
 _zcompile_profile
 
 # VSCode Shell Integration
-[[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"
+#[[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"
 
 # Import shared rc
 for file ($XDG_CONFIG_HOME/rc.d/*.sh) source "$file"

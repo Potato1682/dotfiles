@@ -51,7 +51,8 @@
 [submodule]
   recurse = true
 
-# vim: et ts=2 sw=2
-
 [safe]
 	directory = /opt/flutter
+
+# vim: et ts=2 sw=2
+

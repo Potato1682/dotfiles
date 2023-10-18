@@ -18,3 +18,7 @@ fi
 # python
 [ -f "$RYE_HOME/env" ] && . "$RYE_HOME/env"
 
+# wsl
+if [ "$WSL2" = "1" ]; then
+  export WSL_HOST_IP=$(grep -Po '(?<=nameserver ).*' /etc/resolv.conf)
+fi

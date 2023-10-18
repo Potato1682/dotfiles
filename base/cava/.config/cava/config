@@ -65,10 +65,10 @@
 ; method = alsa
 ; source = hw:Loopback,1
 
-; method = fifo
-; source = /tmp/mpd-isr.fifo
-; sample_rate = 44100
-; sample_bits = 16
+method = fifo
+source = /tmp/cava.fifo
+sample_rate = 192000
+sample_bits = 24
 
 ; method = shmem
 ; source = /squeezelite-AA:BB:CC:DD:EE:FF
@@ -91,7 +91,7 @@
 #  in graphic mode. It only support the 3000 series graphical VFDs for now.
 #
 # 'sdl' uses the Simple DirectMedia Layer to render in a graphical context.
-; method = ncurses
+method = ncurses
 
 # Orientation of the visualization. Can be 'bottom', 'top', 'left' or 'right'.
 # Default is 'bottom'. Other orientations are only supported on sdl and ncruses
@@ -168,7 +168,6 @@ gradient_color_5 = '#c6a0f6'
 gradient_color_6 = '#f5bde6'
 gradient_color_7 = '#ee99a0'
 gradient_color_8 = '#ed8796'
-
 
 
 [smoothing]
