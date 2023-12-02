@@ -1,0 +1,5 @@
+[Context]
+filesystems=xdg-data/gnupg:create
+
+[Environment]
+GNUPGHOME=~/.local/share/gnupg

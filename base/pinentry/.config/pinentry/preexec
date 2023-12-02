@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+
+if [ -n "$DISPLAY" ]; then
+  if [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
+    exec /usr/bin/pinentry-gnome3 "$@"
+  elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
+    exec /usr/bin/pinentry-qt "$@"
+  fi
+fi
+

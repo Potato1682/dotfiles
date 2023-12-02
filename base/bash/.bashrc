@@ -5,10 +5,6 @@ if [[ ! -d "$XDG_DATA_HOME/bash" ]]; then
   mkdir -p "$XDG_DATA_HOME/bash"
 fi
 
-if [[ ! -f "$XDG_DATA_HOME/bash/lscolors.sh" ]]; then
-  curl -fsSL -o "$XDG_DATA_HOME/bash" https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/lscolors.sh >/dev/null 2>&1
-fi
-
 # Set where history saved in
 HISTFILE="$XDG_STATE_HOME/bash/history"
 
@@ -53,6 +49,7 @@ set -o vi
 PS1='
 \[\e[0;38;5;69m\]\u \[\e[0;4;38;5;33m\]\W
 \[\e[0;32m\]❯\[\e[0m\] '
+
 #
 # Finalization
 #
@@ -69,11 +66,21 @@ if command -v direnv >/dev/null; then
   eval "$(direnv hook bash)"
 fi
 
-[[ -f "$XDG_DATA_HOME/bash/lscolors.sh" ]] && source "$XDG_DATA_HOME/bash/lscolors.sh"
+if command -v fnm >/dev/null; then
+  FNM_COREPACK_ENABLED=1 eval "$(fnm env --use-on-cd)"
+fi
+
+if [[ -x "$(command -v vivid)" ]]; then
+  export LS_COLORS="$(vivid generate catppuccin-mocha)"
+fi
 
 [[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path bash)"
 
 if [[ -f "$XDG_DATA_HOME/blesh/ble.sh" ]]; then
   source "$XDG_DATA_HOME/blesh/ble.sh" --rcfile "$XDG_CONFIG_HOME/blesh/blerc"
+fi
+
+if command -v atuin >/dev/null; then
+  eval "$(atuin init bash)"
 fi
 

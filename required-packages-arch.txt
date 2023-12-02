@@ -1,0 +1,17 @@
+stow
+zsh
+fzf
+fw
+git
+bat
+eza
+fd
+git-delta
+run-parts
+zsh
+zoxide
+direnv
+vivid
+bob
+fnm
+atuin

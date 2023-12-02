@@ -1,0 +1,2 @@
+[Context]
+filesystems=xdg-run/psd;xdg-config/fontconfig:ro

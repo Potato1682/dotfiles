@@ -7,10 +7,7 @@ alias mkdir="mkdir -pv"
 alias rmdir="rmdir -v"
 alias ln="ln -v"
 
-alias gco="git checkout"
-alias gdf="git diff"
-alias gl="git pull"
-alias gp="git push"
+alias g="git"
 alias gac="git add . && git commit"
 alias gacp="git add . && git commit && git push"
 
@@ -22,10 +19,14 @@ if command -v delta >/dev/null; then
   alias diff="delta"
 fi
 
+alias la="ls -a"
+alias ll="ls -lh"
+alias l="ll -a"
+
 if command -v eza >/dev/null; then
-  alias ls="eza -a --icons --group-directories-first --hyperlink"
-  alias ll="eza -l --icons --git --hyperlink"
-  alias l="ll -a"
+  alias ls="eza -F --icons --group-directories-first --hyperlink --time-style iso"
+  unalias ll
+  alias ll="ls -lhgM --smart-group --color-scale"
   alias lr="ll -T"
   alias lx="ll -sextension"
   alias lk="ll -ssize"

@@ -1,5 +1,5 @@
 --style=numbers,changes
---theme="Catppuccin-macchiato"
+--theme="Catppuccin-mocha"
 --pager="less -FR"
 --italic-text="always"
 

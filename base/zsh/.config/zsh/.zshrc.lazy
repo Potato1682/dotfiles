@@ -1,124 +1,24 @@
-for file ($HOME/.config/profile.d/*.sh) source "$file"
-
-source "/home/isr/.local/share/rye/env"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Settings
-#
-
-# Completion
-zstyle ':completion::complete:*' use-cache on
-zstyle ":completion::complete:*" cache-path "$ZSH_COMPCACHE"
-zstyle ":completion:*:*:*:*:*" menu select=2
-zstyle ':completion:*:matches' group yes
-zstyle ':completion:*:options' description yes
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:corrections' format '%F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
-zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
-zstyle ':completion:*' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' verbose yes
-zstyle ":completion:*" matcher-list "m:to=2" "m:{a-zA-Z}={A-Za-z} r:|[-_.]=**"
-zstyle ":completion:*" insert-tab false
-zstyle ":completion:*" list-separator " --> "
-zstyle ":completion:*:default" list-prompt '%S%M matches%s'
-zstyle ":completion:*" accept-exact-dirs 'yes'
-zstyle ":completion:*" list-dirs-first true
-zstyle ":completion:*" completer _expand _complete _match _approximate
-zstyle '*' single-ignored show
-zstyle ":completion:*:match:*" original only
-zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
-zstyle ':completion:*:rm:*' file-patterns '*:all-files'
-
-# Ignore useless commands and functions
-zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec)|prompt_*)'
-
-# Array completion element sorting.
-zstyle ':completion:*:*:-subscript-:*' tag-order 'indexes' 'parameters'
-
-# _approximate
-zstyle ":completion:*:approximate:" max-errors "reply=( $((($#PREFIX+$#SUFFIX) / 3)) numeric )"
-
-# Command
-zstyle ":completion:*:complete:-command-::commands" ignored-patterns "(*.bak|*\~)"
-
-# Directories
-zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
-zstyle ':completion:*' squeeze-slashes true
-zstyle ":completion:*:cd:*" tag-order local-directories path-directories
-zstyle ":completion:*:cd:*" ignore-parents parent pwd ..
-zstyle ":completion:*:*files" ignored-patterns "*?.o" "*?~" '*\#'
-
-# Files
-zstyle ":completion:*" special-dirs ""
-
-# History
-zstyle ':completion:*:history-words' stop yes
-zstyle ':completion:*:history-words' remove-all-dups yes
-zstyle ':completion:*:history-words' list false
-zstyle ':completion:*:history-words' menu yes
-
-# Privileges
-zstyle ":completion::complete:*" gain-privileges 1
-
-# ssh
-zstyle ":completion::*:ssh-master-exit:*:*" file-patterns '~/.ssh/control/*(=):all-files'
-zstyle -e ':completion:*:hosts' hosts 'reply=(
-  ${=${=${=${${(f)"$(cat {/etc/ssh/ssh_,~/.ssh/}known_hosts{,2} 2>/dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
-  ${=${(f)"$(cat /etc/hosts 2>/dev/null; ypcat hosts 2>/dev/null)"}%%(\#)*}
-  ${=${${${${(@M)${(f)"$(cat ~/.ssh/config{,.d/*(N)} 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
-)'
-
-# Users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-  adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
-  clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
-  gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
-  ldap lp mail mailman mailnull man messagebus mldonkey mysql nagios \
-  named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
-  operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
-  rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
-  usbmux uucp vcsa wwwrun xfs '_*'
-
-# Processes
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-
-if [[ "$OSTYPE" = solaris* ]]; then
-  zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm"
-else
-  zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
-fi
-
-zstyle ':completion:*:*:kill:*' force-list always
-zstyle ':completion:*:*:kill:*' insert-ids single
-
-# Man
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:manuals.(^1*)' insert-sections true
-
 # hjkl bindings
-zmodload zsh/complist
+zmodload -i zsh/complist
 
 bindkey -M menuselect "^H" vi-backward-char
 bindkey -M menuselect "^J" vi-down-line-or-history
 bindkey -M menuselect "^K" vi-up-line-or-history
 bindkey -M menuselect "^L" vi-forward-char
 
-# gpg-agent preexec
-function _gpg-agent_update-tty_preexec {
-  gpg-connect-agent updatestartuptty /bye &>/dev/null
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook preexec _gpg-agent_update-tty_preexec
+# Setup hooks in .zshrc.lazy to avoid instant prompt issues
+add-zsh-hook -Uz precmd reset_broken_terminal
+
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|foot*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|wezterm*|tmux*|xterm*) ]]; then
+  add-zsh-hook -Uz precmd xterm_title_precmd
+  add-zsh-hook -Uz preexec xterm_title_preexec
+
+  xterm_title_precmd
+fi
 
 #
 # Aliases
 #
-
-# Add some cdpaths
-cdpath+=("$HOME/Projects" "$HOME/Sources" "/mnt" "/run/media/$(whoami)")
 
 # Global aliases
 alias -g UUID='$(uuidgen | tr -d \n)'
@@ -128,133 +28,21 @@ alias -g H="| head"
 alias -g HC="| head | cat"
 alias -g X="| xargs"
 
+if (( $+commands[bat] )); then
+  alias -g -- -h="-h 2>&1 | bat --language=help --style=plain"
+  alias -g -- --help="--help 2>&1 | bat --language=help --style=plain"
+fi
+
 # Extension based aliases
 alias -s aria2="aria2c"
 alias -s {pkg.tar.zst,pkg.tar.xz,pkg.tar.gz}="sudo pacman -U"
 
 # Zsh features
+autoload -Uz zmv
 alias mmv="noglob zmv -W"
 
-# For vimmer
-if (( $+commands[nvim] )) || (( $+commands[vim] )) {
-  alias ":q"="exit"
-}
-
-# matsuya no gyudon.
-if (( $+commands[matsuya] )) {
-  alias matsuya="matsuya 2>/dev/null"
-}
-
-# Colorize using grc
-if (( $+commands[grc] )) {
-  function env() {
-    command grc --colour=auto env "$@"
-  }
-
-  function lsblk() {
-    command grc --colour=auto lsblk "$@"
-  }
-
-  function free() {
-    command grc --colour=auto free -h "$@"
-  }
-
-  function as() {
-    command grc --colour=auto as "$@"
-  }
-
-  if (( $+commands[gas] )) {
-    function gas() {
-      command grc --colour=auto gas "$@"
-    }
-  }
-
-  if (( $+commands[gcc] )) {
-    function gcc() {
-      command grc --colour=auto gcc "$@"
-    }
-  }
-
-  if (( $+commands[g++] )) {
-    function "g++"(){
-      command grc --colour=auto g++ "$@"
-    }
-  }
-
-  if (( $+commands[last] )) {
-    function last() {
-      command grc --colour=auto last "$@"
-    }
-  }
-
-  if (( $+commands[ld] )) {
-    function ld() {
-      command grc --colour=auto ld "$@"
-    }
-  }
-
-  if (( $+commands[ifconfig] )) {
-    function ifconfig() {
-      command grc --colour=auto ifconfig "$@"
-    }
-  }
-
-  if (( $+commands[mount] )) {
-    function mount() {
-      command grc --colour=auto mount "$@"
-    }
-  }
-
-  if (( $+commands[mtr] )) {
-    function mtr() {
-      command grc --colour=auto mtr "$@"
-    }
-  }
-
-  if (( $+commands[netstat] )) {
-    function netstat() {
-      command grc --colour=auto netstat "$@"
-    }
-  }
-
-  if (( $+commands[ping] )) {
-    function ping() {
-      if (( $+commands[prettyping] )) {
-        command prettyping "$@"
-      } else {
-        command grc --colour=auto ping "$@"
-      }
-    }
-  }
-
-  if (( $+commands[ping6] )) {
-    function ping6() {
-      if (( $+commands[prettyping] )) {
-        command prettyping "$@"
-      } else {
-        command grc --colour=auto ping6 "$@"
-      }
-    }
-  }
-
-  if (( $+commands[ps] )) {
-    function ps() {
-      command grc --colour=auto ps "$@"
-    }
-  }
-
-  if (( $+commands[traceroute] )) {
-    function traceroute() {
-      command grc --colour=auto traceroute "$@"
-    }
-  }
-
-  if (( $+commands[ip] )) {
-    function ip() {
-      command grc --colour=auto ip "$@"
-    }
-  }
-}
+# Import shared rc
+for file ($XDG_CONFIG_HOME/rc.d/*.sh) source "$file"
 
 #
 # Finalization
@@ -263,28 +51,26 @@ if (( $+commands[grc] )) {
 # zsh config compilation
 _zcheck_compile() {
   if [[ -s ${1} && ( ! -s ${1}.zwc || ${1} -nt ${1}.zwc) ]]; then
-    ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay
-    zcompile ${1}
+    zcompile ${1} 2>/dev/null
   fi
 }
 
 _zcompile_profile() {
-  zshrc="${ZDOTDIR}/.zshrc"
-  zshrc_lazy="${ZDOTDIR}/.zshrc.lazy"
-  zshenv="${ZDOTDIR}/.zshenv"
-  zprofile="${ZDOTDIR}/.zprofile"
+  zshrc="$ZDOTDIR/.zshrc"
+  zshrc_lazy="$ZDOTDIR/.zshrc.lazy"
+  zshenv="$ZDOTDIR/.zshenv"
+  zprofile="$ZDOTDIR/.zprofile"
 
   _zcheck_compile "$zshrc"
   _zcheck_compile "$zshrc_lazy"
   _zcheck_compile "$zshenv"
   _zcheck_compile "$zprofile"
+
+  p10k_config="$ZDOTDIR/.p10k.zsh"
+  if [[ -f "$ZDOTDIR/.p10k.zsh" ]] {
+    _zcheck_compile "$p10k_config"
+  }
 }
 
 _zcompile_profile
-
-# VSCode Shell Integration
-#[[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"
-
-# Import shared rc
-for file ($XDG_CONFIG_HOME/rc.d/*.sh) source "$file"
 
