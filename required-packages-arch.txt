@@ -1,7 +1,7 @@
 stow
 zsh
 fzf
-fw
+fw-bin
 git
 bat
 eza
@@ -16,3 +16,4 @@ bob
 fnm
 atuin
 tod-bin
+jq
