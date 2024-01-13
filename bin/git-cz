@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+if ! command -v cz >/dev/null 2>&1; then
+  echo "cz is not installed"
+  exit 1
+fi
+
+cz "$@"
+

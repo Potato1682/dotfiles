@@ -7,6 +7,8 @@ alias mkdir="mkdir -pv"
 alias rmdir="rmdir -v"
 alias ln="ln -v"
 
+alias cdtemp='cd "$(mktemp -d)"'
+
 alias g="git"
 alias gac="git add . && git commit"
 alias gacp="git add . && git commit && git push"

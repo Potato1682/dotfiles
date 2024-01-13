@@ -1,5 +1,5 @@
 [Context]
-filesystems=xdg-data/icons:ro;xdg-data/themes:ro;xdg-config/Kvantum:ro;xdg-config/gtk-4.0;xdg-config/gtk-3.0;
+filesystems=xdg-data/icons:ro;xdg-data/themes:ro;xdg-config/Kvantum:ro;
 
 [Session Bus Policy]
 com.canonical.AppMenu.Registrar=talk

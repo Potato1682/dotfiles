@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=Yet Another SKK Server 2
+Exec=yaskkserv2 --google-suggest --google-cache-filename "/tmp/yaskkserv2-google.cache" "/home/isr/.dotfiles/misc/skk/dictionary.yaskkserv2"
+Type=Application
