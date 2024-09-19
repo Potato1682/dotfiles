@@ -16,6 +16,8 @@ HISTFILESIZE=100000
 
 # ble.sh bootstrap
 if [[ ! -f "$XDG_DATA_HOME/blesh/ble.sh" ]]; then
+  echo "Setting up bash..."
+
   command mkdir -p "$XDG_DATA_HOME/blesh-src"
   command git clone https://github.com/akinomyoga/ble.sh --recursive "$XDG_DATA_HOME/blesh-src" >/dev/null 2>&1 || \
     echo "error: Failed cloning ble.sh."
