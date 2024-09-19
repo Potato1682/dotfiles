@@ -1,5 +1,6 @@
 # If the shell is not a interactive session, do nothing
-[[ $- != *i* -o "$PROFILE_D_LOADED" != "1" ]] && return
+[[ $- != *i* ]] && return
+[[ "$PROFILE_D_LOADED" != "1" ]] && return
 
 if [[ ! -d "$XDG_DATA_HOME/bash" ]]; then
   mkdir -p "$XDG_DATA_HOME/bash"
