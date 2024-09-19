@@ -379,11 +379,14 @@ if (( $+commands[mise] )) {
 } else {
   if [[ "$OSTYPE" == "linux-android" ]] {
     zinit wait=0c lucid from="gh-r" as="command" for \
-      bpick="mise-v*-linux-arm64-musl.tar.gz" eval="./mise activate zsh --shims" \
+      bpick="mise-v*-linux-arm64-musl" \
+      eval="./mise activate zsh --shims" atclone="./mise completion zsh > _mise" \
+      mv="mise* -> mise" \
         jdx/mise
   } else {
     zinit wait=0c lucid from="gh-r" as="command" for \
-      eval="./mise activate zsh --shims" \
+      eval="./mise activate zsh --shims" atclone="./mise completion zsh > _mise" \
+      mv="mise* -> mise" \
         jdx/mise
   }
 }
