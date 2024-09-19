@@ -8,4 +8,3 @@ typeset -U path cdpath fpath manpath
 if [[ -z "$ZSH_CACHE_DIR" ]] {
   export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 }
-

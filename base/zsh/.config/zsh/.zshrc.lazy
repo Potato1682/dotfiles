@@ -7,14 +7,18 @@ bindkey -M menuselect "^K" vi-up-line-or-history
 bindkey -M menuselect "^L" vi-forward-char
 
 # Setup hooks in .zshrc.lazy to avoid instant prompt issues
-add-zsh-hook -Uz precmd reset_broken_terminal
 
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|foot*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|wezterm*|tmux*|xterm*) ]]; then
+# on JetBrains Terminal, the terminal is broken after running a command
+if [[ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]] {
+  add-zsh-hook -Uz precmd reset_broken_terminal
+}
+
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|foot*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|wezterm*|tmux*|xterm*) ]] {
   add-zsh-hook -Uz precmd xterm_title_precmd
   add-zsh-hook -Uz preexec xterm_title_preexec
 
   xterm_title_precmd
-fi
+}
 
 #
 # Aliases
@@ -28,10 +32,10 @@ alias -g H="| head"
 alias -g HC="| head | cat"
 alias -g X="| xargs"
 
-if (( $+commands[bat] )); then
-  alias -g -- -h="-h 2>&1 | bat --language=help --style=plain"
-  alias -g -- --help="--help 2>&1 | bat --language=help --style=plain"
-fi
+if (( $+commands[bat] )) {
+  alias -g -- -h="-h 2>&1 | bat --language=help --style=plain --paging=never"
+  alias -g -- --help="--help 2>&1 | bat --language=help --style=plain --paging=never"
+}
 
 # Extension based aliases
 alias -s aria2="aria2c"
@@ -50,9 +54,9 @@ for file ($XDG_CONFIG_HOME/rc.d/*.sh) source "$file"
 
 # zsh config compilation
 _zcheck_compile() {
-  if [[ -s ${1} && ( ! -s ${1}.zwc || ${1} -nt ${1}.zwc) ]]; then
+  if [[ -s ${1} && ( ! -s ${1}.zwc || ${1} -nt ${1}.zwc) ]] {
     zcompile ${1} 2>/dev/null
-  fi
+  }
 }
 
 _zcompile_profile() {

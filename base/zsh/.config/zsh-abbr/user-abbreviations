@@ -1,0 +1,3 @@
+abbr "g"="git"
+abbr "sc"="systemctl"
+abbr "scu"="systemctl --user"

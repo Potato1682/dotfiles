@@ -44,6 +44,10 @@ if command -v dmesg >/dev/null; then
   alias dmesg="sudo dmesg -H"
 fi
 
+if command -v radian >/dev/null; then
+  alias r="radian"
+fi
+
 # Shell features
 alias so="source"
 

@@ -10,10 +10,9 @@ git-delta
 run-parts
 zsh
 zoxide
-direnv
 vivid
 bob
-fnm
+mise
 atuin
-tod-bin
 jq
+git-interactive-rebase-tool-bin

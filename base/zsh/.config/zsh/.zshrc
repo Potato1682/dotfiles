@@ -56,6 +56,7 @@ unsetopt list_beep
 
 # Directory hashes
 hash -d dl="$XDG_DOWNLOAD_DIR"
+hash -d docs="$XDG_DOCUMENTS_DIR"
 hash -d proj="$HOME/Projects"
 hash -d dotfiles="$HOME/.dotfiles"
 hash -d src="$HOME/Sources"
@@ -231,7 +232,7 @@ zinit lucid for \
   wait='[[ -n "${_ZSH_HIGHLIGHT_PRIOR_BUFFER[(r)git*]}" ]]' \
   autoload="git-escape-magic" atload="git-escape-magic" nocompile \
     knu/zsh-git-escape-magic \
-  wait='[[ "${_ZSH_HIGHLIGHT_PRIOR_BUFFER}" =~ ".." ]]' \
+  wait='[[ "${_ZSH_HIGHLIGHT_PRIOR_BUFFER}" =~ "." ]]' \
   autoload="#manydots-magic" \
     knu/zsh-manydots-magic \
   wait='[[ "$jobstates" =~ "suspended" ]]' \
@@ -245,6 +246,8 @@ zinit wait=0a lucid for \
 
     zicompinit
     zicdreplay
+
+    compdef g="git"
 
     if (( $+commands[systemctl] )) {
       compdef sc="systemctl"
@@ -305,8 +308,49 @@ zinit wait=0a lucid for \
     zsh-users/zsh-autosuggestions \
   id-as="zshrc-lazy" atinit='source "$ZDOTDIR/.zshrc.lazy"' nocd \
     zdharma-continuum/null \
-  atload"compdef _cd __enhancd::cd" blockf \
-    b4b4r07/enhancd
+  atload='
+    # fast-syntaxt-highlighting integration
+    # https://zsh-abbr.olets.dev/advanced.html#fast-syntax-highlighting
+    chroma_single_word() {
+      (( next_word = 2 | 8192 ))
+
+      local __first_call="$1" __wrd="$2" __start_pos="$3" __end_pos="$4"
+      local __style
+
+      (( __first_call )) && { __style=${FAST_THEME_NAME}alias }
+      [[ -n "$__style" ]] && (( __start=__start_pos-${#PREBUFFER}, __end=__end_pos-${#PREBUFFER}, __start >= 0 )) && reply+=("$__start $__end ${FAST_HIGHLIGHT_STYLES[$__style]}")
+
+      (( this_word = next_word ))
+      _start_pos=$_end_pos
+
+      return 0
+    }
+
+    register_single_word_chroma() {
+      local word=$1
+
+      if [[ -x $(command -v $word) ]] || [[ -n $FAST_HIGHLIGHT["chroma-$word"] ]] {
+        return 1
+      }
+
+      FAST_HIGHLIGHT+=("chroma-$word" chroma_single_word)
+
+      return 0
+    }
+
+    if [[ -n $FAST_HIGHLIGHT ]] {
+      for abbr in ${(f)"$(abbr list-abbreviations)"}; do
+        if [[ $abbr != *" "* ]] {
+          register_single_word_chroma ${(Q)abbr}
+        }
+      done
+    }
+  ' \
+    olets/zsh-abbr \
+  atload='
+    ZSH_AUTOSUGGEST_STRATEGY=(abbreviations ${ZSH_AUTOSUGGEST_STRATEGY[@]})
+  ' \
+    olets/zsh-autosuggestions-abbreviations-strategy
 
 # Wait 0b block
 
@@ -325,10 +369,24 @@ zinit wait=0b lucid for \
 # Wait 0c block
 
 zinit wait=0c lucid for \
-  id-as="direnv" eval="direnv hook zsh" nocompile nocd has="direnv" \
-    zdharma-continuum/null \
   pack="bgn-binary+keys" \
     fzf
+
+if (( $+commands[mise] )) {
+  zinit wait=0c lucid for \
+    id-as="mise" eval="mise activate zsh --shims" nocompile nocd \
+      zdharma-continuum/null
+} else {
+  if [[ "$OSTYPE" == "linux-android" ]] {
+    zinit wait=0c lucid from="gh-r" as="command" for \
+      bpick="mise-v*-linux-arm64-musl.tar.gz" eval="./mise activate zsh --shims" \
+        jdx/mise
+  } else {
+    zinit wait=0c lucid from="gh-r" as="command" for \
+      eval="./mise activate zsh --shims" \
+        jdx/mise
+  }
+}
 
 if (( $+commands[zoxide] )) {
   zinit wait=0c lucid for \
@@ -359,9 +417,8 @@ zinit wait=2 lucid for \
 
 # Sync block
 
-zinit light romkatv/powerlevel10k
-
 zinit for \
+  romkatv/powerlevel10k \
   atinit='
     HIST_STAMPS="yyyy-mm-dd"
   ' \
@@ -422,10 +479,6 @@ function xterm_title_preexec () {
 }
 
 # Finalize
-
-if (( $+commands[fnm] )) {
-  FNM_COREPACK_ENABLED=1 eval "$(fnm env --use-on-cd)"
-}
 
 [ -f "$ZDOTDIR/.p10k.zsh" ] && . "$ZDOTDIR/.p10k.zsh"
 

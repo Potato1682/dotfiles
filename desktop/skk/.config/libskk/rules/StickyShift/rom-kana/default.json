@@ -1,11 +1,8 @@
 {
-  "include": [
-    "default/default"
-  ],
+  "include": ["default/default"],
   "define": {
     "rom-kana": {
-      ":": ["", ":"],
-      "?": ["", "?"]
+      "!": ["", "！"]
     }
   }
 }

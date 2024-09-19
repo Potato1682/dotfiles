@@ -42,18 +42,14 @@ end
 
 return {
 	font = wezterm.font("UDEV Gothic NFLG"),
-	font_size = 10,
+	font_size = 8.5,
 	color_scheme = "Catppuccin Mocha",
-	line_height = 1.4,
+	line_height = 1.6,
 	clean_exit_codes = { 0, 130 },
 	--enable_scroll_bar = true,
 	scrollback_lines = 10000,
 	--enable_tab_bar = false,
 	--use_fancy_tab_bar = false,
-	colors = {
-		selection_fg = "none",
-		selection_bg = "rgba(237 135 150 10%)",
-	},
 	term = "wezterm",
 	skip_close_confirmation_for_processes_named = {
 		"bash",
@@ -112,10 +108,13 @@ return {
 				fg_color = "#7b839e",
 			},
 		},
+		selection_fg = "none",
+		selection_bg = "rgba(237 135 150 10%)",
 	},
 	--window_background_opacity = 0.9,
 	window_frame = {
 		font = wezterm.font({ family = "Noto Sans" }),
+		font_size = 8,
 
 		inactive_titlebar_bg = "#141424",
 		active_titlebar_bg = "#1e1e2e",

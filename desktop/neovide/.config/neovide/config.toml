@@ -1,0 +1,8 @@
+[font]
+normal = ["CommitMono Nerd Font", "IBM Plex Sans JP"]
+italic = ["CommitMono Nerd Font", "IBM Plex Sans JP"]
+size = 12
+
+[font.features]
+CommitMono = ["+ss01", "+ss02", "+cv02", "+cv06", "+cv08"]
+"CommitMono Nerd Font" = ["+ss01", "+ss02", "+cv02", "+cv06", "+cv08"]

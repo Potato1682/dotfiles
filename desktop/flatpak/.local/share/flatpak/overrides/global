@@ -1,5 +1,5 @@
 [Context]
-filesystems=xdg-data/icons:ro;xdg-data/themes:ro;xdg-config/Kvantum:ro;
+filesystems=xdg-run/.flatpak/dev.vencord.Vesktop:create;xdg-config/Kvantum:ro;xdg-data/themes:ro
 
 [Session Bus Policy]
 com.canonical.AppMenu.Registrar=talk
