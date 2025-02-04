@@ -1,0 +1,11 @@
+[Unit]
+Description=Atuin daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/atuin daemon
+Restart=always
+
+[Install]
+WantedBy=default.target
+

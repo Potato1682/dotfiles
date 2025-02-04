@@ -1,3 +1,3 @@
 [Context]
 sockets=!fallback-x11
-filesystems=xdg-run/.flatpak/dev.vencord.Vesktop:create
+filesystems=!xdg-run/.flatpak/dev.vencord.Vesktop;!xdg-run/discord-ipc-0

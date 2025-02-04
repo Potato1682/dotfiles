@@ -39,7 +39,7 @@
 
 [http]
   sslVerify = true
-  postBuffer = 524288000
+  postBuffer = 4M
 
 [init]
   defaultBranch = "main"
